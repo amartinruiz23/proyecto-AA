@@ -42,4 +42,4 @@ clf = RandomForestClassifier()
 
 #print("E_tra: ", clf.score(X, y))
 cv_results = cross_validate(clf, X, y, cv=5,)
-print("E_cv: ", sum(a['test_score'])/len(a['test_score']) )
+print("E_cv: ", sum(cv_results['test_score'])/len(cv_results['test_score']) )
