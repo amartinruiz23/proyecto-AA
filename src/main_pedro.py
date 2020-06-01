@@ -15,39 +15,25 @@ with open(description, "r") as f:
             line = line.split()
             attr.append(line[1])
 
-df_tra = pd.read_csv(
-    "data/adult.data",
-    names=attr,
-)
-
-df_tes = pd.read_csv(
-    "data/adult.test",
+def class_división(filename, attr):
+    df_tes = pd.read_csv(
+        filename,
     names = attr        
-)
-
-
-############ Exposición valores perdidos
-
-
-print('Value : Number of diferent values : Number of missing values')
-for x in df_tra.keys():
-    print(x, ':', len(set(df_tra[x])), ':', len(df_tra[df_tra[x] == '?']))
-
-
-############ Division de Clase
-def class_división(df):
+    )
     df = df.replace('?', np.nan)
     df_mode=df.mode()
     for x in df_tra.columns.values:
         df[x]=df[x].fillna(value=df_mode[x].iloc[0])
+
     y = df.pop("Class")
+
     return df, y
 
-df_tra, y_tra = prepocess(df_tra)
-df_tes, y_tes = prepocess(df_tes)
+X_tra, y_tra = prepocess("data/adult.data", attr)
+X_tes, y_tes = prepocess("data/adult.test", attr)
 
 
-# Random forest
+Random forest
 
-#clf = RandomForestClassifier()
-#clf.fit(X_tra, Y_tra)
+clf = RandomForestClassifier()
+clf.fit(X_tra, y_tra)
