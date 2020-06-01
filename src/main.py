@@ -20,3 +20,7 @@ df = pd.read_csv(
 
 elem, cols = df.shape
 print(df)
+
+for x in df.keys():
+    print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
+
