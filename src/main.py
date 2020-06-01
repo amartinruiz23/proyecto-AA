@@ -29,5 +29,6 @@ print(df.shape)
 df = df.replace('?', np.nan) # Reemplazamos los valores ? por valores perdidos
 
 elem, cols = df.shape
-print(df)
-print(df.shape)
+df_mode=df.mode()
+for x in df.columns.values:
+    df[x]=df[x].fillna(value=df_mode[x].iloc[0])
