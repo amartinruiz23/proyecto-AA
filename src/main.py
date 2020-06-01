@@ -3,6 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 from sklearn import preprocessing
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import cross_validate
 
 np.random.seed(0)
 
@@ -30,16 +31,15 @@ def class_division(filename, attr):
     df = pd.get_dummies(df)
     return df, y
 
-X_tra, y_tra = class_division("data/adult.data", attr)
-X_tes, y_tes = class_division("data/adult.test", attr)
+X, y = class_division("data/adult.data", attr)
 
-print(X_tra)
+
+print(X)
 
 clf = RandomForestClassifier()
-clf.fit(X_tra, y_tra)
+# clf.fit(X, y)
+# pred_tra = clf.predict(X)
 
-pred_tra = clf.predict(X_tra)
-#pred_tes = clf.predict(X_tes)
-
-print("E_tra: ", clf.score(X_tra, y_tra))
-#print("E_tes: ", clf.score(X_tes, y_tes))
+#print("E_tra: ", clf.score(X, y))
+cv_results = cross_validate(clf, X, y, cv=5,)
+print("E_cv: ", sum(a['test_score'])/len(a['test_score']) )
