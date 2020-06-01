@@ -27,18 +27,19 @@ def class_division(filename, attr):
         df[x]=df[x].fillna(value=df_mode[x].iloc[0])
 
     y = df.pop("Class")
-
+    df = pd.get_dummies(df)
     return df, y
 
 X_tra, y_tra = class_division("data/adult.data", attr)
 X_tes, y_tes = class_division("data/adult.test", attr)
 
-enc = OneHotEncoder(handle_unknown='ignore')
-
-print(X_tra)
-enc.fit(X_tra)
-X_tra = enc.transform(X_tra)
 print(X_tra)
 
 clf = RandomForestClassifier()
 clf.fit(X_tra, y_tra)
+
+pred_tra = clf.predict(X_tra)
+#pred_tes = clf.predict(X_tes)
+
+print("E_tra: ", clf.score(X_tra, y_tra))
+#print("E_tes: ", clf.score(X_tes, y_tes))
