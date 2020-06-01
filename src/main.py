@@ -23,11 +23,6 @@ print('Value : Number of diferent values : Number of missing values')
 for x in df.keys():
     print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
 
-# df= df[df['native-country'] == '?']
-# print(df.shape)
-df= df[df['workclass'] == '?']
-print(df.shape)
-df= df[df['native-country'] == '?']
 
 
 print(df.shape)
