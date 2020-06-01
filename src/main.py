@@ -21,7 +21,9 @@ df = pd.read_csv(
 
 print('Value : Number of diferent values : Number of missing values')
 for x in df.keys():
-    print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
+    print(x, ':', len(set(df[x])), ':', len(df[df[x] == ' ?']))
+
+
 
 df = df.replace('?', np.nan) # Reemplazamos los valores ? por valores perdidos
 
