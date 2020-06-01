@@ -15,7 +15,7 @@ with open(description, "r") as f:
             line = line.split()
             attr.append(line[1])
 
-def class_división(filename, attr):
+def class_division(filename, attr):
     df_tes = pd.read_csv(
         filename,
     names = attr        
@@ -29,11 +29,10 @@ def class_división(filename, attr):
 
     return df, y
 
-X_tra, y_tra = prepocess("data/adult.data", attr)
-X_tes, y_tes = prepocess("data/adult.test", attr)
+X_tra, y_tra = class_division("data/adult.data", attr)
+X_tes, y_tes = class_division("data/adult.test", attr)
 
 
-Random forest
 
 clf = RandomForestClassifier()
 clf.fit(X_tra, y_tra)
