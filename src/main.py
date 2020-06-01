@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 from sklearn import preprocessing
+from sklearn.preprocessing import OneHotEncoder
 
 np.random.seed(0)
 
@@ -15,44 +16,29 @@ with open(description, "r") as f:
             line = line.split()
             attr.append(line[1])
 
-df_tra = pd.read_csv(
-    "data/adult.data",
-    names=attr,
-)
-
-df_tes = pd.read_csv(
-    "data/adult.test",
+def class_division(filename, attr):
+    df = pd.read_csv(
+        filename,
     names = attr        
-)
+    )
+    df = df.replace('?', np.nan)
+    df_mode=df.mode()
+    for x in df.columns.values:
+        df[x]=df[x].fillna(value=df_mode[x].iloc[0])
 
+    y = df.pop("Class")
 
-print('Value : Number of diferent values : Number of missing values')
-for x in df_tra.keys():
-    print(x, ':', len(set(df_tra[x])), ':', len(df_tra[df_tra[x] == '?']))
+    return df, y
 
+X_tra, y_tra = class_division("data/adult.data", attr)
+X_tes, y_tes = class_division("data/adult.test", attr)
 
+enc = OneHotEncoder(handle_unknown='ignore')
 
-print(df_tra.shape)
-df_tra = df_tra.replace('?', np.nan) # Reemplazamos los valores ? por valores perdidos
-df_tes = df_tes.replace('?', np.nan)
+print(X_tra)
+enc.fit(X_tra)
+X_tra = enc.transform(X_tra)
+print(X_tra)
 
-elem, cols = df_tra.shape
-df_mode=df_tra.mode()
-for x in df_tra.columns.values:
-    df_tra[x]=df_tra[x].fillna(value=df_mode[x].iloc[0])
-    
-df_mode=df_tes.mode()
-for x in df_tes.columns.values:
-    df_tes[x]=df_tes[x].fillna(value=df_mode[x].iloc[0])
-
-# Separación de X e Y
-    
-Y_tra = df_tra.pop("Class")
-X_tra = df_tra
-Y_tes = df_tes.pop("Class")
-X_tes = df_tes
-
-# Random forest
-
-#clf = RandomForestClassifier()
-#clf.fit(X_tra, Y_tra)
+clf = RandomForestClassifier()
+clf.fit(X_tra, y_tra)
