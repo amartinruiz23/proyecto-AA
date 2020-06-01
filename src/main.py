@@ -18,5 +18,7 @@ df = pd.read_csv(
     names=attr,
 )
 
+df = df.replace('?', np.nan) # Reemplazamos los valores ? por valores perdidos
+
 elem, cols = df.shape
 print(df)
