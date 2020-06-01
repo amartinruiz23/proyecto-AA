@@ -16,13 +16,13 @@ with open(description, "r") as f:
             attr.append(line[1])
 
 def class_division(filename, attr):
-    df_tes = pd.read_csv(
+    df = pd.read_csv(
         filename,
     names = attr        
     )
     df = df.replace('?', np.nan)
     df_mode=df.mode()
-    for x in df_tra.columns.values:
+    for x in df.columns.values:
         df[x]=df[x].fillna(value=df_mode[x].iloc[0])
 
     y = df.pop("Class")
