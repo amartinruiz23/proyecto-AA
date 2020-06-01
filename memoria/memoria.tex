@@ -1,0 +1,67 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{boldline}
+\usepackage{amssymb, amsmath}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{hyperref}
+
+% Meta
+\title{Práctica 3}
+\author{Pedro Bonilla Nadal}
+\date{\today}
+
+% Custom
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\setlength\parindent{0pt}
+\definecolor{Light}{gray}{.90}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+% Primera derivada parcial: \pder[f]{x}
+\newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
+
+\begin{document}
+\begin{titlepage}
+\begin{center}
+
+\vspace*{.06\textheight}
+{\scshape\LARGE Universidad De Granada\par}\vspace{1.5cm} % University name
+\textsc{\Large Apredizaje Automático}\\[0.5cm] % Thesis type
+
+\rule{\textwidth}{0.4mm} \\[0.4cm] % Horizontal line
+{\huge \bfseries Práctica 3\par}\vspace{0.4cm} % Thesis title
+
+\rule{\textwidth}{0.4mm} \\[11.5cm] % Horizontal line
+ {\Large Pedro Bonilla Nadal\\Antonio Martín Ruiz}\\[1cm]
+ 
+ {\today}
+
+\vfill
+\end{center}
+\end{titlepage}
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+\newpage
+\section{Introducción}	
+
+
+\newpage
+\begin{thebibliography}{9}
+\bibitem{maldim}
+Artículo donde explica el concepto de maldición de la dimensión: \url{https://en.wikipedia.org/wiki/Curse_of_dimensionality}
+
+\end{thebibliography}
+
+
+
+
+\end{document}
