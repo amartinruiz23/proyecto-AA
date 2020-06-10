@@ -76,12 +76,13 @@ X, y = class_division("data/adult.data", attr)
 
 # --- Random forest ---
 
-"""
+
 clf = RandomForestClassifier()
-# clf.fit(X, y)
+
+clf.fit(X, y)
+print("E_tra: ", clf.score(X, y))
+
 # pred_tra = clf.predict(X)
 
-#print("E_tra: ", clf.score(X, y))
 cv_results = cross_validate(clf, X, y, cv=5,)
 print("E_cv: ", sum(cv_results['test_score'])/len(cv_results['test_score']) )
-"""
