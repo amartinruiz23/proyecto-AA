@@ -32,13 +32,13 @@ def replace_lost_categorical_values(df):
         
         # Asignamos ahora un valor a los valores perdidos
         for j in range(len(df[i])):
-           if df[i][j] == '?':
-               prob = np.random.uniform()
+           if df[i][j] == '?': # Para cada valor perdido
+               prob = np.random.uniform() # Generamos probabilidad
                less = {}
                for y in acumulated:
                    if prob <= acumulated[y]:
                        less[y] = acumulated[y]
-               df[i][j] = min(less, key=less.get)
+               df[i][j] = min(less, key=less.get) # Le asignamos la clave que tenga el menor valor que sea mayor a la probabilidad 
 
     return df        
 
