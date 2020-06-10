@@ -52,9 +52,10 @@ def class_division(filename, attr):
         df[x]=df[x].fillna(value=df_mode[x].iloc[0])
     
     df = replace_lost_categorical_values(df)
+    #df.to_csv('prueba.csv')
     df = df.replace('?', np.nan)
     y = df.pop("Class")
-    #df = pd.get_dummies(df)
+    df = pd.get_dummies(df)
     return df, y
 
 
