@@ -92,9 +92,9 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 		\item \underline{Reducción de dimensionalidad}: Para esto vamos a realizar dos técnicas:
 	
 	\begin{itemize}
-	\item[-] El conjunto de datos presenta una altisima cantidad de columnas (64) a pesar de la reducción indicada. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.01. Esto lo realizaremos con el algoritmo  \texttt{varianceThreshold}\cite{einstein}.
+	\item[-] El conjunto de datos presenta una altisima cantidad de columnas (64) a pesar de la reducción indicada. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.1. Esto lo realizaremos con el algoritmo  \texttt{varianceThreshold}\cite{einstein}.
 	
-	
+	\item[-] Realizaremos un análisis de componentes principales PCA\cite{PCA} para intentar reducir aun más la dimensionalidad del conjunto. 
 
 	
 \end{itemize}
@@ -216,6 +216,9 @@ Código RL: \url{https://en.wikipedia.org/wiki/Coordinate_descent}
 \bibitem{einstein} 
 Uso del algoritmo \texttt{varianceThreshold}: \url{https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.VarianceThreshold.html}
 
+\bibitem{PCA} 
+Técnica de PCA: 
+\url{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA}
 
 \end{thebibliography}
 
