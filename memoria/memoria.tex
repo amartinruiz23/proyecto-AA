@@ -80,14 +80,7 @@ Una vez leídos los datos haremos una división train/test de 80\%/20\%. Elegimo
 
 Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
 
-<<<<<<< HEAD
 Como ultimo detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Una variable dummy es aquella que toma sólo el valor 0 o 1 para indicar la ausencia o la presencia de algún efecto categórico que se pueda esperar que cambie el resultado. Esta técnica ayudará a codificar la entrada para algunos algoritmos, así como poder hacer un estudio de cada categoría como una variable separada a la hora de hacer una valoración del interés de cada variable.
-
-
-
-=======
-Como último detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Esta permite entender las variables categóricas como variables numéricas. Para cada uno de los posibles valores de las variables categóricas se genera una nueva columna en la que se señala si el ejemplo en cuestión tiene o no ese valor.
->>>>>>> 6e4339eeddb5d4f15591e4a72e2a78e5db219b13
 
 \section{Preprocesado}
 
