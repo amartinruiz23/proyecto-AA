@@ -93,13 +93,20 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 \begin{itemize}
 
 	\item Normalización de las variables: realizaremos una normalización de los datos, para evitar que la escala de los datos afecte a la relevancia de estos. Para su uso usaremos la función \texttt{StandardScaler}\cite{standardscaler} provisto en la librería \texttt{sklearn}.
-	\item Clases de funciones.
+	\item Aumento de dimensionalidad: debido a la baja cantidad de variables, en contraposicición con la alta cantidad de ejemplos, nos deja considerar aumentos de la dimensionalidad de los datos sin miedo a que se genere un gran sobreajuste sobreajuste. 	
+	\begin{itemize}
+	\item Dummy Variables:
+	\item Polynomial Freatures: 
+\end{itemize}
 	\item Valoración de las variables de interés.
-	\item Aumento de dimensionalidad.
 	\item Datos incompletos.
 	\item Datos inconsistentes.
 	\item Balanceo de clases.
 \end{itemize}
+
+
+
+
 \section{ Función de pérdida usada}
 \section{ Técnica de Ajuste para el Modelo Lineal}
 Selección de las técnica (parámetrica) y valoración de la idoneidad de la misma frente a otras alternativas
@@ -130,6 +137,9 @@ Función \texttt{StandardScaler} de la librería \texttt{sklearn}: \url{https://
 \bibitem{cv}
 Función \texttt{cross\_validate} de la librería \texttt{sklearn}:
 \url{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html}
+
+\bibitem{maldim}
+Artículo donde explica el concepto de maldición de la dimensión: \url{https://en.wikipedia.org/wiki/Curse_of_dimensionality}
 \end{thebibliography}
 
 
