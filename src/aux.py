@@ -49,6 +49,12 @@ def class_division(filename, attr):
     df_mode=df.mode()
     for x in df.columns.values:
         df[x]=df[x].fillna(value=df_mode[x].iloc[0])
+
+    elem, cols = df.shape
+    print('Lectura de los datos realizada.')
+    print(' - Numero de datos recopilados:', elem)
+    print(' - Dimension de estos datos (con la variable de clase):', cols)
+    input("\n--- Pulsar tecla para continuar ---\n")
     
     df = replace_lost_categorical_values(df)
     #df.to_csv('prueba.csv')
