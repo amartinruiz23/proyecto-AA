@@ -70,10 +70,10 @@ def class_division(filename, attr):
 
     df = df.replace('?', np.nan)
 
-    print_outliers(df)
-    data_relevance(df)
-    continous_variables_graphs(df)
-    correlationMatrix(df)
+    # print_outliers(df)
+    # data_relevance(df)
+    # continous_variables_graphs(df)
+    # correlationMatrix(df)
     input("\n--- Pulsar tecla para continuar ---\n")
     
     df = replace_lost_categorical_values(df)
