@@ -24,14 +24,14 @@ def replace_lost_categorical_values(df):
         acumulated = {} # Diccionario en el que almacenaremos los valores acumulados
         total = 0
         for x in count: # Rellenamos el diccionario con los valores acumulados
-            if x != '?':
+            if x != np.nan:
                 total += count[x]
                 acumulated[x] = total
         acumulated = {k : v / total for k, v in acumulated.items()} # Normalizamos
         
         # Asignamos ahora un valor a los valores perdidos
         for j in range(len(df[i])):
-           if df[i][j] == '?': # Para cada valor perdido
+           if df[i][j] == np.nan: # Para cada valor perdido
                prob = np.random.uniform() # Generamos probabilidad
                less = {}
                for y in acumulated:
@@ -54,11 +54,15 @@ def class_division(filename, attr):
     print('Lectura de los datos realizada.')
     print(' - Numero de datos recopilados:', elem)
     print(' - Dimension de estos datos (con la variable de clase):', cols)
+    print(' Información general del dataset' )
+    df = df.replace('?', np.nan)
+    print(df.info())
+
     input("\n--- Pulsar tecla para continuar ---\n")
     
     df = replace_lost_categorical_values(df)
     #df.to_csv('prueba.csv')
-    df = df.replace('?', np.nan)
+
     y = df.pop("Class")
     df = pd.get_dummies(df)
     return df, y

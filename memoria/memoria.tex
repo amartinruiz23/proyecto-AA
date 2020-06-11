@@ -56,13 +56,20 @@
 
 \section{Compensión del problema a resolver }
 
-Este dataset contiene datos de la oficina del censo\cite{census}, relativos al censos de 1995. Un total de 18842 personas censadas han sido clasificadas para este censo. 
+Este dataset contiene datos de la oficina del censo\cite{census}, relativos al censos de 1995. Un total de 48842 personas censadas han sido clasificadas para este censo.  De estas personas tenemos una seríe de variables con información de carácter socio económico. En particular:
+\begin{itemize}
+\item tenemos 6 variables de tipo numérico y entero, con valores en rangos distintos.
+\item 8 variables de tipo categórico.
+\item Una variable de clase que toma como valores $<50$K y $>50$k.
+\item Es un problema de clasificación, ya que no tenemos información para hacer una regresión sobre la ganancia. 
+\end{itemize}
 
+El código utilizado para la resolución de la práctica se encuentra en el archivo \texttt{main.py}.  Del mismo modo, los datos limpiados se encuentran en el archivo \texttt{adults.data} y su información relativa procesada en el archivo \texttt{adult.names}.
 
 
 \section{ Disvisión de los conjuntos}
 Codificación de los datos de entrada para hacerlos útiles a los algoritmos
-\section{Clases de funciones}
+\section{Clases de funciones?}
 
 \section{Preprocesado} 
 \subsection{Valoración de las variables de interés}
