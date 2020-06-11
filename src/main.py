@@ -5,9 +5,10 @@ from sklearn import preprocessing
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
 from collections import Counter
-from aux import class_division, scale
+from aux import class_division, scale, PCA_analisys
 np.random.seed(0)
 
+#warnings.filterwarnings('ignore')
 
 # --- Lectura de los datos ---
 
@@ -24,8 +25,18 @@ with open(description, "r") as f:
 X, y = class_division("data/adult.data", attr)
 X = scale(X)
 X.to_csv('prueba.csv')
-    
+
+
 #print(X)
+
+PCA_analisys(X)
+
+
+input("\n--- Pulsar tecla para continuar ---\n")
+
+
+
+
 
 # --- Random forest ---
 

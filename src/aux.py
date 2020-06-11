@@ -6,7 +6,13 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
 from collections import Counter
 from sklearn.preprocessing import StandardScaler
-
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.decomposition import PCA
+import warnings
+#warnings.filterwarnings('ignore')
 
 # --- Funciones auxiliares ---
 
@@ -56,6 +62,7 @@ def class_division(filename, attr):
     print('Lectura de los datos realizada.')
     print(' - Numero de datos recopilados:', elem)
     print(' - Dimension de estos datos (con la variable de clase):', cols)
+    input("\n--- Pulsar tecla para continuar ---\n")
     print(' Información general de valores perdidos' )
     clases = ['workclass','occupation','native-country']
     for x in clases:
@@ -63,7 +70,10 @@ def class_division(filename, attr):
 
     df = df.replace('?', np.nan)
 
-
+    print_outliers(df)
+    data_relevance(df)
+    continous_variables_graphs(df)
+    correlationMatrix(df)
     input("\n--- Pulsar tecla para continuar ---\n")
     
     df = replace_lost_categorical_values(df)
@@ -82,3 +92,58 @@ def scale(df):
     return df2
 
 
+def print_outliers(df):
+    plt.figure()
+    variables = df.select_dtypes(include=['int64']).columns
+
+    for i in range(6):
+        plt.subplot(2,3,i+1)
+        plt.boxplot(df[variables[i]])
+        plt.title(variables[i])
+    plt.show()
+
+def data_relevance(df):
+    fig, ((a,b),(c,d)) = plt.subplots(2,2,figsize=(15,20))
+    plt.xticks(rotation=45)
+    sns.countplot(df['workclass'],hue=df['Class'],ax=a)
+    sns.countplot(df['relationship'],hue=df['Class'],ax=b)
+    sns.countplot(df['race'],hue=df['Class'],ax=d)
+    sns.countplot(df['sex'],hue=df['Class'],ax=c)
+    plt.show()
+
+#Esta no entiendo lo que hace
+def PCA_analisys(X):
+    pca = PCA(n_components=14)
+    Y_sklearn = pca.fit_transform(X)
+
+    cum_sum = pca.explained_variance_ratio_.cumsum()
+    
+    pca.explained_variance_ratio_[:10].sum()
+    
+    cum_sum = cum_sum*100
+    
+    fig, ax = plt.subplots(figsize=(8,8))
+    plt.bar(range(14), cum_sum, label='Cumulative _Sum_of_Explained _Varaince', color = 'b',alpha=0.5)
+    plt.show()
+
+def continous_variables_graphs(df):
+    con_var=['age', 'fnlwgt', 'education-num','hours-per-week']
+
+    plt.figure(figsize=(15,10))
+    plt.subplot(221)
+    
+    i=0
+    for x in con_var:
+        plt.subplot(2, 2, i+1)
+        i += 1
+        ax1=sns.kdeplot(df[df['Class'] == '0'][x], shade=True,label="income <=50K")
+        sns.kdeplot(df[df['Class'] == 1][x], shade=False,label="income >50K", ax=ax1)
+        plt.title(x,fontsize=15)
+
+    plt.show()
+    
+def correlationMatrix(df):
+    plt.figure()
+    sns.heatmap(df[df.keys()].corr(),annot=True, fmt = ".2f", cmap = "YlGnBu")
+    plt.title("Correlation Matrix",color="darkblue",fontsize=20)
+    plt.show()
