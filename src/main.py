@@ -25,9 +25,13 @@ with open(description, "r") as f:
 X, y = class_division("data/adult.data", attr)
 X = scale(X)
 X.to_csv('prueba.csv')
+elem, cols = X.shape
+print('Lectura de los datos realizada.')
+print(' - Numero de datos recopilados:', elem)
+print(' - Dimension de estos datos (con la variable de clase):', cols)
+input("\n--- Pulsar tecla para continuar ---\n")
 
 
-#print(X)
 
 input("\n--- Pulsar tecla para continuar ---\n")
 

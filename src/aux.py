@@ -63,6 +63,8 @@ def class_division(filename, attr):
     print(' - Numero de datos recopilados:', elem)
     print(' - Dimension de estos datos (con la variable de clase):', cols)
     input("\n--- Pulsar tecla para continuar ---\n")
+
+
     print(' Información general de valores perdidos' )
     clases = ['workclass','occupation','native-country']
     for x in clases:

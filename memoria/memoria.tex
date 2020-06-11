@@ -58,7 +58,7 @@
 
 Este dataset contiene datos de la oficina del censo\cite{census} relativos a censos de 1995, obtenidos del repositorio UCI de bases de datos \cite{uci}. Un total de 48842 personas han sido encuestadas para este censo. De estas personas tenemos una serie de variables con información de carácter socioeconómico. En particular:
 \begin{itemize}
-\item tenemos 6 variables de tipo numérico y entero, con valores en rangos distintos.
+\item tenemos 6 variables de tipo numérico u ordinal, con valores en rangos distintos.
 \item 8 variables de tipo categórico.
 \item Una variable de clase que toma como valores $<50$K y $>50$k.
 \item Es un problema de clasificación, ya que no tenemos información para hacer una regresión sobre la ganancia.
@@ -80,7 +80,9 @@ A la hora de obetener los datos en el respositorio se encuentran tres archivos: 
 
 Una vez leidos los datos haremos una division train/test de 80\%/20\%. Elegimos esta proporción aprovechando que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
 
-Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.
+Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
+
+Como ultimo detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Esta técnica permite entender como variables categóricas 
 
 
 
@@ -92,7 +94,7 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 \begin{itemize}
 
 	\item \underline{Normalización de las variables}: realizaremos una normalización de los datos, para evitar que su escala afecte a la relevancia de estos. Para ello usaremos la función \texttt{StandardScaler}\cite{standardscaler} provista en la librería \texttt{sklearn}.
-	\item Aumento de dimensionalidad: debido a la baja cantidad de variables, en contraposicición con la alta cantidad de ejemplos podemos considerar aumentos de la dimensionalidad de los datos sin miedo a que se genere un gran sobreajuste.
+	\item \underline{Aumento de dimensionalidad}: debido a la baja cantidad de variables, en contraposicición con la alta cantidad de ejemplos podemos considerar aumentos de la dimensionalidad de los datos sin miedo a que se genere un gran sobreajuste.
 	\begin{itemize}
 	\item[-] Dummy Variables: una variable dummy es aquella que toma sólo el valor 0 o 1 para indicar la ausencia o la presencia de algún efecto categórico que se pueda esperar que cambie el resultado. Esta técnica ayudará a codificar la entrada para algunos algoritmos, así como poder hacer un estudio de cada categoría como una variable separada a la hora de hacer una valoración del interés de cada variable.\\
 	
@@ -102,8 +104,8 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 	
 	Incluir información de como se ha realizado
 \end{itemize}
-	\item Valoración de las variables de interés: 
-	\item Datos incompletos y valores perdidos: en relación a los valores perdidos encontramos en tres variables de tipo categórico.\\
+	\item \underline{Valoración de las variables de interés}: Para realizar un estudio de las variables de interés 
+	\item \underline{Datos incompletos y valores perdidos}: en relación a los valores perdidos encontramos en tres variables de tipo categórico.\\
 	
 \begin{table}[h]
 \begin{center}
@@ -120,7 +122,7 @@ Variable& Valores distintos & Valores Perdidos\\ \hline
 	
 	Realizamos la sustitución de estos datos mediante la función \texttt{replace\_lost\_categorical\_values}. En esta, para cada columna, calculamos su distribución de probabilidad, esto es, sumamos las ocurrencias de cada categoría y dividimos entre el total de valores con valores no perdidos. Obtenemos así la probabilidad de cada categoría. A continuación calculamos las probabilidades acumuladas sumando para categoría su probablidad y la de todas las anteriores. Para cada dato perdido generamos un número aleatorio mediante una distribución uniforme en el intervalo $[0,1]$. La clase por la que el valor perdido será sustituida será la de cuyo intervalo contenga al valor generado, siendo el intervalo de cada clase el comprendido entre la probabilidad acumulada de la anterior y su probabilidad acumulada (incluyendo en cada uno su extremo inferior, pero no su extremo superior).
 	
-	\item Datos inconsistentes: no encontramos clases inconsistentes.
+	\item Datos inconsistentes: no encontramos datos inconsistentes.
 \end{itemize}
 
 
