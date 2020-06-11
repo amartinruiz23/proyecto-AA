@@ -16,8 +16,6 @@
 \usepackage{hyperref}
 
 % Meta
-\title{Práctica 3}
-\author{Pedro Bonilla Nadal}
 \date{\today}
 
 % Custom
@@ -78,14 +76,11 @@ A la hora de obetener los datos en el respositorio se encuentran tres archivos: 
 \item Añadimos el flag \texttt{@attribute} a la lista de atributos provista en \texttt{adult.names}.
 \end{itemize}
 
-Una vez leidos los datos haremos una division train/test de 80\%/20\%. Elegimos esta proporción aprovechando que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
+Una vez leídos los datos haremos una división train/test de 80\%/20\%. Elegimos esta proporción aprovechando que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
 
 Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
 
-Como ultimo detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Esta técnica permite entender como variables categóricas 
-
-
-
+Como último detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Esta permite entender las variables categóricas como variables numéricas. Para cada uno de los posibles valores de las variables categóricas se genera una nueva columna en la que se señala si el ejemplo en cuestión tiene o no ese valor.
 
 \section{Preprocesado}
 
