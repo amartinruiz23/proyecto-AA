@@ -57,7 +57,7 @@ def class_division(filename, attr):
     print(' - Numero de datos recopilados:', elem)
     print(' - Dimension de estos datos (con la variable de clase):', cols)
     print(' Información general de valores perdidos' )
-    classes = ['workclass','occupation','native-country']
+    clases = ['workclass','occupation','native-country']
     for x in clases:
         print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
 
