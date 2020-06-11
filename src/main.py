@@ -6,7 +6,12 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
 from sklearn.metrics import f1_score
 from collections import Counter
-from aux import class_division, scale
+from aux import *
+import sklearn.pipeline as pl
+import sklearn.decomposition as skld
+import sklearn.feature_selection as fs
+import sklearn.decomposition as skld
+import sklearn.preprocessing as sklpre
 np.random.seed(0)
 
 #warnings.filterwarnings('ignore')
@@ -23,8 +28,27 @@ with open(description, "r") as f:
             line = line.split()
             attr.append(line[1])
 
-X,  X_tst,y, y_tst = class_division("data/adult.data", attr)
-X = scale(X)
+X, X_tst, y, y_tst = class_division("data/adult.data", attr)
+balanceo_clases(y, y_tst)
+
+
+
+# -- preprocesado
+
+info_size(X, 'Tamaño de los datos después de las dummy variables:')
+#skld.PCA(n_components=50),
+preprocesado = pl.make_pipeline(fs.VarianceThreshold(threshold=0.005),
+                                sklpre.StandardScaler())
+preprocesado.fit(X)
+X = preprocesado.transform(X)
+X_tst = preprocesado.transform(X_tst)
+
+info_size(X, 'Tamaño de los datos después del preprocesado:')
+
+# selector = SelectKBest(k=15)
+# selector.fit(X,y)
+# mask = selector.get_support()
+
 
 # --- Random forest ---
 
@@ -35,7 +59,7 @@ print("E_tra: ", clf.score(X, y))
 print("E_tst: ", clf.score(X_tst, y_tst))
 
 pred = clf.predict(X_tst)
-print("f1_score: ", f1_score(y_tst, pred, average='macro'))
+print("f1_score tst: ", f1_score(y_tst, pred, average='macro'))
 
 cv_results = cross_validate(clf, X, y, cv=5,)
 print("E_cv: ", sum(cv_results['test_score'])/len(cv_results['test_score']) )

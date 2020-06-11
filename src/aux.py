@@ -13,6 +13,7 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 import warnings
 from sklearn.model_selection import train_test_split
+import collections as c
 
 #warnings.filterwarnings('ignore')
 
@@ -51,14 +52,14 @@ def replace_lost_categorical_values(df):
 
     return df        
 
-def info(df):
+def info_size(df, msg):
     elem, cols = df.shape
-    print('Lectura de los datos realizada.')
+    print(msg)
     print(' - Numero de datos recopilados:', elem)
-    print(' - Dimension de estos datos (con la variable de clase):', cols)
+    print(' - Dimension:', cols)
     input("\n--- Pulsar tecla para continuar ---\n")
 
-
+def info(df):
     print(' Información general de valores perdidos' )
     clases = ['workclass','occupation','native-country']
     for x in clases:
@@ -93,14 +94,6 @@ def class_division(filename, attr):
     df = pd.get_dummies(df)
     return train_test_split(df, y, test_size=0.2, random_state=42)
 
-
-def scale(df):
-    scaler = StandardScaler()
-    x = df.values
-    scaled = scaler.fit_transform(x)
-    df2=pd.DataFrame(scaled, columns=df.columns)
-    # print(df2)
-    return df2
 
 
 def print_outliers(df):
@@ -143,3 +136,16 @@ def correlationMatrix(df):
     sns.heatmap(df[df.keys()].corr(),annot=True, fmt = ".2f", cmap = "YlGnBu")
     plt.title("Correlation Matrix")
     plt.show()
+
+def balanceo_clases(y,y_tst):
+    d = c.defaultdict(int)
+    d_tst = c.defaultdict(int)
+    for x in y:
+        d[int(x)]+=1
+    for x in y_tst:
+        d_tst[(x)]+=1
+    
+    print('\nBalanceo de clases:\nClase | n veces Train | n veces Test')
+    for x in set(y):
+        print(x,'|', d[x], '|' ,d_tst[x])
+    input("\n--- Pulsar tecla para continuar ---\n")

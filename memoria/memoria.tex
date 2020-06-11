@@ -82,7 +82,7 @@ Una vez leidos los datos haremos una division train/test de 80\%/20\%. Elegimos 
 
 Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
 
-Como ultimo detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Esta técnica permite entender como variables categóricas 
+Como ultimo detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Una variable dummy es aquella que toma sólo el valor 0 o 1 para indicar la ausencia o la presencia de algún efecto categórico que se pueda esperar que cambie el resultado. Esta técnica ayudará a codificar la entrada para algunos algoritmos, así como poder hacer un estudio de cada categoría como una variable separada a la hora de hacer una valoración del interés de cada variable.
 
 
 
@@ -94,17 +94,18 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 \begin{itemize}
 
 	\item \underline{Normalización de las variables}: realizaremos una normalización de los datos, para evitar que su escala afecte a la relevancia de estos. Para ello usaremos la función \texttt{StandardScaler}\cite{standardscaler} provista en la librería \texttt{sklearn}.
-	\item \underline{Aumento de dimensionalidad}: debido a la baja cantidad de variables, en contraposicición con la alta cantidad de ejemplos podemos considerar aumentos de la dimensionalidad de los datos sin miedo a que se genere un gran sobreajuste.
+		\item \underline{Reducción de dimensionalidad}: Para esto vamos a realizar dos técnicas:
+	
 	\begin{itemize}
-	\item[-] Dummy Variables: una variable dummy es aquella que toma sólo el valor 0 o 1 para indicar la ausencia o la presencia de algún efecto categórico que se pueda esperar que cambie el resultado. Esta técnica ayudará a codificar la entrada para algunos algoritmos, así como poder hacer un estudio de cada categoría como una variable separada a la hora de hacer una valoración del interés de cada variable.\\
+	\item[-] El conjunto de datos presenta una altisima cantidad de columnas (64) a pesar de la reducción indicada. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.1. Esto lo realizaremos con el algoritmo  \texttt{varianceThreshold}\cite{einstein}.
 	
-	Incluir inofrmación de como se ha realizado.
-	 
-	\item[-] Polynomial Freatures: con especial interés en el caso lineal, el uso de variaciónes polinómicas de los datos puede ser util para permitir aproximaciones a clases de funciones nuevas. Probaremos variación cuadrática sobre las variables numéricas cuando realizemos un ajuste lineal. Para Random Forest no lo consideramos necesario por la ya conocida complejidad de los arboles, y para SVM utilizaremos variaciones de kernell. \\
+	\item[-] Realizaremos un análisis de componentes principales PCA\cite{PCA} para intentar reducir aun más la dimensionalidad del conjunto. 
+
 	
-	Incluir información de como se ha realizado
 \end{itemize}
-	\item \underline{Valoración de las variables de interés}: Para realizar un estudio de las variables de interés 
+\item  \underline{Polynomial Freatures}: con especial interés en el caso lineal, el uso de variaciónes polinómicas de los datos puede ser util para permitir aproximaciones a clases de funciones nuevas. Probaremos variación cuadrática sobre las variables numéricas cuando realizemos un ajuste lineal. Para Random Forest no lo consideramos necesario por la ya conocida complejidad de los arboles, y para SVM utilizaremos variaciones de kernell. \\
+	
+	\item \underline{Valoración de las variables de interés}: Para realizar un estudio de las variables de interés. Este ya lo hemos visto mostrado en 
 	\item \underline{Datos incompletos y valores perdidos}: en relación a los valores perdidos encontramos en tres variables de tipo categórico.\\
 	
 \begin{table}[h]
@@ -215,6 +216,14 @@ Métrica f1-score \url{https://en.wikipedia.org/wiki/F1_score}
 
 \bibitem{CD}
 Código RL: \url{https://en.wikipedia.org/wiki/Coordinate_descent}
+
+
+\bibitem{einstein} 
+Uso del algoritmo \texttt{varianceThreshold}: \url{https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.VarianceThreshold.html}
+
+\bibitem{PCA} 
+Técnica de PCA: 
+\url{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA}
 
 \end{thebibliography}
 
