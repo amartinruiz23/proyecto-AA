@@ -16,8 +16,6 @@
 \usepackage{hyperref}
 
 % Meta
-\title{Práctica 3}
-\author{Pedro Bonilla Nadal}
 \date{\today}
 
 % Custom
@@ -78,14 +76,18 @@ A la hora de obetener los datos en el respositorio se encuentran tres archivos: 
 \item Añadimos el flag \texttt{@attribute} a la lista de atributos provista en \texttt{adult.names}.
 \end{itemize}
 
-Una vez leidos los datos haremos una division train/test de 80\%/20\%. Elegimos esta proporción aprovechando que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
+Una vez leídos los datos haremos una división train/test de 80\%/20\%. Elegimos esta proporción aprovechando que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
 
 Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
 
+<<<<<<< HEAD
 Como ultimo detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Una variable dummy es aquella que toma sólo el valor 0 o 1 para indicar la ausencia o la presencia de algún efecto categórico que se pueda esperar que cambie el resultado. Esta técnica ayudará a codificar la entrada para algunos algoritmos, así como poder hacer un estudio de cada categoría como una variable separada a la hora de hacer una valoración del interés de cada variable.
 
 
 
+=======
+Como último detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Esta permite entender las variables categóricas como variables numéricas. Para cada uno de los posibles valores de las variables categóricas se genera una nueva columna en la que se señala si el ejemplo en cuestión tiene o no ese valor.
+>>>>>>> 6e4339eeddb5d4f15591e4a72e2a78e5db219b13
 
 \section{Preprocesado}
 
@@ -132,13 +134,13 @@ Variable& Valores distintos & Valores Perdidos\\ \hline
 
 \section{ Métricas }
 
-Hemmmos decidido conseiderar, en este contexto de clasificación, dos funciones con objetivo de medir el error, ambas halladas en \cite{met}.
+Hemos decidido conseiderar, en este contexto de clasificación, dos funciones con objetivo de medir el error, ambas halladas en \cite{met}.
 \begin{itemize}
 	\item \emph{accuracy}: Decidimos utilizar esta medida por su simplicidad y expresividad. Esta métrica nos propocionará una idea general de la bondad de nuestro modelo en un caso general, así como nos permitirá comparar, por ejemplo, con el clasificador modal. 
 	\item \emph{f1-score}: Al estar en un modelo de clases desbalanceadas, consideramos que debiamos utilizar una métrica que penara comportamientos de 'asignación modal'. La medida $F_1$ se define como\cite{f1}:
 	$${\displaystyle F_{1}={\frac {2}{\mathrm {recall} ^{-1}+\mathrm {precision} ^{-1}}}=2\cdot {\frac {\mathrm {precision} \cdot \mathrm {recall} }{\mathrm {precision} +\mathrm {recall} }}}.$$
 	
-	Donde precision es (en terminos de clase positiva/negativa) el número de verdaderos positivos entre los positivos escogidos, y recall es el número de positivos escogidos entre los positivos totales.
+	Donde precisión es (en términos de clase positiva/negativa) el número de verdaderos positivos entre los positivos escogidos, y recall es el número de positivos escogidos entre los positivos totales.
 \end{itemize}
 \section{ Modelos Considerados }
 
@@ -147,11 +149,11 @@ Hemmmos decidido conseiderar, en este contexto de clasificación, dos funciones 
 	Como modelo lineal, dado que estamos en clasificación, podemos escoger de los modelos explicados en clase entre Regresión Logística y  PLA. Decidimos utilizar regresión logística por una serie de motivos.
 	
 	\begin{itemize}
-	\item Al estar en un dataset que proviene de un censo sucede que encontraremos una gran cantidad de outliers y datos algo ruidosos. Esto hará, que el perceptron sea contraindicado, dado que dificilmente podremos conseguir convergencia de este debido al ruido, y en el caso de que uno de estos elementos ruidosos sea además un outlier podría variar notable (e indebidamente) el plano clasificador).
+	\item Al estar en un dataset que proviene de un censo sucede que encontraremos una gran cantidad de outliers y datos algo ruidosos. Esto hará que el perceptron sea contraindicado, dado que dificilmente podremos conseguir convergencia de este debido al ruido, y en el caso de que uno de estos elementos ruidosos sea además un outlier podría variar notable (e indebidamente) el plano clasificador.
 	\item Nos resulta interesante el hecho de que podamos obtener la confianza de una predicción y no solo la predicción.
 \end{itemize}
 
-Para el uso de la regresión logistica haremos uso de la función de SKLearn 
+Para el uso de la regresión logistica haremos uso de la función de sklearn. 
 
 \subsection{Random Forest}
 
