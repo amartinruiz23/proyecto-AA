@@ -27,7 +27,7 @@ X = scale(X)
 
 # --- Random forest ---
 
-clf = RandomForestClassifier(n_estimators = 600, max_depth = 50)
+clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_depth = 50)
 
 clf.fit(X, y)
 print("E_tra: ", clf.score(X, y))
