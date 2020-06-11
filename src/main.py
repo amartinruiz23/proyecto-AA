@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn import preprocessing
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
+from sklearn.metrics import f1_score
 from collections import Counter
 from aux import class_division, scale
 np.random.seed(0)
@@ -32,6 +33,9 @@ clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_dept
 clf.fit(X, y)
 print("E_tra: ", clf.score(X, y))
 print("E_tst: ", clf.score(X_tst, y_tst))
+
+clas = clf.predict(X_tst)
+print("f1_score: ", f1_score(y_tst, clas))
 
 cv_results = cross_validate(clf, X, y, cv=5,)
 print("E_cv: ", sum(cv_results['test_score'])/len(cv_results['test_score']) )
