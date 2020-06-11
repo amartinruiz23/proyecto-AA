@@ -5,6 +5,8 @@ from sklearn import preprocessing
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
 from collections import Counter
+from sklearn.preprocessing import StandardScaler
+
 
 # --- Funciones auxiliares ---
 
@@ -67,4 +69,10 @@ def class_division(filename, attr):
     df = pd.get_dummies(df)
     return df, y
 
-
+def normalize(df):
+    scaler = StandardScaler()
+    x = df.values
+    scaled = scaler.fit_transform(x)
+    df2=pd.DataFrame(scaled, columns=df.columns)
+    # print(df2)
+    return df2

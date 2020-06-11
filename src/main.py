@@ -5,7 +5,7 @@ from sklearn import preprocessing
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
 from collections import Counter
-from aux import class_division
+from aux import class_division, normalize
 np.random.seed(0)
 
 
@@ -22,7 +22,8 @@ with open(description, "r") as f:
             attr.append(line[1])
 
 X, y = class_division("data/adult.data", attr)
-
+X = normalize(X)
+X.to_csv('prueba.csv')
     
 #print(X)
 
