@@ -139,9 +139,39 @@ Hemmmos decidido conseiderar, en este contexto de clasificación, dos funciones 
 	
 	Donde precision es (en terminos de clase positiva/negativa) el número de verdaderos positivos entre los positivos escogidos, y recall es el número de positivos escogidos entre los positivos totales.
 \end{itemize}
+\section{ Modelos Considerados }
+
+\subsection{ Modelo Lineal }
+	
+	Como modelo lineal, dado que estamos en clasificación, podemos escoger de los modelos explicados en clase entre Regresión Logística y  PLA. Decidimos utilizar regresión logística por una serie de motivos.
+	
+	\begin{itemize}
+	\item Al estar en un dataset que proviene de un censo sucede que encontraremos una gran cantidad de outliers y datos algo ruidosos. Esto hará, que el perceptron sea contraindicado, dado que dificilmente podremos conseguir convergencia de este debido al ruido, y en el caso de que uno de estos elementos ruidosos sea además un outlier podría variar notable (e indebidamente) el plano clasificador).
+	\item Nos resulta interesante el hecho de que podamos obtener la confianza de una predicción y no solo la predicción.
+\end{itemize}
+
+Para el uso de la regresión logistica haremos uso de la función de SKLearn 
+
+\subsection{Random Forest}
+
+\subsection{SVM}
+
+Consideramos que la técnica SVM-soft margin puede ser muy útil para este problema debido a que podemos fijar a placer el grado de compromiso entre busqueda del plano óptimo y la tolerancia al ruido, ambas cosas resultando de mucha utilidad a la hora de trabajar con datos potencialmente ruidosos.\\
+
+Otro motivo para decidir ajustar este modelo, aunque de carácter menos importante, es la curiosidad suscitada por este modelo durante el desarrollo teórico de la asignatura. 
+
 \section{ Técnica de Ajuste para el Modelo Lineal}
+\subsection{Regresión Logística}
 
+Para este conjunto utilizaremos dos técinas de ajuste, ambas definidas como variaciones especializadas sobre el algoritmo SGD.:
+\begin{itemize}
+	\item \texttt{lbfgs}: Utiliza una variación del método Newton visto en el bonus de la práctica 1 que en lugar de la matriz Hessiana utiliza una aproximación a esta. Es eficiente en comparación con el método de newton estandard y se podría definir como una variación del gradiente descendente estocástico. Como desventajas tiene que se podría acercar a puntos críticos que no fuese mínimos. Esta técnica no admite regularización \texttt{l1}.
+	\item \texttt{liblinear}: es el ganador ICML 2008 large-scale learning challenge. Lo utilizamos para probar las regularizaciónes dado que funciona tanto con \texttt{l1} como con \texttt{l2}.
+	
+	Liblinear utiliza técnicas de descenso coordinado\cite{CD} donde minimizamos la función en torno a cada eje, resolviendo un problema de minimización unidimensional en bucle. 
+\end{itemize}
 
+Estas dos técnicas se pueden entender como variaciones del gradiente descendiente estocastico en esecia, dado que surgen de su filosofía de realizar aproximaciones sucesivas al mínimo. Pese a ello se debe comprender que se parecen en poco más que filosofía. Son técnicas mucho más eficientes que el algoritmo de la pseudoinversa, cosa que nos puede resultar interesante, aunque trabajamos con un dataset que no es particularmente grande. Las compararemos y comentaremos sus resultados  en la sección de hiperparámetros y selección del modelo, pero elegiremos lbfgs dado que para el tamaño de nuestro dataset no es relevante la mejora en eficiencia de \texttt{liblinear} y \texttt{lbfgs} consigue un resultado ligeramente mejor.
 
 
 \section{Hiperparámetros y selección del modelo}
@@ -181,7 +211,13 @@ Métricas de sklearn \url{https://scikit-learn.org/stable/modules/model_evaluati
 \bibitem{f1}
 
 Métrica f1-score \url{https://en.wikipedia.org/wiki/F1_score}
+
+
+\bibitem{CD}
+Código RL: \url{https://en.wikipedia.org/wiki/Coordinate_descent}
+
 \end{thebibliography}
+
 
 
 
