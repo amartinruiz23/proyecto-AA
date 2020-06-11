@@ -56,7 +56,7 @@
 
 \section{Compensión del problema a resolver }
 
-Este dataset contiene datos de la oficina del censo\cite{census}, relativos al censos de 1995. Un total de 48842 personas censadas han sido clasificadas para este censo.  De estas personas tenemos una seríe de variables con información de carácter socio económico. En particular:
+Este dataset contiene datos de la oficina del censo\cite{census}, relativos al censos de 1995, obtenidos de la repositorio UCI de bases de datos \cite{uci}. Un total de 48842 personas censadas han sido encuestadas para este censo.  De estas personas tenemos una seríe de variables con información de carácter socio económico. En particular:
 \begin{itemize}
 \item tenemos 6 variables de tipo numérico y entero, con valores en rangos distintos.
 \item 8 variables de tipo categórico.
@@ -67,13 +67,40 @@ Este dataset contiene datos de la oficina del censo\cite{census}, relativos al c
 El código utilizado para la resolución de la práctica se encuentra en el archivo \texttt{main.py}.  Del mismo modo, los datos limpiados se encuentran en el archivo \texttt{adults.data} y su información relativa procesada en el archivo \texttt{adult.names}.
 
 
-\section{ Disvisión de los conjuntos}
-Codificación de los datos de entrada para hacerlos útiles a los algoritmos
-\section{Clases de funciones?}
+\section{ Disvisión y Codificación de los conjuntos}
+
+A la hora de obetener los datos obtenemos tres archivos del repositorio: \texttt{adult.data},  \texttt{adult.test} y \texttt{adult.names}. Estos datos fueron procesados en el año 1996. Nosotros realizamos una operación de formato de los datos para ajustarlo a convenciones más recientes.
+
+\begin{itemize}
+\item Cambiamos la variable de clase por valores categóricos 0 para $<50$K y 1 para $>50$K
+
+\item Eliminamos el espaciado después de la coma, para facilitar la lectura por parte de librerías actuales.
+\item Añadimos la información el archivo \texttt{adult.test} al archivo \texttt{adult.data} con el objetivo de tener la información procesada de manera conjunta.
+\item Añadimos el flag \texttt{@attribute} a la lista de atributos provista en \texttt{adult.names}.
+\end{itemize}
+
+Una vez leidos los datos, haremos una division train/test de 80\%/20\%. Elegimos esta proporción aprovechando  que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
+
+Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica CrossValidation, para la cual diviremos el conjunto de training en 5 subconjuntos.
+
+
+
+
 
 \section{Preprocesado} 
-\subsection{Valoración de las variables de interés}
-\subsection{ Normalización de las variables}
+
+Mostraremos a continuación las siguientes técnicas de preprocesado realizadas. Justificaremos individualmente su uso.
+
+\begin{itemize}
+
+	\item Normalización de las variables.
+	\item Clases de funciones.
+	\item Valoración de las variables de interés.
+	\item Aumento de dimensionalidad.
+	\item Datos incompletos.
+	\item Datos inconsistentes.
+	\item Balanceo de clases.
+\end{itemize}
 \section{ Función de pérdida usada}
 \section{ Técnica de Ajuste para el Modelo Lineal}
 Selección de las técnica (parámetrica) y valoración de la idoneidad de la misma frente a otras alternativas
@@ -93,8 +120,10 @@ que se ha obtenido la mejor de las posibles soluciones con la técnica elegida y
 \newpage
 \begin{thebibliography}{9}
 \bibitem{census}
-Página oficial de la Oficina del censo: \url{http://www.census.gov/ftp/pub/DES/www/welcome.html}
+Página oficial de la Oficina del censo: \url{http://www.census.gov/ftp/pub/DES/www/welcome.html}.
 
+\bibitem{uci}
+Página del Centro para el Apredizaje Automático y Sistemas Inteligentes:\url{http://archive.ics.uci.edu/ml/datasets/Adult}.
 \end{thebibliography}
 
 

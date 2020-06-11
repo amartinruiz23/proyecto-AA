@@ -12,6 +12,8 @@ np.random.seed(0)
 # --- Lectura de los datos ---
 
 description = "data/adult.names"
+
+
 attr = []
 with open(description, "r") as f:
     for line in f:
