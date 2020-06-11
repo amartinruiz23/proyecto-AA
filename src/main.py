@@ -5,7 +5,7 @@ from sklearn import preprocessing
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
 from collections import Counter
-from aux import class_division, scale, PCA_analisys
+from aux import class_division, scale
 np.random.seed(0)
 
 #warnings.filterwarnings('ignore')
@@ -28,9 +28,6 @@ X.to_csv('prueba.csv')
 
 
 #print(X)
-
-PCA_analisys(X)
-
 
 input("\n--- Pulsar tecla para continuar ---\n")
 

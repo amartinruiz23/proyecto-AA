@@ -111,21 +111,6 @@ def data_relevance(df):
     sns.countplot(df['sex'],hue=df['Class'],ax=c)
     plt.show()
 
-#Esta no entiendo lo que hace
-def PCA_analisys(X):
-    pca = PCA(n_components=14)
-    Y_sklearn = pca.fit_transform(X)
-
-    cum_sum = pca.explained_variance_ratio_.cumsum()
-    
-    pca.explained_variance_ratio_[:10].sum()
-    
-    cum_sum = cum_sum*100
-    
-    fig, ax = plt.subplots(figsize=(8,8))
-    plt.bar(range(14), cum_sum, label='Cumulative _Sum_of_Explained _Varaince', color = 'b',alpha=0.5)
-    plt.show()
-
 def continous_variables_graphs(df):
     con_var=['age', 'fnlwgt', 'education-num','hours-per-week']
 
@@ -145,5 +130,5 @@ def continous_variables_graphs(df):
 def correlationMatrix(df):
     plt.figure()
     sns.heatmap(df[df.keys()].corr(),annot=True, fmt = ".2f", cmap = "YlGnBu")
-    plt.title("Correlation Matrix",color="darkblue",fontsize=20)
+    plt.title("Correlation Matrix")
     plt.show()
