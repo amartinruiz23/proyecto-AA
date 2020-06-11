@@ -25,16 +25,9 @@ with open(description, "r") as f:
 X,  X_tst,y, y_tst = class_division("data/adult.data", attr)
 X = scale(X)
 
-
-
-
-
 # --- Random forest ---
 
-
-
-
-clf = RandomForestClassifier()
+clf = RandomForestClassifier(n_estimators = 600, max_depth = 50)
 
 clf.fit(X, y)
 print("E_tra: ", clf.score(X, y))
