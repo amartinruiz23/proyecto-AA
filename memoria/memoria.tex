@@ -41,7 +41,7 @@
 
 \rule{\textwidth}{0.4mm} \\[11.5cm] % Horizontal line
  {\Large Pedro Bonilla Nadal\\Antonio Martín Ruiz}\\[1cm]
- 
+
  {\today}
 
 \vfill
@@ -56,47 +56,46 @@
 
 \section{Compensión del problema a resolver }
 
-Este dataset contiene datos de la oficina del censo\cite{census}, relativos al censos de 1995, obtenidos de la repositorio UCI de bases de datos \cite{uci}. Un total de 48842 personas censadas han sido encuestadas para este censo.  De estas personas tenemos una seríe de variables con información de carácter socio económico. En particular:
+Este dataset contiene datos de la oficina del censo\cite{census} relativos a censos de 1995, obtenidos del repositorio UCI de bases de datos \cite{uci}. Un total de 48842 personas han sido encuestadas para este censo. De estas personas tenemos una serie de variables con información de carácter socioeconómico. En particular:
 \begin{itemize}
 \item tenemos 6 variables de tipo numérico y entero, con valores en rangos distintos.
 \item 8 variables de tipo categórico.
 \item Una variable de clase que toma como valores $<50$K y $>50$k.
-\item Es un problema de clasificación, ya que no tenemos información para hacer una regresión sobre la ganancia. 
+\item Es un problema de clasificación, ya que no tenemos información para hacer una regresión sobre la ganancia.
 \end{itemize}
 
 El código utilizado para la resolución de la práctica se encuentra en el archivo \texttt{main.py}.  Del mismo modo, los datos limpiados se encuentran en el archivo \texttt{adults.data} y su información relativa procesada en el archivo \texttt{adult.names}.
 
 
-\section{ Disvisión y Codificación de los conjuntos}
+\section{ División y codificación de los conjuntos}
 
-A la hora de obetener los datos obtenemos tres archivos del repositorio: \texttt{adult.data},  \texttt{adult.test} y \texttt{adult.names}. Estos datos fueron procesados en el año 1996. Nosotros realizamos una operación de formato de los datos para ajustarlo a convenciones más recientes.
+A la hora de obetener los datos en el respositorio se encuentran tres archivos: \texttt{adult.data},  \texttt{adult.test} y \texttt{adult.names}. Estos datos fueron procesados en el año 1996. Nosotros realizamos una operación de formato de los datos para ajustarlos a convenciones más recientes.
 
 \begin{itemize}
 \item Cambiamos la variable de clase por valores categóricos 0 para $<50$K y 1 para $>50$K
-
-\item Eliminamos el espaciado después de la coma, para facilitar la lectura por parte de librerías actuales.
-\item Añadimos la información el archivo \texttt{adult.test} al archivo \texttt{adult.data} con el objetivo de tener la información procesada de manera conjunta.
+\item Eliminamos el espaciado después de la coma para facilitar la lectura por parte de librerías actuales.
+\item Añadimos la información del archivo \texttt{adult.test} al archivo \texttt{adult.data} con el objetivo de tener la información procesada de manera conjunta.
 \item Añadimos el flag \texttt{@attribute} a la lista de atributos provista en \texttt{adult.names}.
 \end{itemize}
 
-Una vez leidos los datos, haremos una division train/test de 80\%/20\%. Elegimos esta proporción aprovechando  que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
+Una vez leidos los datos haremos una division train/test de 80\%/20\%. Elegimos esta proporción aprovechando que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
 
-Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica CrossValidation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.
-
-
+Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.
 
 
-\section{Preprocesado} 
+
+
+\section{Preprocesado}
 
 Mostraremos a continuación las siguientes técnicas de preprocesado realizadas. Justificaremos individualmente su uso.
 
 \begin{itemize}
 
-	\item Normalización de las variables: realizaremos una normalización de los datos, para evitar que la escala de los datos afecte a la relevancia de estos. Para su uso usaremos la función \texttt{StandardScaler}\cite{standardscaler} provisto en la librería \texttt{sklearn}.
-	\item Aumento de dimensionalidad: debido a la baja cantidad de variables, en contraposicición con la alta cantidad de ejemplos, nos deja considerar aumentos de la dimensionalidad de los datos sin miedo a que se genere un gran sobreajuste sobreajuste. 	
+	\item Normalización de las variables: realizaremos una normalización de los datos, para evitar que su escala afecte a la relevancia de estos. Para ello usaremos la función \texttt{StandardScaler}\cite{standardscaler} provista en la librería \texttt{sklearn}.
+	\item Aumento de dimensionalidad: debido a la baja cantidad de variables, en contraposicición con la alta cantidad de ejemplos podemos considerar aumentos de la dimensionalidad de los datos sin miedo a que se genere un gran sobreajuste.
 	\begin{itemize}
 	\item Dummy Variables:
-	\item Polynomial Freatures: 
+	\item Polynomial Freatures:
 \end{itemize}
 	\item Valoración de las variables de interés.
 	\item Datos incompletos.
@@ -116,7 +115,7 @@ Selección de las técnica (parámetrica) y valoración de la idoneidad de la mi
 \section{ Error de Generalización}
 \section{ Argumentar sobre la idoneidad de la función regularización usada }
 \section{ Conclusiónes }
-Valoración de los resultados y justificación 
+Valoración de los resultados y justificación
 ( gráficas, métricas de error, análisis de residuos, etc )
 
 
