@@ -122,13 +122,23 @@ Variable& Valores distintos & Valores Perdidos\\ \hline
 	
 	Realizamos la sustitución de estos datos mediante la función \texttt{replace\_lost\_categorical\_values}. En esta, para cada columna, calculamos su distribución de probabilidad, esto es, sumamos las ocurrencias de cada categoría y dividimos entre el total de valores con valores no perdidos. Obtenemos así la probabilidad de cada categoría. A continuación calculamos las probabilidades acumuladas sumando para categoría su probablidad y la de todas las anteriores. Para cada dato perdido generamos un número aleatorio mediante una distribución uniforme en el intervalo $[0,1]$. La clase por la que el valor perdido será sustituida será la de cuyo intervalo contenga al valor generado, siendo el intervalo de cada clase el comprendido entre la probabilidad acumulada de la anterior y su probabilidad acumulada (incluyendo en cada uno su extremo inferior, pero no su extremo superior).
 	
-	\item Datos inconsistentes: no encontramos datos inconsistentes.
+	\item \underline{Datos inconsistentes}: no encontramos datos inconsistentes.
+	\item \underline{Balanceo de clases}: nos encontramos ante una situación con un desbalanceo notable. Sin embargo, dada la cantidad de datos provista por la base de datos creemos que no es necesario realizar modificaciones de los datos ni en el conjunto de train ni en el de test.
 \end{itemize}
 
 
 
 
-\section{ Función de pérdida usada}
+\section{ Métricas }
+
+Hemmmos decidido conseiderar, en este contexto de clasificación, dos funciones con objetivo de medir el error, ambas halladas en \cite{met}.
+\begin{itemize}
+	\item \emph{accuracy}: Decidimos utilizar esta medida por su simplicidad y expresividad. Esta métrica nos propocionará una idea general de la bondad de nuestro modelo en un caso general, así como nos permitirá comparar, por ejemplo, con el clasificador modal. 
+	\item \emph{f1-score}: Al estar en un modelo de clases desbalanceadas, consideramos que debiamos utilizar una métrica que penara comportamientos de 'asignación modal'. La medida $F_1$ se define como\cite{f1}:
+	$${\displaystyle F_{1}={\frac {2}{\mathrm {recall} ^{-1}+\mathrm {precision} ^{-1}}}=2\cdot {\frac {\mathrm {precision} \cdot \mathrm {recall} }{\mathrm {precision} +\mathrm {recall} }}}.$$
+	
+	Donde precision es (en terminos de clase positiva/negativa) el número de verdaderos positivos entre los positivos escogidos, y recall es el número de positivos escogidos entre los positivos totales.
+\end{itemize}
 \section{ Técnica de Ajuste para el Modelo Lineal}
 Selección de las técnica (parámetrica) y valoración de la idoneidad de la misma frente a otras alternativas
 \section{Hiperparámetros y selección del modelo}
@@ -141,7 +151,7 @@ Valoración de los resultados y justificación
 ( gráficas, métricas de error, análisis de residuos, etc )
 
 
-que se ha obtenido la mejor de las posibles soluciones con la técnica elegida y la muestra dada. Argumentar en términos de los errores de ajuste y generalización,
+que se ha obtenido la mejor de las posibles soluciones con la técnica elegida y la muestra dada. Argumentar en términos de los errores de ajuste y generalización. 
 
 
 \newpage
@@ -161,6 +171,13 @@ Función \texttt{cross\_validate} de la librería \texttt{sklearn}:
 
 \bibitem{dummy var}
 Artículo donde explica el concepto de dummy variable: \url{https://en.wikipedia.org/wiki/Dummy_variable_(statistics)}
+
+\bibitem{met}
+Métricas de sklearn \url{https://scikit-learn.org/stable/modules/model_evaluation.html#balanced-accuracy-score}
+
+\bibitem{f1}
+
+Métrica f1-score \url{https://en.wikipedia.org/wiki/F1_score}
 \end{thebibliography}
 
 
