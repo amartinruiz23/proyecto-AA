@@ -56,9 +56,13 @@ def class_division(filename, attr):
     print('Lectura de los datos realizada.')
     print(' - Numero de datos recopilados:', elem)
     print(' - Dimension de estos datos (con la variable de clase):', cols)
-    print(' Información general del dataset' )
+    print(' Información general de valores perdidos' )
+    classes = ['workclass','occupation','native-country']
+    for x in clases:
+        print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
+
     df = df.replace('?', np.nan)
-    print(df.info())
+
 
     input("\n--- Pulsar tecla para continuar ---\n")
     
@@ -69,10 +73,12 @@ def class_division(filename, attr):
     df = pd.get_dummies(df)
     return df, y
 
-def normalize(df):
+def scale(df):
     scaler = StandardScaler()
     x = df.values
     scaled = scaler.fit_transform(x)
     df2=pd.DataFrame(scaled, columns=df.columns)
     # print(df2)
     return df2
+
+

@@ -105,24 +105,18 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 	\item Valoración de las variables de interés: 
 	\item Datos incompletos y valores perdidos: en relación a los valores perdidos encontramos solo de tipo categórico.\\
 	
-	#   Column          Non-Null Count  Dtype 
----  ------          --------------  ----- 
- 0   age             48842 non-null  int64 
- 1   workclass       46043 non-null  object
- 2   fnlwgt          48842 non-null  int64 
- 3   education       48842 non-null  object
- 4   education-num   48842 non-null  int64 
- 5   marital-status  48842 non-null  object
- 6   occupation      46033 non-null  object
- 7   relationship    48842 non-null  object
- 8   race            48842 non-null  object
- 9   sex             48842 non-null  object
- 10  capital-gain    48842 non-null  int64 
- 11  capital-loss    48842 non-null  int64 
- 12  hours-per-week  48842 non-null  int64 
- 13  native-country  47985 non-null  object
- 14  Class           48842 non-null  object
-	Tabla con los valores perdidos\\
+			\begin{table}[h]
+	\begin{center}
+\begin{tabular}{|l|ll|}
+\hline
+Variable& Valores distintos & Valores Perdidos\\ \hline
+\texttt{workclass} & 46 & 46043\\
+\texttt{occupation} & 109 & 1174\\
+\texttt{native-country} & 800 &1177\\\hline
+\end{tabular}
+\end{center}
+\caption{hola}
+	\end{table}
 	
 	Los sustituimos haciendo esto.
 	\item Datos inconsistentes: no encontramos clases inconsistentes.
