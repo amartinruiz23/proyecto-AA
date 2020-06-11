@@ -81,8 +81,7 @@ A la hora de obetener los datos obtenemos tres archivos del repositorio: \texttt
 
 Una vez leidos los datos, haremos una division train/test de 80\%/20\%. Elegimos esta proporción aprovechando  que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
 
-Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica CrossValidation, para la cual diviremos el conjunto de training en 5 subconjuntos.
-
+Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica CrossValidation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.
 
 
 
@@ -93,7 +92,7 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 
 \begin{itemize}
 
-	\item Normalización de las variables.
+	\item Normalización de las variables: realizaremos una normalización de los datos, para evitar que la escala de los datos afecte a la relevancia de estos. Para su uso usaremos la función \texttt{StandardScaler}\cite{standardscaler} provisto en la librería \texttt{sklearn}.
 	\item Clases de funciones.
 	\item Valoración de las variables de interés.
 	\item Aumento de dimensionalidad.
@@ -124,6 +123,13 @@ Página oficial de la Oficina del censo: \url{http://www.census.gov/ftp/pub/DES/
 
 \bibitem{uci}
 Página del Centro para el Apredizaje Automático y Sistemas Inteligentes:\url{http://archive.ics.uci.edu/ml/datasets/Adult}.
+
+\bibitem{standardscaler}
+Función \texttt{StandardScaler} de la librería \texttt{sklearn}: \url{https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html}
+
+\bibitem{cv}
+Función \texttt{cross\_validate} de la librería \texttt{sklearn}:
+\url{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html}
 \end{thebibliography}
 
 
