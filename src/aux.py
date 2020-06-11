@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.decomposition import PCA
 import warnings
+from sklearn.model_selection import train_test_split
+
 #warnings.filterwarnings('ignore')
 
 # --- Funciones auxiliares ---
@@ -49,15 +51,7 @@ def replace_lost_categorical_values(df):
 
     return df        
 
-def class_division(filename, attr):
-    df = pd.read_csv(
-        filename,
-    names = attr
-    )
-    df_mode=df.mode()
-    for x in df.columns.values:
-        df[x]=df[x].fillna(value=df_mode[x].iloc[0])
-
+def info(df):
     elem, cols = df.shape
     print('Lectura de los datos realizada.')
     print(' - Numero de datos recopilados:', elem)
@@ -69,21 +63,36 @@ def class_division(filename, attr):
     clases = ['workclass','occupation','native-country']
     for x in clases:
         print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
+    input("\n--- Pulsar tecla para continuar ---\n")
+    
 
+def gráficas(df):
+    print_outliers(df)
+    data_relevance(df)
+    continous_variables_graphs(df)
+    correlationMatrix(df)
+    input("\n--- Pulsar tecla para continuar ---\n")
+    
+def class_division(filename, attr):
+    df = pd.read_csv(
+        filename,
+    names = attr
+    )
+    df_mode=df.mode()
+    for x in df.columns.values:
+        df[x]=df[x].fillna(value=df_mode[x].iloc[0])
+
+    # info(df)
     df = df.replace('?', np.nan)
 
-    # print_outliers(df)
-    # data_relevance(df)
-    # continous_variables_graphs(df)
-    # correlationMatrix(df)
-    input("\n--- Pulsar tecla para continuar ---\n")
     
     df = replace_lost_categorical_values(df)
     #df.to_csv('prueba.csv')
-
-    y = df.pop("Class")
+    y = df.pop('Class')
+    print(y.shape, df.shape)
     df = pd.get_dummies(df)
-    return df, y
+    return train_test_split(df, y, test_size=0.2, random_state=42)
+
 
 def scale(df):
     scaler = StandardScaler()

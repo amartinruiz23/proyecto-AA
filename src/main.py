@@ -22,18 +22,8 @@ with open(description, "r") as f:
             line = line.split()
             attr.append(line[1])
 
-X, y = class_division("data/adult.data", attr)
+X,  X_tst,y, y_tst = class_division("data/adult.data", attr)
 X = scale(X)
-X.to_csv('prueba.csv')
-elem, cols = X.shape
-print('Lectura de los datos realizada.')
-print(' - Numero de datos recopilados:', elem)
-print(' - Dimension de estos datos (con la variable de clase):', cols)
-input("\n--- Pulsar tecla para continuar ---\n")
-
-
-
-input("\n--- Pulsar tecla para continuar ---\n")
 
 
 
@@ -48,8 +38,7 @@ clf = RandomForestClassifier()
 
 clf.fit(X, y)
 print("E_tra: ", clf.score(X, y))
-
-# pred_tra = clf.predict(X)
+print("E_tst: ", clf.score(X_tst, y_tst))
 
 cv_results = cross_validate(clf, X, y, cv=5,)
 print("E_cv: ", sum(cv_results['test_score'])/len(cv_results['test_score']) )
