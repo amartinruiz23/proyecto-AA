@@ -12,6 +12,7 @@ import sklearn.decomposition as skld
 import sklearn.feature_selection as fs
 import sklearn.decomposition as skld
 import sklearn.preprocessing as sklpre
+from sklearn.feature_selection import SelectKBest, chi2
 np.random.seed(0)
 
 #warnings.filterwarnings('ignore')
@@ -31,23 +32,26 @@ with open(description, "r") as f:
 X, X_tst, y, y_tst = class_division("data/adult.data", attr)
 balanceo_clases(y, y_tst)
 
-
-
 # -- preprocesado
 
 info_size(X, 'Tamaño de los datos después de las dummy variables:')
-#skld.PCA(n_components=50),
-preprocesado = pl.make_pipeline(fs.VarianceThreshold(threshold=0.005),
-                                sklpre.StandardScaler())
+
+preprocesado = pl.make_pipeline(fs.VarianceThreshold(threshold=0.01),
+                                sklpre.StandardScaler()
+                                )
+
 preprocesado.fit(X)
 X = preprocesado.transform(X)
 X_tst = preprocesado.transform(X_tst)
 
-info_size(X, 'Tamaño de los datos después del preprocesado:')
 
-# selector = SelectKBest(k=15)
+# keys = X.keys()
+# selector = SelectKBest(k=5)
 # selector.fit(X,y)
 # mask = selector.get_support()
+# print(keys[mask])
+
+info_size(X, 'Tamaño de los datos después del preprocesado:')
 
 
 # --- Random forest ---
@@ -58,8 +62,8 @@ clf.fit(X, y)
 print("E_tra: ", clf.score(X, y))
 print("E_tst: ", clf.score(X_tst, y_tst))
 
-pred = clf.predict(X_tst)
-print("f1_score tst: ", f1_score(y_tst, pred, average='macro'))
+# pred = clf.predict(X_tst)
+# print("f1_score tst: ", f1_score(y_tst, pred, average='macro'))
 
-cv_results = cross_validate(clf, X, y, cv=5,)
-print("E_cv: ", sum(cv_results['test_score'])/len(cv_results['test_score']) )
+# cv_results = cross_validate(clf, X, y, cv=5,)
+# print("E_cv: ", sum(cv_results['test_score'])/len(cv_results['test_score']) )
