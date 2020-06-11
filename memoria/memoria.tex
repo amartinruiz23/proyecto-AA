@@ -67,7 +67,7 @@ Este dataset contiene datos de la oficina del censo\cite{census} relativos a cen
 El código utilizado para la resolución de la práctica se encuentra en el archivo \texttt{main.py}.  Del mismo modo, los datos limpiados se encuentran en el archivo \texttt{adults.data} y su información relativa procesada en el archivo \texttt{adult.names}.
 
 
-\section{ División y codificación de los conjuntos}
+\section{ División y codificación de los datos}
 
 A la hora de obetener los datos en el respositorio se encuentran tres archivos: \texttt{adult.data},  \texttt{adult.test} y \texttt{adult.names}. Estos datos fueron procesados en el año 1996. Nosotros realizamos una operación de formato de los datos para ajustarlos a convenciones más recientes.
 
@@ -118,7 +118,8 @@ Variable& Valores distintos & Valores Perdidos\\ \hline
 \caption{Representación de valores perdidos.}
 	\end{table}
 	
-	Los sustituimos haciendo esto.
+	Realizamos la sustitución de estos datos mediante la función \texttt{replace\_lost\_categorical\_values}. En esta, para cada columna, calculamos su distribución de probabilidad, esto es, sumamos las ocurrencias de cada categoría y dividimos entre el total de valores con valores no perdidos. Obtenemos así la probabilidad de cada categoría. A continuación calculamos las probabilidades acumuladas sumando para categoría su probablidad y la de todas las anteriores. Para cada dato perdido generamos un número aleatorio mediante una distribución uniforme en el intervalo $[0,1]$. La clase por la que el valor perdido será sustituida será la de cuyo intervalo contenga al valor generado, siendo el intervalo de cada clase el comprendido entre la probabilidad acumulada de la anterior y su probabilidad acumulada (incluyendo en cada uno su extremo inferior, pero no su extremo superior).
+	
 	\item Datos inconsistentes: no encontramos clases inconsistentes.
 \end{itemize}
 
