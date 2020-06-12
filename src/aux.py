@@ -57,14 +57,14 @@ def info_size(df, msg):
     print(msg)
     print(' - Numero de datos recopilados:', elem)
     print(' - Dimension:', cols)
-    input("\n--- Pulsar tecla para continuar ---\n")
+    #input("\n--- Pulsar tecla para continuar ---\n")
 
 def info(df):
     print(' Información general de valores perdidos' )
     clases = ['workclass','occupation','native-country']
     for x in clases:
         print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
-    input("\n--- Pulsar tecla para continuar ---\n")
+    #input("\n--- Pulsar tecla para continuar ---\n")
     
 
 def gráficas(df):
@@ -72,7 +72,7 @@ def gráficas(df):
     data_relevance(df)
     continous_variables_graphs(df)
     correlationMatrix(df)
-    input("\n--- Pulsar tecla para continuar ---\n")
+    #input("\n--- Pulsar tecla para continuar ---\n")
     
 def class_division(filename, attr):
     df = pd.read_csv(
@@ -90,7 +90,6 @@ def class_division(filename, attr):
     df = replace_lost_categorical_values(df)
     #df.to_csv('prueba.csv')
     y = df.pop('Class')
-    print(y.shape, df.shape)
     df = pd.get_dummies(df)
     return train_test_split(df, y, test_size=0.2, random_state=42)
 
@@ -148,4 +147,4 @@ def balanceo_clases(y,y_tst):
     print('\nBalanceo de clases:\nClase | n veces Train | n veces Test')
     for x in set(y):
         print(x,'|', d[x], '|' ,d_tst[x])
-    input("\n--- Pulsar tecla para continuar ---\n")
+    #input("\n--- Pulsar tecla para continuar ---\n")

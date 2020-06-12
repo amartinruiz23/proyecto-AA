@@ -89,15 +89,32 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 \begin{itemize}
 
 	\item \underline{Normalización de las variables}: realizaremos una normalización de los datos, para evitar que su escala afecte a la relevancia de estos. Para ello usaremos la función \texttt{StandardScaler}\cite{standardscaler} provista en la librería \texttt{sklearn}.
-		\item \underline{Reducción de dimensionalidad}: Para esto vamos a realizar dos técnicas:
+		\item \underline{Valoración del interés de la variables}: Para esto vamos a realizar dos técnicas:
 	
 	\begin{itemize}
-	\item[-] El conjunto de datos presenta una altisima cantidad de columnas (64) a pesar de la reducción indicada. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.1. Esto lo realizaremos con el algoritmo  \texttt{varianceThreshold}\cite{einstein}.
+	\item[-] El conjunto de datos presenta una altisima cantidad de columnas (105) tras la realización de las codificación por dummy variabels. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.01. Esto lo realizaremos con el algoritmo  \texttt{varianceThreshold}\cite{einstein}.
 	
 	\item[-] Realizaremos un análisis de componentes principales PCA\cite{PCA} para intentar reducir aun más la dimensionalidad del conjunto. 
 
-	
+
+		
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+ Proceso & Dimensionalidad Resultante \\ \hline
+ \texttt{Dummy\_Variables} &  105\\
+\texttt{varianceThreshold} &57 \\
+\texttt{PCA} & 55 \\\hline
+\end{tabular}
+\end{center}
+\caption{Dimensionalidad de la muestra tras cada proceso.}
+	\end{table}
+
 \end{itemize}
+
+Podemos observar como tenemos una gran cantidad de variables que aportan poca o ninguna información. Observando la muestra atentamente veremos que se debe a variables como \texttt{nacionality}, que tras ser codificadas como dummy variables quedan como columnas nacionalidades con muy pocos positivos. Esto es negativo porque da pie a que algunos algoritmos (en particular los basados en árboles) sobreajusten a esta submuestra en particular. 
+
 \item  \underline{Polynomial Freatures}: con especial interés en el caso lineal, el uso de variaciónes polinómicas de los datos puede ser util para permitir aproximaciones a clases de funciones nuevas. Probaremos variación cuadrática sobre las variables numéricas cuando realizemos un ajuste lineal. Para Random Forest no lo consideramos necesario por la ya conocida complejidad de los arboles, y para SVM utilizaremos variaciones de kernell. \\
 	
 	\item \underline{Valoración de las variables de interés}: Para realizar un estudio de las variables de interés. Este ya lo hemos visto mostrado en 
@@ -157,8 +174,6 @@ Consideramos que la técnica SVM-soft margin puede ser muy útil para este probl
 Otro motivo para decidir ajustar este modelo, aunque de carácter menos importante, es la curiosidad suscitada por este modelo durante el desarrollo teórico de la asignatura. 
 
 \section{ Técnica de Ajuste para el Modelo Lineal}
-\subsection{Regresión Logística}
-
 Para este conjunto utilizaremos dos técinas de ajuste, ambas definidas como variaciones especializadas sobre el algoritmo SGD.:
 \begin{itemize}
 	\item \texttt{lbfgs}: Utiliza una variación del método Newton visto en el bonus de la práctica 1 que en lugar de la matriz Hessiana utiliza una aproximación a esta. Es eficiente en comparación con el método de newton estandard y se podría definir como una variación del gradiente descendente estocástico. Como desventajas tiene que se podría acercar a puntos críticos que no fuese mínimos. Esta técnica no admite regularización \texttt{l1}.
@@ -171,7 +186,145 @@ Estas dos técnicas se pueden entender como variaciones del gradiente descendien
 
 
 \section{Hiperparámetros y selección del modelo}
- Aplicación de la técnica especificando claramente que algoritmos se usan en la estimación de los parámetros, los hiperparámetros y el error de generalización
+ En esta sección estudiaremos la splicación de las técnicas especificando claramente que algoritmos se usan en la estimación de los parámetros, los hiperparámetros y el error de generalización
+ 
+\subsection{Modelo Lineal}
+
+Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, la selección del parámetro \texttt{max\_iter} así como la fuerza de regularización. Veamos los resultados:
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\texttt{solver}& Regularización & Fuerza Regularización& \texttt{max\_iter} & $E_{in}$ & $E_{cv}$\\ \hline
+liblinear & l1 & 0.1 & 100 & 0.85289 & 0.85227\\
+
+liblinear & l1 & 1 & 100 & 0.85276 & 0.85181\\
+
+liblinear & l1 & 10  &100  & 0.85281 & 0.85186\\
+
+liblinear & l1 & 0.1 & 200 & 0.85289 & 0.85227\\
+
+liblinear & l1 & 1  &200  & 0.85276 & 0.85181\\
+
+liblinear & l1 & 10 & 200 & 0.85281 & 0.85186\\
+
+liblinear & l1 & 0.1 & 1000 & 0.85289 & 0.85227\\
+
+liblinear & l1 & 1 & 1000 & 0.85276 & 0.85181\\
+
+liblinear & l1 & 10  &1000 & 0.85281 & 0.85186\\
+
+lbfgs & l2 & 0.1 & 100 & 0.85268 & 0.85207\\
+
+lbfgs & l2 & 1 y &100 & 0.85276 & 0.85181\\
+
+lbfgs & l2 & 10 & 100 & 0.85281 & 0.85191\\
+
+lbfgs & l2 & 0.1 & 200 & 0.85268 & 0.85207\\
+
+lbfgs & l2 & 1 & 200 & 0.85276 & 0.85181\\
+
+lbfgs & l2 & 10  &200  & 0.85281 & 0.85189\\
+
+lbfgs & l2 & 0.1 & 1000 & 0.85268 & 0.85207\\
+
+lbfgs & l2 & 1  &1000  & 0.85276 & 0.85181\\
+
+lbfgs & l2 & 10 & 1000 & 0.85281 & 0.85186\\
+
+liblinear & l2 & 0.1 & 100 & 0.85271 & 0.85209\\
+
+liblinear & l2 & 1 & 100 & 0.85281 & 0.85186\\
+
+liblinear & l2 & 10  &100  & 0.85281 & 0.85186\\
+
+liblinear & l2 & 0.1 & 200 & 0.85271 & 0.85209\\
+
+liblinear & l2 & 1  &200  & 0.85281 & 0.85186\\
+
+liblinear & l2 & 10 & 200 & 0.85281 & 0.85186\\
+
+liblinear & l2 & 0.1 & 1000 & 0.85271 & 0.85209\\
+
+liblinear & l2 & 1 & 1000 & 0.85281 & 0.85186\\
+
+liblinear & l2 & 10  &10000 & 0.85281 & 0.85186\\
+
+\end{tabular}
+\end{center}
+\caption{Resultados con variables lineales.}
+	\end{table}
+
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\texttt{solver}& Regularización & Fuerza Regularización& \texttt{max\_iter} & $E_{in}$ & $E_{cv}$\\ \hline
+
+  liblinear & l1 & 0.1 & 100 & 0.85289 & 0.85227\\
+
+liblinear & l1 & 1 y &100  & 0.85276 & 0.85181\\
+
+liblinear & l1 & 10 & 100 & 0.85281 & 0.85186\\
+
+liblinear & l1 & 0.1 & 200 & 0.85289 & 0.85227\\
+
+liblinear & l1 & 1 & 200 & 0.85276 & 0.85181\\
+
+liblinear & l1 & 10  &200  & 0.85281 & 0.85186\\
+
+liblinear & l1 & 0.1 & 1000 & 0.85289 & 0.85227\\
+
+liblinear & l1 & 1 y &1000  & 0.85276 & 0.85181\\
+
+liblinear & l1 & 10 & 1000 & 0.85281 & 0.85186\\
+
+lbfgs & l2 & 0.1 & 100 & 0.85268 & 0.85207\\
+
+lbfgs & l2 & 1 & 100 & 0.85276 & 0.85181\\
+
+lbfgs & l2 & 10  &100  & 0.85281 & 0.85191\\
+
+lbfgs & l2 & 0.1 & 200 & 0.85268 & 0.85207\\
+
+lbfgs & l2 & 1  &200  & 0.85276 & 0.85181\\
+
+lbfgs & l2 & 10 & 200 & 0.85281 & 0.85189\\
+
+lbfgs & l2 & 0.1 & 1000 & 0.85268 & 0.85207\\
+
+lbfgs & l2 & 1 & 1000 & 0.85276 & 0.85181\\
+
+lbfgs & l2 & 10  &1000 & 0.85281 & 0.85186\\
+
+liblinear & l2 & 0.1 & 100 & 0.85271 & 0.85209\\
+
+liblinear & l2 & 1  &100  & 0.85281 & 0.85186\\
+
+liblinear & l2 & 10 & 100 & 0.85281 & 0.85186\\
+
+liblinear & l2 & 0.1 & 200 & 0.85271 & 0.85209\\
+
+liblinear & l2 & 1 & 200 & 0.85281 & 0.85186\\
+
+liblinear & l2 & 10  &200  & 0.85281 & 0.85186\\
+
+liblinear & l2 & 0.1 & 1000 & 0.85271 & 0.85209\\
+
+liblinear & l2 & 1 & 10000  & 0.85281 & 0.85186\\
+
+liblinear & l2 & 10 & 1000 & 0.85281 & 0.85186\\
+
+\end{tabular}
+\end{center}
+\caption{Resultados con variables cuadráticas.}
+	\end{table}
+
+ 
 
 \section{ Error de Generalización}
 \section{ Argumentar sobre la idoneidad de la función regularización usada }
