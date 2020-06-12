@@ -190,7 +190,7 @@ Estas dos técnicas se pueden entender como variaciones del gradiente descendien
  
 \subsection{Modelo Lineal}
 
-Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, la selección del parámetro \texttt{max\_iter} así como la fuerza de regularización. Veamos los resultados:
+Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, la selección del parámetro \texttt{max\_iter} así como la fuerza de regularización. También consideraremos una muestra con variables lineales y otra con variables cuadráticas. Veamos los resultados:\\
 
 
 \begin{table}[h]
@@ -250,14 +250,18 @@ liblinear & l2 & 0.1 & 1000 & 0.85271 & 0.85209\\
 
 liblinear & l2 & 1 & 1000 & 0.85281 & 0.85186\\
 
-liblinear & l2 & 10  &10000 & 0.85281 & 0.85186\\
+liblinear & l2 & 10  &10000 & 0.85281 & 0.85186\\\hline
 
 \end{tabular}
 \end{center}
 \caption{Resultados con variables lineales.}
 	\end{table}
 
+Como podemos ver 
 
+
+
+ \newpage
 
 \begin{table}[h]
 \begin{center}
@@ -317,15 +321,14 @@ liblinear & l2 & 0.1 & 1000 & 0.85271 & 0.85209\\
 
 liblinear & l2 & 1 & 10000  & 0.85281 & 0.85186\\
 
-liblinear & l2 & 10 & 1000 & 0.85281 & 0.85186\\
+liblinear & l2 & 10 & 1000 & 0.85281 & 0.85186\\ \hline
 
 \end{tabular}
 \end{center}
 \caption{Resultados con variables cuadráticas.}
 	\end{table}
 
- 
-
+\newpage
 \section{ Error de Generalización}
 \section{ Argumentar sobre la idoneidad de la función regularización usada }
 \section{ Conclusiónes }
