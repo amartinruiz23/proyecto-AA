@@ -38,13 +38,14 @@ encode_categorical_variables(X, X_tst)
 
 print_class_balance(y, y_tst)
 
-# -- preprocesado
+# -- preprocesado    le.fit(union[feature])
 
-info_size(X, 'Tamaño de los datos después de las dummy variables:')
+
+tam = info_size(X, 'Tamaño de los datos después de encode:')
 
 preprocesado = pl.make_pipeline(fs.VarianceThreshold(threshold=0.01),
                                 sklpre.StandardScaler(),
-                                skld.PCA(n_components=55))
+                                skld.PCA(n_components=tam-1))
 
 preprocesado.fit(X)
 X = preprocesado.transform(X)
@@ -78,8 +79,8 @@ def resultados(
         y,
         cv=5,
     )
-    print("E_cv: ",
-          sum(cv_results['test_score']) / len(cv_results['test_score']))
+    #print("E_cv: ",
+    #      sum(cv_results['test_score']) / len(cv_results['test_score']))
 
 
 ########### Modelo lineal
@@ -143,8 +144,11 @@ for penalty in penaltys:
                         '\nResultados de ' + solver + ' con regularización' +
                         penalty + ' C = ' +str(c) +' y ' +
                         str(max_iter) + ' iteraciones.')
+
 #input("\n--- Pulsar tecla para continuar ---\n")
                                 
 # --- Random forest ---
 
-# clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_depth = 50)
+clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_depth = 50)
+clf.fit(X,y)
+resultados(clf, X, y, X_tst, y_tst)

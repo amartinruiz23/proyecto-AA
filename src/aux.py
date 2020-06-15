@@ -35,14 +35,14 @@ def replace_lost_categorical_values(df):
         acumulated = {} # Diccionario en el que almacenaremos los valores acumulados
         total = 0
         for x in count: # Rellenamos el diccionario con los valores acumulados
-            if x != np.nan:
+            if x != '?':
                 total += count[x]
                 acumulated[x] = total
         acumulated = {k : v / total for k, v in acumulated.items()} # Normalizamos
         
         # Asignamos ahora un valor a los valores perdidos
         for j in range(len(df[i])):
-           if df[i][j] == np.nan: # Para cada valor perdido
+           if df[i][j] == '?': # Para cada valor perdido
                prob = np.random.uniform() # Generamos probabilidad
                less = {}
                for y in acumulated:
@@ -58,6 +58,7 @@ def info_size(df, msg):
     print(' - Numero de datos recopilados:', elem)
     print(' - Dimension:', cols)
     #input("\n--- Pulsar tecla para continuar ---\n")
+    return cols
 
 def info(df):
     print(' Información general de valores perdidos' )
@@ -66,8 +67,7 @@ def info(df):
         print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
     #input("\n--- Pulsar tecla para continuar ---\n")
     
-
-def gráficas(df):
+def graficas(df):
     print_outliers(df)
     data_relevance(df)
     continous_variables_graphs(df)
@@ -84,11 +84,10 @@ def class_division(filename, attr):
         df[x]=df[x].fillna(value=df_mode[x].iloc[0])
 
     # info(df)
-    df = df.replace('?', np.nan)
-
-    
+    df.to_csv('prueba2.csv')    
     df = replace_lost_categorical_values(df)
-    #df.to_csv('prueba.csv')
+    df = df.replace('?', np.nan)
+    df.to_csv('prueba.csv')
     y = df.pop('Class')
     
     return df, y
@@ -150,10 +149,11 @@ def print_class_balance(y,y_tst):
     #input("\n--- Pulsar tecla para continuar ---\n")
 
 def encode_categorical_variables(X, X_tst):
-    categorical = ['workclass', 'education', 'marital.status', 'occupation', 'relationship', 'race', 'sex', 'native.country']
+    categorical = ['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country']
+    union = pd.concat([X, X_tst])
     for feature in categorical:
         le = preprocessing.LabelEncoder()
-        print(X[feature])
-        X[feature] = le.fit(X[feature])
+        le.fit(union[feature])
+        print(le.classes_)
         X[feature] = le.transform(X[feature])
         X_tst[feature] = le.transform(X_tst[feature])
