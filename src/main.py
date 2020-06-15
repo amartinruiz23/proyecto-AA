@@ -85,6 +85,7 @@ def resultados(
 
 ########### Modelo lineal
 
+'''
 penaltys = ['l1', 'l2']
 solvers = ['lbfgs', 'liblinear']
 max_iters = [100, 200, 1000]
@@ -111,6 +112,8 @@ for penalty in penaltys:
                         '\nResultados de ' + solver + ' con regularización' +
                         penalty + ' C = ' +str(c) +' y ' +
                         str(max_iter) + ' iteraciones.')
+                    
+
 #input("\n--- Pulsar tecla para continuar ---\n")
 
 ########### Modelo lineal variables cuadráticas
@@ -144,6 +147,20 @@ for penalty in penaltys:
                         '\nResultados de ' + solver + ' con regularización' +
                         penalty + ' C = ' +str(c) +' y ' +
                         str(max_iter) + ' iteraciones.')
+
+'''
+
+print( '\n-- Modelo lineal --\n')
+# mejor modelo: liblinear con regularizaciónl1 C = 0.1 y 100 iteraciones
+
+clf = LR(max_iter=100,
+         penalty='l1',
+         random_state=0,
+         solver='liblinear',
+         C=0.1)
+
+clf.fit(X,y)
+resultados(clf, X, y, X_tst, y_tst)
 
 #input("\n--- Pulsar tecla para continuar ---\n")
                                 
