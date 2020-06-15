@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
-from sklearn import preprocessing
+from sklearn import preprocessing, svm
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
 from sklearn.metrics import f1_score
@@ -74,11 +74,11 @@ def resultados(
     print("Accuracy tst: ", accuracy_score(y_tst, pred_tst))
     print("f1-score tst: ", f1_score(y_tst, pred_tst, average='macro'))
 
-    cv_results = cross_validate(clf,
-        X,
-        y,
-        cv=5,
-    )
+    #cv_results = cross_validate(clf,
+    #    X,
+    #    y,
+    #    cv=5,
+    #)
     #print("E_cv: ",
     #      sum(cv_results['test_score']) / len(cv_results['test_score']))
 
@@ -166,6 +166,14 @@ resultados(clf, X, y, X_tst, y_tst)
                                 
 # --- Random forest ---
 
+print( '\n-- Random Forest --\n')
+
 clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_depth = 50)
 clf.fit(X,y)
+resultados(clf, X, y, X_tst, y_tst)
+
+print( '\n-- Support vector machine --\n')
+
+clf = svm.LinearSVC(max_iter=30000)
+clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
