@@ -31,8 +31,12 @@ with open(description, "r") as f:
             line = line.split()
             attr.append(line[1])
 
-X, X_tst, y, y_tst = class_division("data/adult.data", attr)
-balanceo_clases(y, y_tst)
+X, y = class_division("data/adult.data", attr)
+X_tst, y_tst = class_division("data/adult.test", attr)
+
+encode_categorical_variables(X, X_tst)
+
+print_class_balance(y, y_tst)
 
 # -- preprocesado
 

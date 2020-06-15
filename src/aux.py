@@ -90,8 +90,8 @@ def class_division(filename, attr):
     df = replace_lost_categorical_values(df)
     #df.to_csv('prueba.csv')
     y = df.pop('Class')
-    df = pd.get_dummies(df)
-    return train_test_split(df, y, test_size=0.2, random_state=42)
+    
+    return df, y
 
 
 
@@ -136,7 +136,7 @@ def correlationMatrix(df):
     plt.title("Correlation Matrix")
     plt.show()
 
-def balanceo_clases(y,y_tst):
+def print_class_balance(y,y_tst):
     d = c.defaultdict(int)
     d_tst = c.defaultdict(int)
     for x in y:
@@ -148,3 +148,12 @@ def balanceo_clases(y,y_tst):
     for x in set(y):
         print(x,'|', d[x], '|' ,d_tst[x])
     #input("\n--- Pulsar tecla para continuar ---\n")
+
+def encode_categorical_variables(X, X_tst):
+    categorical = ['workclass', 'education', 'marital.status', 'occupation', 'relationship', 'race', 'sex', 'native.country']
+    for feature in categorical:
+        le = preprocessing.LabelEncoder()
+        print(X[feature])
+        X[feature] = le.fit(X[feature])
+        X[feature] = le.transform(X[feature])
+        X_tst[feature] = le.transform(X_tst[feature])
