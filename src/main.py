@@ -85,43 +85,41 @@ def resultados(
 
 ########### Modelo lineal
 
-penaltys = ['l1', 'l2']
-solvers = ['lbfgs', 'liblinear']
-max_iters = [100, 200, 1000]
-C = [0.1,1,10]
-print('\n\n -- Resultados Modelo lineal')
-for penalty in penaltys:
-    for solver in solvers:
-        for max_iter in max_iters:
-            for c in C:
-                if (penalty != 'l1' or solver != 'lbfgs') and (
-                    penalty != 'none' or solver != 'liblinear'
-                ):  # incluimos pq lbfgs no soporta regularizaciónl1
+# penaltys = ['l1', 'l2']
+# solvers = ['lbfgs', 'liblinear']
+# max_iters = [100, 200]
+# print('\n\n -- Resultados Modelo lineal')
+# for penalty in penaltys:
+#     for solver in solvers:
+#         for max_iter in max_iters:
+#             for c in C:
+#                 if (penalty != 'l1' or solver != 'lbfgs') and (
+#                     penalty != 'none' or solver != 'liblinear'
+#                 ):  # incluimos pq lbfgs no soporta regularizaciónl1
 
-                    clasificador = LR(max_iter=max_iter,
-                                  penalty=penalty,
-                                  random_state=0,
-                                  solver=solver, C=c
-                    )
+#                     clasificador = LR(max_iter=max_iter,
+#                                   penalty=penalty,
+#                                   random_state=0,
+#                                   solver=solver, C=c
+#                     )
                     
-                    clasificador.fit(X, y)
+#                     clasificador.fit(X, y)
 
-                    resultados(
-                        clasificador, X, y, X_tst, y_tst,
-                        '\nResultados de ' + solver + ' con regularización' +
-                        penalty + ' C = ' +str(c) +' y ' +
-                        str(max_iter) + ' iteraciones.')
-#input("\n--- Pulsar tecla para continuar ---\n")
+#                     resultados(
+#                         clasificador, X, y, X_tst, y_tst,
+#                         '\nResultados de ' + solver + ' con regularización' +
+#                         penalty + ' C = ' +str(c) +' y ' +
+#                         str(max_iter) + ' iteraciones.')
+# #input("\n--- Pulsar tecla para continuar ---\n")
 
 ########### Modelo lineal variables cuadráticas
-poly = PolynomialFeatures(2)
+poly = PolynomialFeatures(3)
 poly.fit(X)
 poly.transform(X)
 poly.transform(X_tst)
 penaltys = ['l1', 'l2']
 solvers = ['lbfgs', 'liblinear']
-max_iters = [100, 200, 1000]
-C = [0.1,1,10]
+max_iters = [100, 200]
 print('\n\n -- Resultados Modelo lineal variables cuadráticas')
 for penalty in penaltys:
     for solver in solvers:
@@ -148,7 +146,7 @@ for penalty in penaltys:
 #input("\n--- Pulsar tecla para continuar ---\n")
                                 
 # --- Random forest ---
-
+print('\n\n -- Resultados Modelo Random Forest')
 clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_depth = 50)
 clf.fit(X,y)
 resultados(clf, X, y, X_tst, y_tst)

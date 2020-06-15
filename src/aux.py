@@ -154,6 +154,6 @@ def encode_categorical_variables(X, X_tst):
     for feature in categorical:
         le = preprocessing.LabelEncoder()
         le.fit(union[feature])
-        print(le.classes_)
+        #print(le.classes_)
         X[feature] = le.transform(X[feature])
         X_tst[feature] = le.transform(X_tst[feature])
