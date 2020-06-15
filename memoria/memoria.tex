@@ -67,20 +67,19 @@ El código utilizado para la resolución de la práctica se encuentra en el arch
 
 \section{ División y codificación de los datos}
 
-A la hora de obetener los datos en el respositorio se encuentran tres archivos: \texttt{adult.data},  \texttt{adult.test} y \texttt{adult.names}. Estos datos fueron procesados en el año 1996. Nosotros realizamos una operación de formato de los datos para ajustarlos a convenciones más recientes.
+A la hora de obtener los datos en el respositorio se encuentran tres archivos: \texttt{adult.data},  \texttt{adult.test} y \texttt{adult.names}. Estos datos fueron procesados en el año 1996. Nosotros realizamos una operación de formato de los datos para ajustarlos a convenciones más recientes.
 
 \begin{itemize}
 \item Cambiamos la variable de clase por valores categóricos 0 para $<50$K y 1 para $>50$K.
 \item Eliminamos el espaciado después de la coma para facilitar la lectura por parte de librerías actuales.
-\item Añadimos la información del archivo \texttt{adult.test} al archivo \texttt{adult.data} con el objetivo de tener la información procesada de manera conjunta.
 \item Añadimos el flag \texttt{@attribute} a la lista de atributos provista en \texttt{adult.names}.
 \end{itemize}
 
-Una vez leídos los datos haremos una división train/test de 80\%/20\%. Elegimos esta proporción aprovechando que dada la gran cantidad de datos de los que poseemos. Obtenemos por lo tanto un conjunto de train con 39074 instancias, así como un conjuto de test con 9768 instancias.\\
+Utilizaremos la división train/test que viene establecida por el propio dataset. La proporción de clases es parecida en ambos conjuntos y la cantidad de datos en el training establecido es la suficiente para el aprendizaje. Es por ello que no modificamos esta partición.
 
 Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
 
-Como ultimo detalle de codificación de los datos, durante la parte de preprocesado realizamos la técnica de dummy variables. Una variable dummy es aquella que toma sólo el valor 0 o 1 para indicar la ausencia o la presencia de algún efecto categórico que se pueda esperar que cambie el resultado. Esta técnica ayudará a codificar la entrada para algunos algoritmos, así como poder hacer un estudio de cada categoría como una variable separada a la hora de hacer una valoración del interés de cada variable.
+Como ultimo detalle de codificación de los datos durante la parte de preprocesado aplicamos la codificación sugerida por scikit-learn mediante LabelEncoder. Mediante este proceso se transforman las variables categóricas en numéricas dale un valor natural diferente a la variable para cada tipo de valor que tomara anteriormente.
 
 \section{Preprocesado}
 
