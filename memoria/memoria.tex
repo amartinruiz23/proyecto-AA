@@ -56,7 +56,7 @@
 
 Este dataset contiene datos de la oficina del censo\cite{census} relativos a censos de 1995, obtenidos del repositorio UCI de bases de datos \cite{uci}. Un total de 48842 personas han sido encuestadas para este censo. De estas personas tenemos una serie de variables con información de carácter socioeconómico. En particular:
 \begin{itemize}
-\item tenemos 6 variables de tipo numérico u ordinal, con valores en rangos distintos.
+\item Tenemos 6 variables de tipo numérico u ordinal, con valores en rangos distintos.
 \item 8 variables de tipo categórico.
 \item Una variable de clase que toma como valores $<50$K y $>50$k.
 \item Es un problema de clasificación, ya que no tenemos información para hacer una regresión sobre la ganancia.
@@ -70,7 +70,7 @@ El código utilizado para la resolución de la práctica se encuentra en el arch
 A la hora de obetener los datos en el respositorio se encuentran tres archivos: \texttt{adult.data},  \texttt{adult.test} y \texttt{adult.names}. Estos datos fueron procesados en el año 1996. Nosotros realizamos una operación de formato de los datos para ajustarlos a convenciones más recientes.
 
 \begin{itemize}
-\item Cambiamos la variable de clase por valores categóricos 0 para $<50$K y 1 para $>50$K
+\item Cambiamos la variable de clase por valores categóricos 0 para $<50$K y 1 para $>50$K.
 \item Eliminamos el espaciado después de la coma para facilitar la lectura por parte de librerías actuales.
 \item Añadimos la información del archivo \texttt{adult.test} al archivo \texttt{adult.data} con el objetivo de tener la información procesada de manera conjunta.
 \item Añadimos el flag \texttt{@attribute} a la lista de atributos provista en \texttt{adult.names}.
@@ -88,11 +88,11 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 
 \begin{itemize}
 
-	\item \underline{Normalización de las variables}: realizaremos una normalización de los datos, para evitar que su escala afecte a la relevancia de estos. Para ello usaremos la función \texttt{StandardScaler}\cite{standardscaler} provista en la librería \texttt{sklearn}.
-		\item \underline{Valoración del interés de la variables}: Para esto vamos a realizar dos técnicas:
+	\item \underline{Normalización de las variables}. Realizaremos una normalización de los datos, para evitar que su escala afecte a la relevancia de estos. Para ello usaremos la función \texttt{StandardScaler}\cite{standardscaler} provista en la librería \texttt{sklearn}.
+		\item \underline{Valoración del interés de la variables}. Para esto vamos a realizar dos técnicas:
 	
 	\begin{itemize}
-	\item[-] El conjunto de datos presenta una altisima cantidad de columnas (105) tras la realización de las codificación por dummy variabels. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.01. Esto lo realizaremos con el algoritmo  \texttt{varianceThreshold}\cite{einstein}.
+	\item[-] El conjunto de datos presenta una altisima cantidad de columnas (105) tras la realización de las codificación por dummy variables. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.01. Esto lo realizaremos con el algoritmo \texttt{varianceThreshold}\cite{einstein}.
 	
 	\item[-] Realizaremos un análisis de componentes principales PCA\cite{PCA} para intentar reducir aun más la dimensionalidad del conjunto. 
 
@@ -115,10 +115,10 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 
 Podemos observar como tenemos una gran cantidad de variables que aportan poca o ninguna información. Observando la muestra atentamente veremos que se debe a variables como \texttt{nacionality}, que tras ser codificadas como dummy variables quedan como columnas nacionalidades con muy pocos positivos. Esto es negativo porque da pie a que algunos algoritmos (en particular los basados en árboles) sobreajusten a esta submuestra en particular. 
 
-\item  \underline{Polynomial Freatures}: con especial interés en el caso lineal, el uso de variaciónes polinómicas de los datos puede ser util para permitir aproximaciones a clases de funciones nuevas. Probaremos variación cuadrática sobre las variables numéricas cuando realizemos un ajuste lineal. Para Random Forest no lo consideramos necesario por la ya conocida complejidad de los arboles, y para SVM utilizaremos variaciones de kernell. \\
+\item  \underline{Polynomial Freatures}. Con especial interés en el caso lineal, el uso de variaciónes polinómicas de los datos puede ser util para permitir aproximaciones a clases de funciones nuevas. Probaremos variación cuadrática sobre las variables numéricas cuando realizemos un ajuste lineal. Para Random Forest no lo consideramos necesario por la ya conocida complejidad de los arboles, y para SVM utilizaremos variaciones de kernel. \\
 	
-	\item \underline{Valoración de las variables de interés}: Para realizar un estudio de las variables de interés. Este ya lo hemos visto mostrado en 
-	\item \underline{Datos incompletos y valores perdidos}: en relación a los valores perdidos encontramos en tres variables de tipo categórico.\\
+	\item \underline{Valoración de las variables de interés}. Para realizar un estudio de las variables de interés. Este ya lo hemos visto mostrado en 
+	\item \underline{Datos incompletos y valores perdidos}. En relación a los valores perdidos encontramos en tres variables de tipo categórico.\\
 	
 \begin{table}[h]
 \begin{center}
@@ -135,8 +135,8 @@ Variable& Valores distintos & Valores Perdidos\\ \hline
 	
 	Realizamos la sustitución de estos datos mediante la función \texttt{replace\_lost\_categorical\_values}. En esta, para cada columna, calculamos su distribución de probabilidad, esto es, sumamos las ocurrencias de cada categoría y dividimos entre el total de valores con valores no perdidos. Obtenemos así la probabilidad de cada categoría. A continuación calculamos las probabilidades acumuladas sumando para categoría su probablidad y la de todas las anteriores. Para cada dato perdido generamos un número aleatorio mediante una distribución uniforme en el intervalo $[0,1]$. La clase por la que el valor perdido será sustituida será la de cuyo intervalo contenga al valor generado, siendo el intervalo de cada clase el comprendido entre la probabilidad acumulada de la anterior y su probabilidad acumulada (incluyendo en cada uno su extremo inferior, pero no su extremo superior).
 	
-	\item \underline{Datos inconsistentes}: no encontramos datos inconsistentes.
-	\item \underline{Balanceo de clases}: nos encontramos ante una situación con un desbalanceo notable. Sin embargo, dada la cantidad de datos provista por la base de datos creemos que no es necesario realizar modificaciones de los datos ni en el conjunto de train ni en el de test.
+	\item \underline{Datos inconsistentes}. No encontramos datos inconsistentes.
+	\item \underline{Balanceo de clases}. Nos encontramos ante una situación con un desbalanceo notable. Sin embargo, dada la cantidad de datos provista por la base de datos creemos que no es necesario realizar modificaciones de los datos ni en el conjunto de train ni en el de test.
 \end{itemize}
 
 
@@ -144,22 +144,22 @@ Variable& Valores distintos & Valores Perdidos\\ \hline
 
 \section{ Métricas }
 
-Hemos decidido conseiderar, en este contexto de clasificación, dos funciones con objetivo de medir el error, ambas halladas en \cite{met}.
+Hemos decidido considerar, en este contexto de clasificación, dos funciones con objetivo de medir el error, ambas halladas en \cite{met}.
 \begin{itemize}
-	\item \emph{accuracy}: Decidimos utilizar esta medida por su simplicidad y expresividad. Esta métrica nos propocionará una idea general de la bondad de nuestro modelo en un caso general, así como nos permitirá comparar, por ejemplo, con el clasificador modal. 
-	\item \emph{f1-score}: Al estar en un modelo de clases desbalanceadas, consideramos que debiamos utilizar una métrica que penara comportamientos de 'asignación modal'. La medida $F_1$ se define como\cite{f1}:
+	\item \emph{accuracy}. Decidimos utilizar esta medida como principal por su simplicidad y expresividad. Esta métrica nos propocionará una idea general de la bondad de nuestro modelo en un caso general, así como nos permitirá comparar, por ejemplo, con el clasificador modal. 
+	\item \emph{f1-score}. Al estar en un modelo de clases desbalanceadas, consideramos que debiamos utilizar además una métrica que penara comportamientos de 'asignación modal'. La medida $F_1$ se define como\cite{f1}
 	$${\displaystyle F_{1}={\frac {2}{\mathrm {recall} ^{-1}+\mathrm {precision} ^{-1}}}=2\cdot {\frac {\mathrm {precision} \cdot \mathrm {recall} }{\mathrm {precision} +\mathrm {recall} }}}.$$
 	
-	Donde precisión es (en términos de clase positiva/negativa) el número de verdaderos positivos entre los positivos escogidos, y recall es el número de positivos escogidos entre los positivos totales.
+	donde precisión es (en términos de clase positiva/negativa) el número de verdaderos positivos entre los positivos escogidos, y recall es el número de positivos escogidos entre los positivos totales. En este caso la medida que mostramos es la media obtenida de las f1-score obtenidas de considerar cada una de las clases como la positiva.
 \end{itemize}
 \section{ Modelos Considerados }
 
-\subsection{ Modelo Lineal }
+\subsection{ Modelo lineal }
 	
 	Como modelo lineal, dado que estamos en clasificación, podemos escoger de los modelos explicados en clase entre Regresión Logística y  PLA. Decidimos utilizar regresión logística por una serie de motivos.
 	
 	\begin{itemize}
-	\item Al estar en un dataset que proviene de un censo sucede que encontraremos una gran cantidad de outliers y datos algo ruidosos. Esto hará que el perceptron sea contraindicado, dado que dificilmente podremos conseguir convergencia de este debido al ruido, y en el caso de que uno de estos elementos ruidosos sea además un outlier podría variar notable (e indebidamente) el plano clasificador.
+	\item Al estar en un dataset que proviene de un censo sucede que podemos encontrar una gran cantidad de outliers y datos algo ruidosos. Esto hará que el perceptron sea contraindicado, dado que dificilmente podremos conseguir convergencia de este debido al ruido, y en el caso de que uno de estos elementos ruidosos sea además un outlier podría variar notable (e indebidamente) el plano clasificador.
 	\item Nos resulta interesante el hecho de que podamos obtener la confianza de una predicción y no solo la predicción.
 \end{itemize}
 
@@ -178,8 +178,8 @@ Otro motivo para decidir ajustar este modelo, aunque de carácter menos importan
 \section{ Técnica de Ajuste para el Modelo Lineal}
 Para este conjunto utilizaremos dos técinas de ajuste, ambas definidas como variaciones especializadas sobre el algoritmo SGD.:
 \begin{itemize}
-	\item \texttt{lbfgs}: Utiliza una variación del método Newton visto en el bonus de la práctica 1 que en lugar de la matriz Hessiana utiliza una aproximación a esta. Es eficiente en comparación con el método de newton estandard y se podría definir como una variación del gradiente descendente estocástico. Como desventajas tiene que se podría acercar a puntos críticos que no fuese mínimos. Esta técnica no admite regularización \texttt{l1}.
-	\item \texttt{liblinear}: es el ganador ICML 2008 large-scale learning challenge. Lo utilizamos para probar las regularizaciónes dado que funciona tanto con \texttt{l1} como con \texttt{l2}.
+	\item \texttt{lbfgs}. Utiliza una variación del método Newton visto en el bonus de la práctica 1 que en lugar de la matriz Hessiana utiliza una aproximación a esta. Es eficiente en comparación con el método de newton estandard y se podría definir como una variación del gradiente descendente estocástico. Como desventajas tiene que se podría acercar a puntos críticos que no fuese mínimos. Esta técnica no admite regularización \texttt{l1}.
+	\item \texttt{liblinear}. Es el ganador ICML 2008 large-scale learning challenge. Lo utilizamos para probar las regularizaciónes dado que funciona tanto con \texttt{l1} como con \texttt{l2}.
 	
 	Liblinear utiliza técnicas de descenso coordinado\cite{CD} donde minimizamos la función en torno a cada eje, resolviendo un problema de minimización unidimensional en bucle. 
 \end{itemize}
@@ -188,7 +188,7 @@ Estas dos técnicas se pueden entender como variaciones del gradiente descendien
 
 
 \section{Hiperparámetros y selección del modelo}
- En esta sección estudiaremos la splicación de las técnicas especificando claramente que algoritmos se usan en la estimación de los parámetros, los hiperparámetros y el error de generalización
+ En esta sección estudiaremos la aplicación de las técnicas especificando claramente qué algoritmos se usan en la estimación de los parámetros, los hiperparámetros y el error de generalización.
  
 \subsection{Modelo Lineal}
 
@@ -333,7 +333,7 @@ liblinear & l2 & 10 & 1000 & 0.85281 & 0.85186\\ \hline
 \newpage
 \section{ Error de Generalización}
 \section{ Argumentar sobre la idoneidad de la función regularización usada }
-\section{ Conclusiónes }
+\section{ Conclusiones }
 Valoración de los resultados y justificación
 ( gráficas, métricas de error, análisis de residuos, etc )
 
