@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
-from sklearn import preprocessing
+from sklearn import preprocessing, svm
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import cross_validate
 from sklearn.metrics import f1_score
@@ -74,17 +74,18 @@ def resultados(
     print("Accuracy tst: ", accuracy_score(y_tst, pred_tst))
     print("f1-score tst: ", f1_score(y_tst, pred_tst, average='macro'))
 
-    cv_results = cross_validate(clf,
-        X,
-        y,
-        cv=5,
-    )
+    #cv_results = cross_validate(clf,
+    #    X,
+    #    y,
+    #    cv=5,
+    #)
     #print("E_cv: ",
     #      sum(cv_results['test_score']) / len(cv_results['test_score']))
 
 
 ########### Modelo lineal
 
+<<<<<<< HEAD
 # penaltys = ['l1', 'l2']
 # solvers = ['lbfgs', 'liblinear']
 # max_iters = [100, 200]
@@ -102,15 +103,47 @@ def resultados(
 #                                   random_state=0,
 #                                   solver=solver, C=c
 #                     )
+=======
+'''
+penaltys = ['l1', 'l2']
+solvers = ['lbfgs', 'liblinear']
+max_iters = [100, 200, 1000]
+C = [0.1,1,10]
+print('\n\n -- Resultados Modelo lineal')
+for penalty in penaltys:
+    for solver in solvers:
+        for max_iter in max_iters:
+            for c in C:
+                if (penalty != 'l1' or solver != 'lbfgs') and (
+                    penalty != 'none' or solver != 'liblinear'
+                ):  # incluimos pq lbfgs no soporta regularizaciónl1
+
+                    clasificador = LR(max_iter=max_iter,
+                                  penalty=penalty,
+                                  random_state=0,
+                                  solver=solver, C=c
+                    )
+>>>>>>> b45dfeeb19e52b99d7afde32d6fef417a38f31d6
                     
 #                     clasificador.fit(X, y)
 
+<<<<<<< HEAD
 #                     resultados(
 #                         clasificador, X, y, X_tst, y_tst,
 #                         '\nResultados de ' + solver + ' con regularización' +
 #                         penalty + ' C = ' +str(c) +' y ' +
 #                         str(max_iter) + ' iteraciones.')
 # #input("\n--- Pulsar tecla para continuar ---\n")
+=======
+                    resultados(
+                        clasificador, X, y, X_tst, y_tst,
+                        '\nResultados de ' + solver + ' con regularización' +
+                        penalty + ' C = ' +str(c) +' y ' +
+                        str(max_iter) + ' iteraciones.')
+                    
+
+#input("\n--- Pulsar tecla para continuar ---\n")
+>>>>>>> b45dfeeb19e52b99d7afde32d6fef417a38f31d6
 
 ########### Modelo lineal variables cuadráticas
 poly = PolynomialFeatures(3)
@@ -143,10 +176,39 @@ for penalty in penaltys:
                         penalty + ' C = ' +str(c) +' y ' +
                         str(max_iter) + ' iteraciones.')
 
+'''
+
+print( '\n-- Modelo lineal --\n')
+# mejor modelo: liblinear con regularizaciónl1 C = 0.1 y 100 iteraciones
+
+clf = LR(max_iter=100,
+         penalty='l1',
+         random_state=0,
+         solver='liblinear',
+         C=0.1)
+
+clf.fit(X,y)
+resultados(clf, X, y, X_tst, y_tst)
+
 #input("\n--- Pulsar tecla para continuar ---\n")
                                 
 # --- Random forest ---
+<<<<<<< HEAD
 print('\n\n -- Resultados Modelo Random Forest')
 clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_depth = 50)
 clf.fit(X,y)
 resultados(clf, X, y, X_tst, y_tst)
+=======
+
+print( '\n-- Random Forest --\n')
+
+clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_depth = 50)
+clf.fit(X,y)
+resultados(clf, X, y, X_tst, y_tst)
+
+print( '\n-- Support vector machine --\n')
+
+clf = svm.LinearSVC(max_iter=30000)
+clf.fit(X, y)
+resultados(clf, X, y, X_tst, y_tst)
+>>>>>>> b45dfeeb19e52b99d7afde32d6fef417a38f31d6
