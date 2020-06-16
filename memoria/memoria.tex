@@ -254,7 +254,7 @@ Lo primero que observamos es que, debido a la cantidad y dimensionalidad de los 
 \end{itemize}
 
 Es por esto que decidimos \underline{no aplicar esta técnica}.
-\item \underline{Regularización:} Empezamos considerando que regularización debemos usar. Barajamos como opciones regularización \texttt{l1} y regularización \texttt{l2}. Durante el desarrollo de la asignatura hemos aprendido que cada una de estas penaliza de forma distinta. En particular:
+\item \underline{Regularización}. Empezamos considerando que regularización debemos usar. Barajamos como opciones regularización \texttt{l1} y regularización \texttt{l2}. Durante el desarrollo de la asignatura hemos aprendido que cada una de estas penaliza de forma distinta. En particular:
   \begin{itemize}
   \item \texttt{l1}: penaliza si habia variables que podrían no ser relevantes. Esta es mejor en caso de alta dimensionalidad.
   \item \texttt{l2}: penaliza que todas estas sean relevantes. Esta es mejor en casos de datos con alta cantidad de outliers.
@@ -314,7 +314,15 @@ Obtenemos los resultados:
 \end{center}
 \end{table}
 
+\subsection{Random forest}
 
+A partir del modelo por defecto que proporciona scikit-learn modificaremos tres parámetros para obtener el resultado final
+
+\begin{itemize}
+\item \underline{Número de estimadores}. Viene dado por el parámetro \texttt{n\_estimators}. El número por defecto es 100. Procedemos ampliando este número hasta que dejan de producirse mejoras significativas. Obtenemos que el número óptimo es el de 400 estimadores. A partir de este número empieza a producirse overfitting.
+\item \underline{Criterio de selección}. El criterio que se aplica para obtener la calidad de las divisiones. El criterior por defecto es la impureza de Gini, pero también puede seleccionarse la ganancia de información. Puesto que esta segunda opción es la que se ha estudiado en teoría y la que produce mejores resultados, aunque con peores tiempos de ejecución, elegimos este. 
+\item \underline{Profundidad máxima}. Es clave para limitar la complejidad del modelo y evitar overfitting. Por defecto la profundidad no está limitada y el árbol se amplía todo lo posible. Elegiremos limitar la profundidad de los árboles ya que obtenemos claras mejoras en clasificación. Procedemos disminuyendo este número hasta que deja de producirse una mejora en la puntuación de cross validation y empieza a empeorar el resultado. Finalmente tomamos una profundidad de 50.
+\end{itemize}
 
 \section{ Error de Generalización}
 \subsection{Modelo Lineal}
