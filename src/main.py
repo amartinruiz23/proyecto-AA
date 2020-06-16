@@ -56,7 +56,7 @@ tam = info_size(X, 'Tamaño de los datos después de encode:')
 
 preprocesado = pl.make_pipeline(fs.VarianceThreshold(threshold=0.01),
                                 sklpre.StandardScaler(),
-                                skld.PCA(n_components=tam - 1))
+                                skld.PCA(tol=0.01))
 
 preprocesado.fit(X)
 X = preprocesado.transform(X)
