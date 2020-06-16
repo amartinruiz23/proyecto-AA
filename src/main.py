@@ -64,16 +64,21 @@ X = preprocesado.transform(X)
 X_tst = preprocesado.transform(X_tst)
 info_size(X, 'Tamaño de los datos después del preprocesado varianceThreshold:')
 
+#input("\n--- Pulsar tecla para continuar ---\n")
+
 #### PCA
 
-# print( 'Analisis de componentes principales')
-# pca = PCA(tol=0.1)
-# X = pca.fit_transform(X)
-# print('Variabilidad explicada por PCA:' ,pca.explained_variance_)
-# pca = PCA(n_components = 55)
-# X = pca.fit_transform(X)
-# info_size(X, 'Tamaño de los datos después del preprocesado PCA:')
+print( 'Analisis de componentes principales')
+pca = PCA(tol=0.1)
+pca.fit(X)
+print('\n Variabilidad explicada por PCA:\n' ,pca.explained_variance_,'\n\n')
+pca = PCA(n_components = 55)
+pca.fit(X)
+X_tst = pca.transform(X_tst)
+X = pca.transform(X)
+info_size(X, 'Tamaño de los datos después del preprocesado PCA:')
 
+#input("\n--- Pulsar tecla para continuar ---\n")
 ########### Validación cruzada:
 def resultados(
     clf,
@@ -114,12 +119,14 @@ def resultados(
 
 
 ########### Modelo lineal
+
+
 # print('\n\nEstudio de la variabilidad polinómica de los datos')
 # X_copy = X.copy()
 # for i in range(1,3):
 #     print('Estudio con dimensión: ',i )
 #     poly = PolynomialFeatures(i)
-
+#     np.random.seed(0)
 #     poly.fit(X)
 #     poly.transform(X)
 #     poly.transform(X_tst)
@@ -161,6 +168,7 @@ def resultados(
 # plt.legend()
 # plt.show()
 
+# print('Mejor resultado: ', acu.index(max(acu)))
 
 # input("\n--- Pulsar tecla para continuar ---\n")
 
@@ -171,7 +179,7 @@ def resultados(
 
 
 #mejor modelo: liblinear con regularizaciónl2 C = 1.9 y 100 iteraciones
-clf = LR( penalty='l2', random_state=0, solver='liblinear', C=1.9)
+clf = LR( penalty='l2', random_state=0, solver='lbfgs', C=2)
 
 clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)

@@ -154,14 +154,14 @@ def encode_categorical_variables(X, X_tst):
     # Completar training
     
     missing = set(X_tst.columns) - set(X.columns)
-    # print("PERDIDOS1: ", missing)
-    # for i in missing:
-    #     X[i] = 0
+    #print("PERDIDOS1: ", missing)
+    for i in missing:
+        X[i] = 0
 
-    # missing = set(X.columns) - set(X_tst.columns)
-    # print("PERDIDOS2: ", missing)
-    # for i in missing:
-    #     X_tst[i] = 0
+    missing = set(X.columns) - set(X_tst.columns)
+    #    print("PERDIDOS2: ", missing)
+    for i in missing:
+        X_tst[i] = 0
         
     return X, X_tst
 

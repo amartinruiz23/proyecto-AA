@@ -239,8 +239,8 @@ Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas
 \begin{tabular}{|l|c|c|}
 \hline
 	Grado & Accuracy & F1 \\ \hline
-1 & 0.85068 & 0.78145 \\
-2 & 0.85068 & 0.78145  \\\hline
+1 & 0.85061 & 0.78141 \\
+2 & 0.85061 & 0.78141  \\\hline
 \end{tabular}
 \caption{Resultados ajustes con variables polinómicas.}
 
@@ -263,15 +263,14 @@ Es por esto que decidimos \underline{no aplicar esta técnica}.
   Utilizando conocimiento del mundo en el que vivimos es fácil imaginar que en un censo económico hay muchos outliers, que consistirán en la gente más privilegiada. Sin embargo no utilizaremos esta información y usaremos datos puramente analíticos. Podemos considerar dos casos:
   \begin{itemize}
   \item \emph{Outliers de variables categóricas}: Estos han sido gestionados ya, debido al one-hot-encoding realizado durante la codificación del dataset, así como el filtro de varianza, ha hecho que todas las categorías sin un número significativo de personas incluido sean desestimadas.
-  \item \emph{Outliers de variables ordinales}: Para el estudio de este examinamos una a una las variables, imprimiendo el gráfico subsecuente\ref{figure:outliers}.Podemos ver que tenemos una gran cantidad de outliers, y distribuciones de cola larga o \emph{Heavy Tail} como son conocidas en el mundo de la estadística. Estas distribuciones son aquellas en las cuales, pese a estar la mayoría de los valores agregados en un espacio pequeño del dominio.\\
+  \item \emph{Outliers de variables ordinales}: Para el estudio de este examinamos una a una las variables, imprimiendo el gráfico[\ref{fig:outliers}].Podemos ver que tenemos una gran cantidad de outliers. En particular tenemos distribuciones de cola larga o \emph{Heavy Tail} como son conocidas en el mundo de la estadística. Estas distribuciones son aquellas en las cuales, pese a estar la mayoría de los valores agregados en un espacio pequeño del dominio.\\
 
     Por otro lado podemos ver que después del preprocesado, hemos descartado una gran cantidad de variables (casi la mitad) y hemos estudiado con \texttt{PCA} que el resto de variables consideradas aportan información para explicar la variabilidad de la muestra. Es por esto que no consideramos que la regularización \texttt{l1} pueda aportar mucho al modelo.\newpage
 
-    \begin{figure}[h!]
-      \label{figure:outliers}
+    \begin{figure}[h!]    
       \centering
       \includegraphics[width=\textwidth]{./figures/outliers.png}
-      \caption{.}
+      \caption{Representación de las variables ordinales. }
       \label{fig:outliers}
     \end{figure}
 
@@ -283,23 +282,38 @@ Debido a esto decidimos usar regularización \texttt{l2}.
 
 \item \underline{Fuerza Regularización}:   Para seleccionar la fuerza de ajuste realizaremos una representación de esta, con el objetivo de estimar una cantidad óptima. Obtenemos como resultado:
     \begin{figure}[h!]
-      \label{figure:outliers}
+      \label{figure:regularization}
       \centering
       \includegraphics[width=\textwidth]{./figures/regularizacion_rl.png}
-      \caption{.}
-      \label{fig:outliers}
+      \caption{Relación de las métricas de error con la regularización.}
     \end{figure}
 
-
-
-
-Podemos ver que en valores muy pequeños de va fuerza de regularización, obtenemos un peor resultado, y que se estabiliza a partir de valores mayores. Elegimos como mejor resultado tras realizar una ingeniería de parámetros un poco más exhaustiva, elegimos como valor de la fuerza de regularización 1.9.\\
+Podemos ver que en valores muy pequeños de va fuerza de regularización, obtenemos un peor resultado, y que se estabiliza a partir de valores mayores. Elegimos como mejor resultado tras realizar una ingeniería de parámetros un poco más exhaustiva, elegimos como valor de la fuerza de regularización 2.\\
 \end{itemize}
 
 
 Así obtenemos que el mejor ajuste es:
 
-TODO: mejor ajuste:
+{\begin{center}
+    \texttt{LR( penalty='l2', random\_state=0, solver='liblinear', C=1.9)}
+  \end{center}}
+
+Obtenemos los resultados:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+  Error & Accuracy & F1-score \\ \hline
+  $E_{in}$ & 0.85132 & 0.78230 \\
+  $E_{test}$ & 0.84976 & 0.77027  \\
+  $E_{cv}$ &0.85064 & 0.78150  \\\hline
+\end{tabular}
+\caption{Resultados ajustes con variables polinómicas.}
+
+\end{center}
+\end{table}
+
 
 
 \section{ Error de Generalización}
