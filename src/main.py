@@ -114,8 +114,6 @@ def resultados(
 
 
 ########### Modelo lineal
-<<<<<<< HEAD
-
 # print('\n\nEstudio de la variabilidad polinómica de los datos')
 # X_copy = X.copy()
 # for i in range(1,3):
