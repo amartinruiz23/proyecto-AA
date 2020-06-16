@@ -50,10 +50,6 @@ plt.xlabel("Age", fontsize = 15)
 plt.margins(x = 0)
 plt.show()
 
-
-
-
-
 # -- preprocesado    le.fit(union[feature])
 
 tam = info_size(X, 'Tamaño de los datos después de encode:')
@@ -71,7 +67,7 @@ info_size(X, 'Tamaño de los datos después del preprocesado:')
 
 print( 'Analisis de componentes principales')
 pca = PCA(tol=0.01, n_components = X.shape[1])
-X = pca.fit(X)
+pca.fit(X)
 
 print(pca.explained_variance_)
 
@@ -91,11 +87,11 @@ def resultados(
     pred_tst = clf.predict(X_tst)
     print("Accuracy tra: ", accuracy_score(y, pred_tra))
     print("f1-score tst: ", f1_score(y, pred_tra, average='macro'))
-    print("precision  tra: ", precision_score(y, pred_tra))
+    #    print("precision  tra: ", precision_score(y, pred_tra))
     
     print("Accuracy tst: ", accuracy_score(y_tst, pred_tst))
     print("f1-score tst: ", f1_score(y_tst, pred_tst, average='macro'))
-    print("precision tst: ", precision_score(y_tst, pred_tst))
+    # print("precision tst: ", precision_score(y_tst, pred_tst))
 
     #cv_results = cross_validate(clf,
     #    X,
@@ -128,8 +124,12 @@ def resultados(
 # clf.fit(X, y)
 # resultados(clf, X, y, X_tst, y_tst)
 
-# print('\n-- Support vector machine --\n')
-
-# clf = svm.LinearSVC(max_iter=30000)
-# clf.fit(X, y)
-# resultados(clf, X, y, X_tst, y_tst)
+print('\n-- Support vector machine --\n')
+for kernel in  ['linear', 'poly', 'rbf', 'sigmoid']:
+    for gamma in ['scale', 'auto']:
+        for C in range(1,21, 4):
+            print(' - kernel: ', kernel, ', gamma: ', gamma, ', C:' , 0.1*C )
+            print(C)
+            clf = svm.SVC(max_iter=10000, kernel = kernel, gamma=gamma, C=0.1*C)
+            clf.fit(X, y)
+            resultados(clf, X, y, X_tst, y_tst)
