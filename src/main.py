@@ -114,6 +114,7 @@ def resultados(
 
 
 ########### Modelo lineal
+<<<<<<< HEAD
 
 # print('\n\nEstudio de la variabilidad polinómica de los datos')
 # X_copy = X.copy()
@@ -174,6 +175,14 @@ def resultados(
 
 #mejor modelo: liblinear con regularizaciónl2 C = 1.9 y 100 iteraciones
 clf = LR( penalty='l2', random_state=0, solver='liblinear', C=1.9)
+=======
+    
+print('\n-- Modelo lineal --\n')
+# mejor modelo: liblinear con regularizaciónl1 C = 0.1 y 100 iteraciones
+
+clf = LR(max_iter=100, penalty='l1', random_state=0, solver='liblinear', C=0.1)
+
+>>>>>>> 912aef38adbb80b78a624fde6564d206141019cc
 clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
 
@@ -181,15 +190,16 @@ resultados(clf, X, y, X_tst, y_tst)
 
 # --- Random forest ---
 
-# print('\n-- Random Forest --\n')
+print('\n-- Random Forest --\n')
 
-# clf = RandomForestClassifier(n_estimators=600,
-#                              criterion='entropy',
-#                              max_depth=50,
-#                              oob_score=True)
-# clf.fit(X, y)
-# resultados(clf, X, y, X_tst, y_tst)
+clf = RandomForestClassifier(n_estimators=400,
+                              criterion='entropy',
+                              max_depth=50,
+                              oob_score=True)
+clf.fit(X, y)
+resultados(clf, X, y, X_tst, y_tst)
 
+<<<<<<< HEAD
 # print('\n-- Support vector machine --\n')
 # for kernel in  ['linear', 'poly', 'rbf', 'sigmoid']:
 #     for gamma in ['scale', 'auto']:
@@ -199,3 +209,16 @@ resultados(clf, X, y, X_tst, y_tst)
 #             clf = svm.SVC(max_iter=10000, kernel = kernel, gamma=gamma, C=0.1*C)
 #             clf.fit(X, y)
 #             resultados(clf, X, y, X_tst, y_tst)
+=======
+'''
+print('\n-- Support vector machine --\n')
+for kernel in  ['linear', 'poly', 'rbf', 'sigmoid']:
+    for gamma in ['scale', 'auto']:
+        for C in range(1,21, 4):
+            print(' - kernel: ', kernel, ', gamma: ', gamma, ', C:' , 0.1*C )
+            print(C)
+            clf = svm.SVC(max_iter=10000, kernel = kernel, gamma=gamma, C=0.1*C)
+            clf.fit(X, y)
+            resultados(clf, X, y, X_tst, y_tst)
+'''
+>>>>>>> 912aef38adbb80b78a624fde6564d206141019cc
