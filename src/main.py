@@ -36,6 +36,8 @@ X_tst, y_tst = class_division("data/adult.test", attr)
 
 encode_categorical_variables(X, X_tst)
 
+for x in X:
+    print(set(X[x]))
 print_class_balance(y, y_tst)
 
 # -- preprocesado    le.fit(union[feature])
