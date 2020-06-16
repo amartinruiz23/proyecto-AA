@@ -94,14 +94,14 @@ def class_division(filename, attr):
 
 
 
-def print_outliers(df):
+def print_outliers(X):
     plt.figure()
-    variables = df.select_dtypes(include=['int64']).columns
-
+    plt.title(' Selección de outliers' )
+    var = X.select_dtypes(include=['int64']).columns
     for i in range(6):
         plt.subplot(2,3,i+1)
-        plt.boxplot(df[variables[i]])
-        plt.title(variables[i])
+        plt.boxplot(X[var[i]])
+        plt.title(var[i])
     plt.show()
 
 def data_relevance(df):

@@ -52,7 +52,7 @@
 
 
 
-\section{Compensión del problema a resolver }
+\section{Comprensión del problema a resolver }
 
 Este dataset contiene datos de la oficina del censo\cite{census} relativos a censos de 1995, obtenidos del repositorio UCI de bases de datos \cite{uci}. Un total de 48842 personas han sido encuestadas para este censo. De estas personas tenemos una serie de variables con información de carácter socioeconómico. En particular:
 \begin{itemize}
@@ -75,9 +75,9 @@ A la hora de obtener los datos en el respositorio se encuentran tres archivos: \
 \item Añadimos el flag \texttt{@attribute} a la lista de atributos provista en \texttt{adult.names}.
 \end{itemize}
 
-Utilizaremos la división train/test que viene establecida por el propio dataset. La proporción de clases es parecida en ambos conjuntos y la cantidad de datos en el training establecido es la suficiente para el aprendizaje. Es por ello que no modificamos esta partición. Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
+Utilizaremos la división train/test que viene establecida por el propio dataset. La proporción de clases es parecida en ambos conjuntos y la cantidad de datos en el training establecido es la suficiente para el aprendizaje. Es por ello que no modificamos esta partición. Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual dividiremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
 
-Como ultimo detalle de codificación de los datos durante la parte de preprocesado aplicamos la codificación sugerida por scikit-learn mediante LabelEncoder. Mediante este proceso se transforman las variables categóricas en numéricas dale un valor natural diferente a la variable para cada tipo de valor que tomara anteriormente.
+Como ultimo detalle de codificación de los datos durante la parte de preprocesado aplicamos la codificación sugerida por scikit-learn mediante \texttt{dummy\_variables}. Mediante este proceso se transforman las variables categóricas en numéricas dale un valor natural diferente a la variable para cada tipo de valor que tomara anteriormente.
 
 \section{Preprocesado}
 
@@ -89,10 +89,52 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 		\item \underline{Valoración del interés de la variables}. Para esto vamos a realizar dos técnicas:
 	
 	\begin{itemize}
-	\item[-] El conjunto de datos presenta 15 columnas. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.1. Esto lo realizaremos con el algoritmo \texttt{varianceThreshold}\cite{einstein}.
-	
-	\item[-] Realizaremos un análisis de componentes principales PCA\cite{PCA}  para observar la varianza explicada por las variables restantes.
+	\item[-] El conjunto de datos presenta 105 columnas. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.1. Esto lo realizaremos con el algoritmo \texttt{varianceThreshold}\cite{einstein}.
+			
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+ Proceso & Dimensionalidad Resultante \\ \hline
+ \texttt{Dummy\_Variables} &  105\\
+\texttt{varianceThreshold} &57 \\\hline
+\end{tabular}
+\end{center}
+\caption{Dimensionalidad de la muestra tras cada proceso.}
+	\end{table}
 
+
+
+Podemos observar como tenemos una gran cantidad de variables que aportan poca o ninguna información. Observando la muestra atentamente veremos que se debe a variables como \texttt{nacionality}, que tras ser codificadas como dummy variables quedan como columnas nacionalidades con muy pocos positivos. Esto es negativo porque da pie a que algunos algoritmos (en particular los basados en árboles) sobreajusten a esta submuestra en particular. \\
+
+\item Además realizamos un estudio \texttt{PCA} con el objetivo de avergiguar cuales son las columnas que mejor explican la variabilidad de la base de datos. Para ello ejecutamos un predictor \texttt{PCA}, así como \underline{seleccionar las variables principales}. Este nos devuelve una estimación de la variabilidad que explica cada variable, obteniendo como resultado:
+\begin{figure}[h]
+{\center
+\texttt{
+[4.49573987e+00 2.94835042e+00 2.37099181e+00 \\
+\ 2.01320755e+00 1.76975896e+00 1.75675195e+00 \\
+\ 1.68179310e+00 1.42475478e+00 1.38339986e+00\\
+\ 1.32481406e+00 1.28634456e+00 1.24730223e+00\\
+\ 1.19496365e+00 1.17428828e+00 1.15682951e+00\\
+\ 1.13753027e+00 1.12467327e+00 1.11347522e+00\\
+\ 1.09735994e+00 1.07570368e+00 1.07225031e+00\\
+\ 1.06723994e+00 1.03858652e+00 1.02811739e+00\\
+\ 1.02497765e+00 1.01754201e+00 1.01319671e+00\\
+\ 1.00978578e+00 1.00228665e+00 9.92216208e-01\\
+\ 9.86143567e-01 9.81570539e-01 9.65009215e-01\\
+\ 9.52551640e-01 9.38447568e-01 9.16648964e-01\\
+\ 8.97850717e-01 8.77922999e-01 8.31440082e-01\\
+\ 7.68450694e-01 7.55866947e-01 7.14349376e-01\\
+\ 6.89593020e-01 6.14759178e-01 5.64426417e-01\\
+\ 5.22746091e-01 4.35534961e-01 4.01351472e-01\\
+\ 7.00012064e-02 4.35859769e-02 2.11241135e-02\\
+\ 5.56548322e-03 1.52954845e-03 1.03141699e-03\\
+\ 1.72725144e-05 1.17471416e-31 9.16296960e-33]\\}
+}
+\caption{Resultado algoritmo PCA}
+\end{figure}
+
+Como podemos observar tenemos una diferencia significativa con respecto a las dos últimas variables, por lo que decidimos desestimarlas. Con esto obtenemos loas resultados.
 
 		
 \begin{table}[h]
@@ -100,18 +142,15 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 \begin{tabular}{|l|c|}
 \hline
  Proceso & Dimensionalidad Resultante \\ \hline
- \texttt{Dummy\_Variables} &  15\\
-\texttt{varianceThreshold} &57 \\
-\texttt{PCA} & 55 \\\hline
+  \texttt{varianceThreshold} &57 \\
+\texttt{PCA} &55 \\\hline
 \end{tabular}
 \end{center}
 \caption{Dimensionalidad de la muestra tras cada proceso.}
 	\end{table}
 
 \end{itemize}
-
-Podemos observar como tenemos una gran cantidad de variables que aportan poca o ninguna información. Observando la muestra atentamente veremos que se debe a variables como \texttt{nacionality}, que tras ser codificadas como dummy variables quedan como columnas nacionalidades con muy pocos positivos. Esto es negativo porque da pie a que algunos algoritmos (en particular los basados en árboles) sobreajusten a esta submuestra en particular. 
-
+\newpage
 \item  \underline{Polynomial Freatures}. Con especial interés en el caso lineal, el uso de variaciónes polinómicas de los datos puede ser util para permitir aproximaciones a clases de funciones nuevas. Probaremos variación cuadrática sobre las variables numéricas cuando realizemos un ajuste lineal. Para Random Forest no lo consideramos necesario por la ya conocida complejidad de los arboles, y para SVM utilizaremos variaciones de kernel. \\
 	
 	\item \underline{Valoración de las variables de interés}. Para realizar un estudio de las variables de interés. Este ya lo hemos visto mostrado en 
@@ -136,9 +175,6 @@ Variable& Valores distintos & Valores Perdidos\\ \hline
 	\item \underline{Balanceo de clases}. Nos encontramos ante una situación con un desbalanceo notable. Sin embargo, dada la cantidad de datos provista por la base de datos creemos que no es necesario realizar modificaciones de los datos ni en el conjunto de train ni en el de test.
 \end{itemize}
 
-
-
-
 \section{ Métricas }
 
 Hemos decidido considerar, en este contexto de clasificación, dos funciones con objetivo de medir el error, ambas halladas en \cite{met}.
@@ -150,7 +186,7 @@ Hemos decidido considerar, en este contexto de clasificación, dos funciones con
 	donde precisión es (en términos de clase positiva/negativa) el número de verdaderos positivos entre los positivos escogidos, y recall es el número de positivos escogidos entre los positivos totales. En este caso la medida que mostramos es la media obtenida de las f1-score obtenidas de considerar cada una de las clases como la positiva.
 \end{itemize}
 \section{ Modelos Considerados }
-
+TODO: añadir las funciones y links a estas en la bibliografía.
 \subsection{ Modelo lineal }
 	
 	Como modelo lineal, dado que estamos en clasificación, podemos escoger de los modelos explicados en clase entre Regresión Logística y  PLA. Decidimos utilizar regresión logística por una serie de motivos.
@@ -185,19 +221,93 @@ Estas dos técnicas se pueden entender como variaciones del gradiente descendien
 
 
 \section{Hiperparámetros y selección del modelo}
- En esta sección estudiaremos la aplicación de las técnicas especificando claramente qué algoritmos se usan en la estimación de los parámetros, los hiperparámetros y el error de generalización.
+ En esta sección estudiaremos la aplicación de las técnicas especificando claramente qué algoritmos se usan en la estimación de los parámetros, los hiperparámetros y el error de generalización.\\
+ 
+ 
+ El primer modelo que presentamos es el modelo lineal. Este fue el primer modelo ajustado y de su ajuste aprovechamos conocimiento para el ajuste de los otro modelos. 
  
 \subsection{Modelo Lineal}
-
-Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, la selección del parámetro \texttt{max\_iter} así como la fuerza de regularización. También consideraremos una muestra con variables lineales y otra con variables cuadráticas. Veamos los resultados:\\
-
-
-Como podemos ver 
+Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, la selección del parámetro \texttt{max\_iter} así como la fuerza de regularización. También consideraremos una muestra con variables lineales y otra con variables polinómicas. \\
 
 
-\newpage
+
+\begin{itemize}
+\item \underline{Variables polinómicas}: Como primera aproximación al problema estidiamos, con un estimador base, la mejora supuesta al aumentar la dimensionalidad del dataset al incluir variables polinómicas. Con esto pretendemos ver si el modelo lineal es suficiente para explicar la variabilidad de la muestra. Obtenemos como resultados las siguientes estimaciones\footnote{Estimaciones de error con  5Fold-Cross-Validation.}:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+	Grado & Accuracy & F1 \\ \hline
+1 & 0.85068 & 0.78145 \\
+2 & 0.85068 & 0.78145  \\\hline
+\end{tabular}
+\caption{Resultados ajustes con variables polinómicas.}
+
+\end{center}
+\end{table}
+
+Lo primero que observamos es que, debido a la cantidad y dimensionalidad de los datos sucede que para generar una base de datos con cobinaciones cúbicas creamos un conjunto de 8.30 GB que no somos capaces de alojar en la RAM del procesador. Es por eso que, por las limitaciónes técnicas que poseemos no consideramos más grado\footnote{En el código entregado no adjuntamos esta ejecución para evitar entregar un código que no funcione de principio a fin, lo que provocaría la descalificación de la práctica}. De todos modos esta limitación no nos afecta pues:
+\begin{itemize}
+	\item Estaríamos en un caso claro de Maldición de la Dimensionalidad\cite{maldim} a pesar de haber realizado ya una reducción de dimenisonalidad tanto por \texttt{varianceThreshold} como por \texttt{PCA}.
+	\item Podemos ver que se mantiene invariable la estimación del error invariante. Esto es resultado a que el modelo lineal ya se ajusta perfectamente a la variabilidad de los datos. 
+\end{itemize}
+
+Es por esto que decidimos \underline{no aplicar esta técnica}.
+\item \underline{Regularización:} Empezamos considerando que regularización debemos usar. Barajamos como opciones regularización \texttt{l1} y regularización \texttt{l2}. Durante el desarrollo de la asignatura hemos aprendido que cada una de estas penaliza de forma distinta. En particular:
+  \begin{itemize}
+  \item \texttt{l1}: penaliza si habia variables que podrían no ser relevantes. Esta es mejor en caso de alta dimensionalidad.
+  \item \texttt{l2}: penaliza que todas estas sean relevantes. Esta es mejor en casos de datos con alta cantidad de outliers.
+  \end{itemize}
+
+  Utilizando conocimiento del mundo en el que vivimos es fácil imaginar que en un censo económico hay muchos outliers, que consistirán en la gente más privilegiada. Sin embargo no utilizaremos esta información y usaremos datos puramente analíticos. Podemos considerar dos casos:
+  \begin{itemize}
+  \item \emph{Outliers de variables categóricas}: Estos han sido gestionados ya, debido al one-hot-encoding realizado durante la codificación del dataset, así como el filtro de varianza, ha hecho que todas las categorías sin un número significativo de personas incluido sean desestimadas.
+  \item \emph{Outliers de variables ordinales}: Para el estudio de este examinamos una a una las variables, imprimiendo el gráfico subsecuente\ref{figure:outliers}.Podemos ver que tenemos una gran cantidad de outliers, y distribuciones de cola larga o \emph{Heavy Tail} como son conocidas en el mundo de la estadística. Estas distribuciones son aquellas en las cuales, pese a estar la mayoría de los valores agregados en un espacio pequeño del dominio.\\
+
+    Por otro lado podemos ver que después del preprocesado, hemos descartado una gran cantidad de variables (casi la mitad) y hemos estudiado con \texttt{PCA} que el resto de variables consideradas aportan información para explicar la variabilidad de la muestra. Es por esto que no consideramos que la regularización \texttt{l1} pueda aportar mucho al modelo.\newpage
+
+    \begin{figure}[h!]
+      \label{figure:outliers}
+      \centering
+      \includegraphics[width=\textwidth]{./figures/outliers.png}
+      \caption{.}
+      \label{fig:outliers}
+    \end{figure}
+
+  \end{itemize}
+
+Debido a esto decidimos usar regularización \texttt{l2}. 
+
+\item \underline{Técnica de ajuste}: No tenemos ningún argumento en contra o a favor de la técnica de ajuste elegida. Probaremos ambas y eligiremos la que mejor error bondad de ajuste aproxime. Tras las pruebas obtenemos que la mejor técnica el \texttt{liblinear}, aunque las diferencias con mínimas.
+
+\item \underline{Fuerza Regularización}:   Para seleccionar la fuerza de ajuste realizaremos una representación de esta, con el objetivo de estimar una cantidad óptima. Obtenemos como resultado:
+    \begin{figure}[h!]
+      \label{figure:outliers}
+      \centering
+      \includegraphics[width=\textwidth]{./figures/regularizacion_rl.png}
+      \caption{.}
+      \label{fig:outliers}
+    \end{figure}
+
+
+
+
+Podemos ver que en valores muy pequeños de va fuerza de regularización, obtenemos un peor resultado, y que se estabiliza a partir de valores mayores. Elegimos como mejor resultado tras realizar una ingeniería de parámetros un poco más exhaustiva, elegimos como valor de la fuerza de regularización 1.9.\\
+\end{itemize}
+
+
+Así obtenemos que el mejor ajuste es:
+
+TODO: mejor ajuste:
+
+
 \section{ Error de Generalización}
-\section{ Argumentar sobre la idoneidad de la función regularización usada }
+\subsection{Modelo Lineal}
+
+Tenemos un error de: Meter tabla.
+
+
 \section{ Conclusiones }
 Valoración de los resultados y justificación
 ( gráficas, métricas de error, análisis de residuos, etc )
@@ -242,6 +352,10 @@ Uso del algoritmo \texttt{varianceThreshold}: \url{https://scikit-learn.org/stab
 \bibitem{PCA} 
 Técnica de PCA: 
 \url{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA}
+
+\bibitem{maldim}
+Artículo donde explica el concepto de maldición de la dimensión: \url{https://en.wikipedia.org/wiki/Curse_of_dimensionality}
+
 
 \end{thebibliography}
 
