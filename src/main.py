@@ -161,7 +161,6 @@ def resultados(
 # plt.legend()
 # plt.show()
 
-# print('Mejor resultado: ', acu.index(max(acu)))
 
 # input("\n--- Pulsar tecla para continuar ---\n")
 
