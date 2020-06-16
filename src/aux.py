@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 from sklearn import preprocessing
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import cross_validate
 from collections import Counter
 from sklearn.preprocessing import StandardScaler
@@ -148,12 +148,20 @@ def print_class_balance(y,y_tst):
         print(x,'|', d[x], '|' ,d_tst[x])
     #input("\n--- Pulsar tecla para continuar ---\n")
 
-def encode_categorical_variables(X, X_tst):
-    categorical = ['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country']
-    union = pd.concat([X, X_tst])
-    for feature in categorical:
-        le = preprocessing.LabelEncoder()
-        le.fit(union[feature])
-        #print(le.classes_)
-        X[feature] = le.transform(X[feature])
-        X_tst[feature] = le.transform(X_tst[feature])
+def encode_categorical_variables(X, X_tst):  
+    X = pd.get_dummies(X)
+    X_tst = pd.get_dummies(X_tst)
+    # Completar training
+    
+    missing = set(X_tst.columns) - set(X.columns)
+    print("PERDIDOS1: ", missing)
+    for i in missing:
+        X[i] = 0
+
+    missing = set(X.columns) - set(X_tst.columns)
+    print("PERDIDOS2: ", missing)
+    for i in missing:
+        X_tst[i] = 0
+        
+    return X, X_tst
+

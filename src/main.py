@@ -35,7 +35,7 @@ with open(description, "r") as f:
 X, y = class_division("data/adult.data", attr)
 X_tst, y_tst = class_division("data/adult.test", attr)
 
-encode_categorical_variables(X, X_tst)
+X, X_tst = encode_categorical_variables(X, X_tst)
 
 print_class_balance(y, y_tst)
 
