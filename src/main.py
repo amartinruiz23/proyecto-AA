@@ -13,6 +13,7 @@ import sklearn.feature_selection as fs
 import sklearn.decomposition as skld
 import sklearn.preprocessing as sklpre
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
 from sklearn.linear_model import LogisticRegression as LR
 from sklearn.feature_selection import SelectKBest, chi2
 np.random.seed(0)
@@ -36,8 +37,6 @@ X_tst, y_tst = class_division("data/adult.test", attr)
 
 encode_categorical_variables(X, X_tst)
 
-for x in X:
-    print(set(X[x]))
 print_class_balance(y, y_tst)
 
 # -- preprocesado    le.fit(union[feature])
@@ -70,9 +69,11 @@ def resultados(
     pred_tst = clf.predict(X_tst)
     print("Accuracy tra: ", accuracy_score(y, pred_tra))
     print("f1-score tst: ", f1_score(y, pred_tra, average='macro'))
-
+    print("precision  tra: ", precision_score(y, pred_tra))
+    
     print("Accuracy tst: ", accuracy_score(y_tst, pred_tst))
     print("f1-score tst: ", f1_score(y_tst, pred_tst, average='macro'))
+    print("precision tst: ", precision_score(y_tst, pred_tst))
 
     #cv_results = cross_validate(clf,
     #    X,
@@ -82,12 +83,14 @@ def resultados(
     #print("E_cv: ",
     #      sum(cv_results['test_score']) / len(cv_results['test_score']))
 
+#### Under-sampling
+   
 
 ########### Modelo lineal
 '''
 penaltys = ['l1', 'l2']
 solvers = ['lbfgs', 'liblinear']
-max_iters = [100, 200, 1000]
+max_iters = [100, 200]
 C = [0.1,1,10]
 print('\n\n -- Resultados Modelo lineal')
 for penalty in penaltys:
@@ -162,16 +165,17 @@ resultados(clf, X, y, X_tst, y_tst)
 
 # --- Random forest ---
 
-print('\n-- Random Forest --\n')
+# print('\n-- Random Forest --\n')
 
-clf = RandomForestClassifier(n_estimators=600,
-                             criterion='entropy',
-                             max_depth=50)
-clf.fit(X, y)
-resultados(clf, X, y, X_tst, y_tst)
+# clf = RandomForestClassifier(n_estimators=600,
+#                              criterion='entropy',
+#                              max_depth=50,
+#                              oob_score=True)
+# clf.fit(X, y)
+# resultados(clf, X, y, X_tst, y_tst)
 
-print('\n-- Support vector machine --\n')
+# print('\n-- Support vector machine --\n')
 
-clf = svm.LinearSVC(max_iter=30000)
-clf.fit(X, y)
-resultados(clf, X, y, X_tst, y_tst)
+# clf = svm.LinearSVC(max_iter=30000)
+# clf.fit(X, y)
+# resultados(clf, X, y, X_tst, y_tst)
