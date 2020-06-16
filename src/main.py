@@ -39,6 +39,21 @@ encode_categorical_variables(X, X_tst)
 
 print_class_balance(y, y_tst)
 
+###### Analisis exploratorio de los datos
+
+plt.rcParams['figure.figsize'] = [12, 8]
+sns.set(style = 'whitegrid')
+
+sns.distplot(X['age'], bins = 90, color = 'mediumslateblue')
+plt.ylabel("Distribution", fontsize = 15)
+plt.xlabel("Age", fontsize = 15)
+plt.margins(x = 0)
+plt.show()
+
+
+
+
+
 # -- preprocesado    le.fit(union[feature])
 
 tam = info_size(X, 'Tamaño de los datos después de encode:')
@@ -52,6 +67,11 @@ X = preprocesado.transform(X)
 X_tst = preprocesado.transform(X_tst)
 info_size(X, 'Tamaño de los datos después del preprocesado:')
 
+#### PCA
+
+print( 'Analisis de componentes principales')
+pca = PCA(tol=0.01, n_components = X.shape[1])
+X = pca.fit(X)
 
 ########### Validación cruzada:
 def resultados(
@@ -83,83 +103,17 @@ def resultados(
     #print("E_cv: ",
     #      sum(cv_results['test_score']) / len(cv_results['test_score']))
 
-#### Under-sampling
-   
+
+print(pca.explained_variance_)
 
 ########### Modelo lineal
-'''
-penaltys = ['l1', 'l2']
-solvers = ['lbfgs', 'liblinear']
-max_iters = [100, 200]
-C = [0.1,1,10]
-print('\n\n -- Resultados Modelo lineal')
-for penalty in penaltys:
-    for solver in solvers:
-        for max_iter in max_iters:
-            for c in C:
-                if (penalty != 'l1' or solver != 'lbfgs') and (
-                    penalty != 'none' or solver != 'liblinear'
-                ):  # incluimos pq lbfgs no soporta regularizaciónl1
+# print('\n-- Modelo lineal --\n')
+# # mejor modelo: liblinear con regularizaciónl1 C = 0.1 y 100 iteraciones
 
-                    clasificador = LR(max_iter=max_iter,
-                                  penalty=penalty,
-                                  random_state=0,
-                                  solver=solver, C=c
-                    )
+# clf = LR(max_iter=100, penalty='l1', random_state=0, solver='liblinear', C=0.1)
 
-                    
-#                     clasificador.fit(X, y)
-
-                    resultados(
-                        clasificador, X, y, X_tst, y_tst,
-                        '\nResultados de ' + solver + ' con regularización' +
-                        penalty + ' C = ' +str(c) +' y ' +
-                        str(max_iter) + ' iteraciones.')
-                    
-
-#input("\n--- Pulsar tecla para continuar ---\n")
-
-
-########### Modelo lineal variables cuadráticas
-poly = PolynomialFeatures(3)
-poly.fit(X)
-poly.transform(X)
-poly.transform(X_tst)
-penaltys = ['l1', 'l2']
-solvers = ['lbfgs', 'liblinear']
-max_iters = [100, 200]
-print('\n\n -- Resultados Modelo lineal variables cuadráticas')
-for penalty in penaltys:
-    for solver in solvers:
-        for max_iter in max_iters:
-            for c in C:
-                if (penalty != 'l1' or solver != 'lbfgs') and (
-                    penalty != 'none' or solver != 'liblinear'
-                ):  # incluimos pq lbfgs no soporta regularizaciónl1
-
-                    clasificador = LR(max_iter=max_iter,
-                                  penalty=penalty,
-                                  random_state=0,
-                                  solver=solver, C=c
-                    )
-                    
-                    clasificador.fit(X, y)
-
-                    resultados(
-                        clasificador, X, y, X_tst, y_tst,
-                        '\nResultados de ' + solver + ' con regularización' +
-                        penalty + ' C = ' +str(c) +' y ' +
-                        str(max_iter) + ' iteraciones.')
-
-'''
-
-print('\n-- Modelo lineal --\n')
-# mejor modelo: liblinear con regularizaciónl1 C = 0.1 y 100 iteraciones
-
-clf = LR(max_iter=100, penalty='l1', random_state=0, solver='liblinear', C=0.1)
-
-clf.fit(X, y)
-resultados(clf, X, y, X_tst, y_tst)
+# clf.fit(X, y)
+# resultados(clf, X, y, X_tst, y_tst)
 
 #input("\n--- Pulsar tecla para continuar ---\n")
 

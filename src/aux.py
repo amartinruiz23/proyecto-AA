@@ -152,7 +152,7 @@ def encode_categorical_variables(X, X_tst):
     categorical = ['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country']
     union = pd.concat([X, X_tst])
     for feature in categorical:
-        le = preprocessing.LabelEncoder()
+        le = preprocessing.OneHotEncoder()
         le.fit(union[feature])
         #print(le.classes_)
         X[feature] = le.transform(X[feature])

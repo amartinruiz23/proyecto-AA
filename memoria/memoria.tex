@@ -75,9 +75,7 @@ A la hora de obtener los datos en el respositorio se encuentran tres archivos: \
 \item Añadimos el flag \texttt{@attribute} a la lista de atributos provista en \texttt{adult.names}.
 \end{itemize}
 
-Utilizaremos la división train/test que viene establecida por el propio dataset. La proporción de clases es parecida en ambos conjuntos y la cantidad de datos en el training establecido es la suficiente para el aprendizaje. Es por ello que no modificamos esta partición.
-
-Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
+Utilizaremos la división train/test que viene establecida por el propio dataset. La proporción de clases es parecida en ambos conjuntos y la cantidad de datos en el training establecido es la suficiente para el aprendizaje. Es por ello que no modificamos esta partición. Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual diviremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
 
 Como ultimo detalle de codificación de los datos durante la parte de preprocesado aplicamos la codificación sugerida por scikit-learn mediante LabelEncoder. Mediante este proceso se transforman las variables categóricas en numéricas dale un valor natural diferente a la variable para cada tipo de valor que tomara anteriormente.
 
@@ -91,9 +89,9 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 		\item \underline{Valoración del interés de la variables}. Para esto vamos a realizar dos técnicas:
 	
 	\begin{itemize}
-	\item[-] El conjunto de datos presenta una altisima cantidad de columnas (105) tras la realización de las codificación por dummy variables. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.01. Esto lo realizaremos con el algoritmo \texttt{varianceThreshold}\cite{einstein}.
+	\item[-] El conjunto de datos presenta 15 columnas. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.1. Esto lo realizaremos con el algoritmo \texttt{varianceThreshold}\cite{einstein}.
 	
-	\item[-] Realizaremos un análisis de componentes principales PCA\cite{PCA} para intentar reducir aun más la dimensionalidad del conjunto. 
+	\item[-] Realizaremos un análisis de componentes principales PCA\cite{PCA}  para observar la varianza explicada por las variables restantes.
 
 
 		
@@ -102,7 +100,7 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 \begin{tabular}{|l|c|}
 \hline
  Proceso & Dimensionalidad Resultante \\ \hline
- \texttt{Dummy\_Variables} &  105\\
+ \texttt{Dummy\_Variables} &  15\\
 \texttt{varianceThreshold} &57 \\
 \texttt{PCA} & 55 \\\hline
 \end{tabular}
@@ -194,140 +192,8 @@ Estas dos técnicas se pueden entender como variaciones del gradiente descendien
 Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, la selección del parámetro \texttt{max\_iter} así como la fuerza de regularización. También consideraremos una muestra con variables lineales y otra con variables cuadráticas. Veamos los resultados:\\
 
 
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|l|l|l|l|l|l|}
-\hline
-\texttt{solver}& Regularización & Fuerza Regularización& \texttt{max\_iter} & $E_{in}$ & $E_{cv}$\\ \hline
-liblinear & l1 & 0.1 & 100 & 0.85289 & 0.85227\\
-
-liblinear & l1 & 1 & 100 & 0.85276 & 0.85181\\
-
-liblinear & l1 & 10  &100  & 0.85281 & 0.85186\\
-
-liblinear & l1 & 0.1 & 200 & 0.85289 & 0.85227\\
-
-liblinear & l1 & 1  &200  & 0.85276 & 0.85181\\
-
-liblinear & l1 & 10 & 200 & 0.85281 & 0.85186\\
-
-liblinear & l1 & 0.1 & 1000 & 0.85289 & 0.85227\\
-
-liblinear & l1 & 1 & 1000 & 0.85276 & 0.85181\\
-
-liblinear & l1 & 10  &1000 & 0.85281 & 0.85186\\
-
-lbfgs & l2 & 0.1 & 100 & 0.85268 & 0.85207\\
-
-lbfgs & l2 & 1 y &100 & 0.85276 & 0.85181\\
-
-lbfgs & l2 & 10 & 100 & 0.85281 & 0.85191\\
-
-lbfgs & l2 & 0.1 & 200 & 0.85268 & 0.85207\\
-
-lbfgs & l2 & 1 & 200 & 0.85276 & 0.85181\\
-
-lbfgs & l2 & 10  &200  & 0.85281 & 0.85189\\
-
-lbfgs & l2 & 0.1 & 1000 & 0.85268 & 0.85207\\
-
-lbfgs & l2 & 1  &1000  & 0.85276 & 0.85181\\
-
-lbfgs & l2 & 10 & 1000 & 0.85281 & 0.85186\\
-
-liblinear & l2 & 0.1 & 100 & 0.85271 & 0.85209\\
-
-liblinear & l2 & 1 & 100 & 0.85281 & 0.85186\\
-
-liblinear & l2 & 10  &100  & 0.85281 & 0.85186\\
-
-liblinear & l2 & 0.1 & 200 & 0.85271 & 0.85209\\
-
-liblinear & l2 & 1  &200  & 0.85281 & 0.85186\\
-
-liblinear & l2 & 10 & 200 & 0.85281 & 0.85186\\
-
-liblinear & l2 & 0.1 & 1000 & 0.85271 & 0.85209\\
-
-liblinear & l2 & 1 & 1000 & 0.85281 & 0.85186\\
-
-liblinear & l2 & 10  &10000 & 0.85281 & 0.85186\\\hline
-
-\end{tabular}
-\end{center}
-\caption{Resultados con variables lineales.}
-	\end{table}
-
 Como podemos ver 
 
-
-
- \newpage
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|l|l|l|l|l|l|}
-\hline
-\texttt{solver}& Regularización & Fuerza Regularización& \texttt{max\_iter} & $E_{in}$ & $E_{cv}$\\ \hline
-
-  liblinear & l1 & 0.1 & 100 & 0.85289 & 0.85227\\
-
-liblinear & l1 & 1 y &100  & 0.85276 & 0.85181\\
-
-liblinear & l1 & 10 & 100 & 0.85281 & 0.85186\\
-
-liblinear & l1 & 0.1 & 200 & 0.85289 & 0.85227\\
-
-liblinear & l1 & 1 & 200 & 0.85276 & 0.85181\\
-
-liblinear & l1 & 10  &200  & 0.85281 & 0.85186\\
-
-liblinear & l1 & 0.1 & 1000 & 0.85289 & 0.85227\\
-
-liblinear & l1 & 1 y &1000  & 0.85276 & 0.85181\\
-
-liblinear & l1 & 10 & 1000 & 0.85281 & 0.85186\\
-
-lbfgs & l2 & 0.1 & 100 & 0.85268 & 0.85207\\
-
-lbfgs & l2 & 1 & 100 & 0.85276 & 0.85181\\
-
-lbfgs & l2 & 10  &100  & 0.85281 & 0.85191\\
-
-lbfgs & l2 & 0.1 & 200 & 0.85268 & 0.85207\\
-
-lbfgs & l2 & 1  &200  & 0.85276 & 0.85181\\
-
-lbfgs & l2 & 10 & 200 & 0.85281 & 0.85189\\
-
-lbfgs & l2 & 0.1 & 1000 & 0.85268 & 0.85207\\
-
-lbfgs & l2 & 1 & 1000 & 0.85276 & 0.85181\\
-
-lbfgs & l2 & 10  &1000 & 0.85281 & 0.85186\\
-
-liblinear & l2 & 0.1 & 100 & 0.85271 & 0.85209\\
-
-liblinear & l2 & 1  &100  & 0.85281 & 0.85186\\
-
-liblinear & l2 & 10 & 100 & 0.85281 & 0.85186\\
-
-liblinear & l2 & 0.1 & 200 & 0.85271 & 0.85209\\
-
-liblinear & l2 & 1 & 200 & 0.85281 & 0.85186\\
-
-liblinear & l2 & 10  &200  & 0.85281 & 0.85186\\
-
-liblinear & l2 & 0.1 & 1000 & 0.85271 & 0.85209\\
-
-liblinear & l2 & 1 & 10000  & 0.85281 & 0.85186\\
-
-liblinear & l2 & 10 & 1000 & 0.85281 & 0.85186\\ \hline
-
-\end{tabular}
-\end{center}
-\caption{Resultados con variables cuadráticas.}
-	\end{table}
 
 \newpage
 \section{ Error de Generalización}
