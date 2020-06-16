@@ -103,27 +103,29 @@ def resultados(
 
 
 ########### Modelo lineal
-# print('\n-- Modelo lineal --\n')
-# # mejor modelo: liblinear con regularizaciónl1 C = 0.1 y 100 iteraciones
+    
+print('\n-- Modelo lineal --\n')
+# mejor modelo: liblinear con regularizaciónl1 C = 0.1 y 100 iteraciones
 
-# clf = LR(max_iter=100, penalty='l1', random_state=0, solver='liblinear', C=0.1)
+clf = LR(max_iter=100, penalty='l1', random_state=0, solver='liblinear', C=0.1)
 
-# clf.fit(X, y)
-# resultados(clf, X, y, X_tst, y_tst)
+clf.fit(X, y)
+resultados(clf, X, y, X_tst, y_tst)
 
 #input("\n--- Pulsar tecla para continuar ---\n")
 
 # --- Random forest ---
 
-# print('\n-- Random Forest --\n')
+print('\n-- Random Forest --\n')
 
-# clf = RandomForestClassifier(n_estimators=600,
-#                              criterion='entropy',
-#                              max_depth=50,
-#                              oob_score=True)
-# clf.fit(X, y)
-# resultados(clf, X, y, X_tst, y_tst)
+clf = RandomForestClassifier(n_estimators=400,
+                              criterion='entropy',
+                              max_depth=50,
+                              oob_score=True)
+clf.fit(X, y)
+resultados(clf, X, y, X_tst, y_tst)
 
+'''
 print('\n-- Support vector machine --\n')
 for kernel in  ['linear', 'poly', 'rbf', 'sigmoid']:
     for gamma in ['scale', 'auto']:
@@ -133,3 +135,4 @@ for kernel in  ['linear', 'poly', 'rbf', 'sigmoid']:
             clf = svm.SVC(max_iter=10000, kernel = kernel, gamma=gamma, C=0.1*C)
             clf.fit(X, y)
             resultados(clf, X, y, X_tst, y_tst)
+'''
