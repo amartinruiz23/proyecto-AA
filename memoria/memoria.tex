@@ -227,7 +227,7 @@ Estas dos técnicas se pueden entender como variaciones del gradiente descendien
  El primer modelo que presentamos es el modelo lineal. Este fue el primer modelo ajustado y de su ajuste aprovechamos conocimiento para el ajuste de los otro modelos. 
  
 \subsection{Modelo Lineal}
-Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, así como la fuerza de regularización. También consideraremos una muestra con variables lineales y otra con variables polinómicas. \\
+Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, la selección del parámetro \texttt{max\_iter} así como la fuerza de regularización. También consideraremos una muestra con variables lineales y otra con variables polinómicas. \\
 
 
 
@@ -314,69 +314,7 @@ Obtenemos los resultados:
 \end{center}
 \end{table}
 
-<<<<<<< HEAD
 \subsection{Random forest}
-=======
-Podemos ver como apenas hay error por sobreajuste. Sin embargo, no consideramos que el modelo se quede corto en complejidad para explicar los datos. De otro modo, consideramos que el hecho de estar tratando con una clase desbalanceada y ruidosa como es la de un censo cercena las posibilidad de mejora. 
-
-
-\subsection{SVM\cite{svc}}
-
-Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o  fuerza de regularización y kernel. Al no tener clasificación multiclase en este problema no tiene sentido aplicar estudio de varias de las variables. También estudiaremos el parámetro \texttt{max\_iter}, aunque no lo comentaremos, procuraremos que sea lo suficientemente amplio como para obtener siempre convergencia, pero acotado para asegurar un tiempo de ejecución limitado. En general exigiremos que sea siempre inferior a 10000 iteraciones.\\
-
-DUDA: discutir aqui SVM con la regularización y tal.
-\begin{itemize}
-\item \underline{Kernel:} Consideraremos kernel Gaussiano como viene recomendado en el guión así como lineal. No elegimos kernel polinómico debido al estudio ya realizado sobre este tema en Regresión logística.\\
-
-  Debido al éxito del modelo lineal estamos interesados en saber como se comportará un plano óptimo. Sin embargo, consideramos que la probable no existencia de un plano
-  óptimo, así como la falta de variabilidad en el modelo y los habituales buenos resultados del nucleo gaussiano, hace que este se presente como una mejor alternativa. En efecto:
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|l|c|c|}
-\hline
-	Nucleo & Accuracy & F1 \\ \hline
-Lineal & 0.775 & 0.625 \\
-Gaussiano & 0.852 & 0.777  \\\hline
-\end{tabular}
-\caption{Resultados ajustes con variables polinómicas.}
-
-\end{center}
-\end{table}
-
-\item \underline{Fuerza de regularización}: Para hacer un ajuste de esta, al igual que en modelo lineal, realizaremos un barrido de valores en escala logarítmica para detectar alguna variación grande, para posteriormente hacer una ingeniería de parámetros más fina. Obtenemos como resultado:
-  \newpage
-    \begin{figure}[h!]
-      \label{figure:regularization}
-      \centering
-      \includegraphics[width=\textwidth]{./figures/regularizacion_rl.png}
-      \caption{Cambiar este gráfico por le otro cuando esté.}
-    \end{figure}
-  
-
-\end{itemize}
-Así obtenemos que el mejor ajuste es:
-
-{\begin{center}
-    \texttt{LR( penalty='l2', random\_state=0, solver='liblinear', C=1.9)}
-  \end{center}}
-
-Obtenemos los resultados:
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|l|c|c|}
-\hline
-  Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & 0.85132 & 0.78230 \\
-  $E_{test}$ & 0.84976 & 0.77027  \\
-  $E_{cv}$ &0.85064 & 0.78150  \\\hline
-\end{tabular}
-\caption{Resultados ajustes con variables polinómicas.}
-
-\end{center}
-\end{table}
->>>>>>> 258cee11d8f2cc29c27c386ccaa722dc54fa3cbb
 
 A partir del modelo por defecto que proporciona scikit-learn modificaremos tres parámetros para obtener el resultado final
 
@@ -385,6 +323,26 @@ A partir del modelo por defecto que proporciona scikit-learn modificaremos tres 
 \item \underline{Criterio de selección}. El criterio que se aplica para obtener la calidad de las divisiones. El criterior por defecto es la impureza de Gini, pero también puede seleccionarse la ganancia de información. Puesto que esta segunda opción es la que se ha estudiado en teoría y la que produce mejores resultados, aunque con peores tiempos de ejecución, elegimos este. 
 \item \underline{Profundidad máxima}. Es clave para limitar la complejidad del modelo y evitar overfitting. Por defecto la profundidad no está limitada y el árbol se amplía todo lo posible. Elegiremos limitar la profundidad de los árboles ya que obtenemos claras mejoras en clasificación. Procedemos disminuyendo este número hasta que deja de producirse una mejora en la puntuación de cross validation y empieza a empeorar el resultado. Finalmente tomamos una profundidad de 50.
 \end{itemize}
+
+Así obtenemos que el mejor ajuste es:
+
+{\begin{center}
+    \texttt{clf = RandomForestClassifier(n\_estimators=400, criterion='entropy', max\_depth=50,)}\end{center}}
+    
+Obtenemos los resultados:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+  Error & Accuracy & F1-score \\ \hline
+  $E_{in}$ & rellenar & rellenar \\
+  $E_{test}$ & rellenar & rellenar  \\
+  $E_{cv}$ & rellenar & rellenar  \\\hline
+\end{tabular}
+\caption{Resultados de Random Forest.}
+\end{center}
+\end{table}
 
 \section{ Error de Generalización}
 \subsection{Modelo Lineal}
@@ -425,9 +383,6 @@ Métricas de sklearn \url{https://scikit-learn.org/stable/modules/model_evaluati
 
 Métrica f1-score \url{https://en.wikipedia.org/wiki/F1_score}
 
-
-\bibitem{svc}
-Página sklearn SVC \url{https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html?highlight=svc#sklearn.svm.SVC}
 
 \bibitem{CD}
 Código RL: \url{https://en.wikipedia.org/wiki/Coordinate_descent}
