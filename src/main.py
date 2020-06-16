@@ -40,12 +40,11 @@ print_class_balance(y, y_tst)
 
 # -- preprocesado    le.fit(union[feature])
 
-
 tam = info_size(X, 'Tamaño de los datos después de encode:')
 
 preprocesado = pl.make_pipeline(fs.VarianceThreshold(threshold=0.01),
                                 sklpre.StandardScaler(),
-                                skld.PCA(n_components=tam-1))
+                                skld.PCA(n_components=tam - 1))
 
 preprocesado.fit(X)
 X = preprocesado.transform(X)
@@ -64,7 +63,6 @@ def resultados(
 ):
     if msg is not None:
         print(msg)
-
 
     pred_tra = clf.predict(X)
     pred_tst = clf.predict(X_tst)
@@ -150,31 +148,28 @@ for penalty in penaltys:
 
 '''
 
-print( '\n-- Modelo lineal --\n')
+print('\n-- Modelo lineal --\n')
 # mejor modelo: liblinear con regularizaciónl1 C = 0.1 y 100 iteraciones
 
-clf = LR(max_iter=100,
-         penalty='l1',
-         random_state=0,
-         solver='liblinear',
-         C=0.1)
+clf = LR(max_iter=100, penalty='l1', random_state=0, solver='liblinear', C=0.1)
 
-clf.fit(X,y)
+clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
 
 #input("\n--- Pulsar tecla para continuar ---\n")
-                                
+
 # --- Random forest ---
 
-print( '\n-- Random Forest --\n')
+print('\n-- Random Forest --\n')
 
-clf = RandomForestClassifier(n_estimators = 600, criterion = 'entropy', max_depth = 50)
-clf.fit(X,y)
+clf = RandomForestClassifier(n_estimators=600,
+                             criterion='entropy',
+                             max_depth=50)
+clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
 
-print( '\n-- Support vector machine --\n')
+print('\n-- Support vector machine --\n')
 
 clf = svm.LinearSVC(max_iter=30000)
 clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
-
