@@ -139,50 +139,50 @@ input("\n--- Pulsar tecla para continuar ---\n")
 
 # print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
 
-# acu = []
-# fsc = []
-# x_axis = [i for i in range(-5,10)]
-# for i in x_axis:
-#     clf = LR(penalty='l2', C = 10**(i))
-#     clf.fit(X, y)
+acu = []
+fsc = []
+x_axis = [i for i in range(-5,10)]
+for i in x_axis:
+    clf = LR( penalty='l2', random_state=0, solver='liblinear', C=10**i)
+    clf.fit(X, y)
 
-#     cv_results = cross_validate(clf,
-#                                 X,
-#                                 y,
-#                                 cv=5,
-#     )
+    cv_results = cross_validate(clf,
+                                X,
+                                y,
+                                cv=5,
+    )
     
-#     acu.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
-#     cv_results = cross_validate(clf,
-#                                 X,
-#                                 y,
-#                                 cv=5,
-#                                 scoring='f1_macro',
-#     )
-#     fsc.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
-# plt.figure()
-# plt.title('Fuerza de regularización')
-# plt.xlabel('Valor en escala logaritmica base 10')
-# plot(x_axis, acu, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='accuracy')
-# plot(x_axis, fsc, 'go',color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='f1-score')
-# plt.legend()
-# plt.show()
+    acu.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+    cv_results = cross_validate(clf,
+                                X,
+                                y,
+                                cv=5,
+                                scoring='f1_macro',
+    )
+    fsc.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+plt.figure()
+plt.title('Fuerza de regularización')
+plt.xlabel('Valor en escala logaritmica base 10')
+plot(x_axis, acu, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='accuracy')
+plot(x_axis, fsc, 'go',color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='f1-score')
+plt.legend()
+plt.show()
 
-# print('Mejor resultado: ', acu.index(max(acu)))
+print('Mejor resultado: ', acu.index(max(acu)))
 
-# input("\n--- Pulsar tecla para continuar ---\n")
+input("\n--- Pulsar tecla para continuar ---\n")
 
 
 
-# print('\n-- Modelo lineal --\n')
+print('\n-- Modelo lineal --\n')
 
 
 
 #mejor modelo: liblinear con regularizaciónl2 C = 1.9 y 100 iteraciones
-clf = LR( penalty='l2', random_state=0, solver='liblinear', C=2)
+# clf = LR( penalty='l2', random_state=0, solver='liblinear', C=)
 
-clf.fit(X, y)
-resultados(clf, X, y, X_tst, y_tst)
+# clf.fit(X, y)
+# resultados(clf, X, y, X_tst, y_tst)
 
 #input("\n--- Pulsar tecla para continuar ---\n")
 
