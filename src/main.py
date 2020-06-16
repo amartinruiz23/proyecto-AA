@@ -73,6 +73,8 @@ print( 'Analisis de componentes principales')
 pca = PCA(tol=0.01, n_components = X.shape[1])
 X = pca.fit(X)
 
+print(pca.explained_variance_)
+
 ########### Validación cruzada:
 def resultados(
     clf,
@@ -103,8 +105,6 @@ def resultados(
     #print("E_cv: ",
     #      sum(cv_results['test_score']) / len(cv_results['test_score']))
 
-
-print(pca.explained_variance_)
 
 ########### Modelo lineal
 # print('\n-- Modelo lineal --\n')
