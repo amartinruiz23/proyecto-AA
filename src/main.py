@@ -121,20 +121,20 @@ def resultados(
 ########### Modelo lineal
 
 
-# print('\n\nEstudio de la variabilidad polinómica de los datos')
-# X_copy = X.copy()
-# for i in range(1,3):
-#     print('Estudio con dimensión: ',i )
-#     poly = PolynomialFeatures(i)
-#     np.random.seed(0)
-#     poly.fit(X)
-#     poly.transform(X)
-#     poly.transform(X_tst)
-#     clf = LR(random_state=0)
-#     clf.fit(X, y)
-#     resultados(clf, X, y, X_tst, y_tst)
-#     X = X_copy.copy()
-# input("\n--- Pulsar tecla para continuar ---\n")
+print('\n\nEstudio de la variabilidad polinómica de los datos')
+X_copy = X.copy()
+for i in range(1,3):
+    print('Estudio con dimensión: ',i )
+    poly = PolynomialFeatures(i)
+    np.random.seed(0)
+    poly.fit(X)
+    poly.transform(X)
+    poly.transform(X_tst)
+    clf = LR(random_state=0)
+    clf.fit(X, y)
+    resultados(clf, X, y, X_tst, y_tst)
+    X = X_copy.copy()
+input("\n--- Pulsar tecla para continuar ---\n")
 
 
 # print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
@@ -179,7 +179,7 @@ def resultados(
 
 
 #mejor modelo: liblinear con regularizaciónl2 C = 1.9 y 100 iteraciones
-clf = LR( penalty='l2', random_state=0, solver='lbfgs', C=2)
+clf = LR( penalty='l2', random_state=0, solver='liblinear', C=2)
 
 clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
