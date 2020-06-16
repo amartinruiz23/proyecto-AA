@@ -101,85 +101,85 @@ def resultados(
     print(" - F1-score: ", f1_score(y_tst, pred_tst, average='macro'))
     # print("precision tst: ", precision_score(y_tst, pred_tst))
 
-    cv_results = cross_validate(clf,
-                                X,
-                                y,
-                                cv=5,
-    )
-    print("E_cv:\n - Accuracy: ",
-         sum(cv_results['test_score']) / len(cv_results['test_score']))
-    cv_results = cross_validate(clf,
-                                X,
-                                y,
-                                cv=5,
-                                scoring='f1_macro',
-    )
-    print(" - F1-score ",
-         sum(cv_results['test_score']) / len(cv_results['test_score']))
+    # cv_results = cross_validate(clf,
+    #                             X,
+    #                             y,
+    #                             cv=5,
+    # )
+    # print("E_cv:\n - Accuracy: ",
+    #      sum(cv_results['test_score']) / len(cv_results['test_score']))
+    # cv_results = cross_validate(clf,
+    #                             X,
+    #                             y,
+    #                             cv=5,
+    #                             scoring='f1_macro',
+    # )
+    # print(" - F1-score ",
+    #      sum(cv_results['test_score']) / len(cv_results['test_score']))
 
 
 ########### Modelo lineal
 
 
-print('\n\nEstudio de la variabilidad polinómica de los datos')
-X_copy = X.copy()
-for i in range(1,3):
-    print('Estudio con dimensión: ',i )
-    poly = PolynomialFeatures(i)
-    np.random.seed(0)
-    poly.fit(X)
-    poly.transform(X)
-    poly.transform(X_tst)
-    clf = LR(random_state=0)
-    clf.fit(X, y)
-    resultados(clf, X, y, X_tst, y_tst)
-    X = X_copy.copy()
-input("\n--- Pulsar tecla para continuar ---\n")
+# print('\n\nEstudio de la variabilidad polinómica de los datos')
+# X_copy = X.copy()
+# for i in range(1,3):
+#     print('Estudio con dimensión: ',i )
+#     poly = PolynomialFeatures(i)
+#     np.random.seed(0)
+#     poly.fit(X)
+#     poly.transform(X)
+#     poly.transform(X_tst)
+#     clf = LR(random_state=0)
+#     clf.fit(X, y)
+#     resultados(clf, X, y, X_tst, y_tst)
+#     X = X_copy.copy()
+# input("\n--- Pulsar tecla para continuar ---\n")
 
 
 # print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
 
-acu = []
-fsc = []
-x_axis = [i for i in range(-5,10)]
-for i in x_axis:
-    clf = LR( penalty='l2', random_state=0, solver='liblinear', C=10**i)
-    clf.fit(X, y)
+# acu = []
+# fsc = []
+# x_axis = [i for i in range(-5,10)]
+# for i in x_axis:
+#     clf = LR( penalty='l2', random_state=0, solver='liblinear', C=10**i)
+#     clf.fit(X, y)
 
-    cv_results = cross_validate(clf,
-                                X,
-                                y,
-                                cv=5,
-    )
+#     cv_results = cross_validate(clf,
+#                                 X,
+#                                 y,
+#                                 cv=5,
+#     )
     
-    acu.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
-    cv_results = cross_validate(clf,
-                                X,
-                                y,
-                                cv=5,
-                                scoring='f1_macro',
-    )
-    fsc.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
-plt.figure()
-plt.title('Fuerza de regularización')
-plt.xlabel('Valor en escala logaritmica base 10')
-plot(x_axis, acu, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='accuracy')
-plot(x_axis, fsc, 'go',color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='f1-score')
-plt.legend()
-plt.show()
+#     acu.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+#     cv_results = cross_validate(clf,
+#                                 X,
+#                                 y,
+#                                 cv=5,
+#                                 scoring='f1_macro',
+#     )
+#     fsc.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+# plt.figure()
+# plt.title('Fuerza de regularización')
+# plt.xlabel('Valor en escala logaritmica base 10')
+# plot(x_axis, acu, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='accuracy')
+# plot(x_axis, fsc, 'go',color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='f1-score')
+# plt.legend()
+# plt.show()
 
-print('Mejor resultado: ', acu.index(max(acu)))
+# print('Mejor resultado: ', acu.index(max(acu)))
 
-input("\n--- Pulsar tecla para continuar ---\n")
-
-
-
-print('\n-- Modelo lineal --\n')
+# input("\n--- Pulsar tecla para continuar ---\n")
 
 
 
-#mejor modelo: liblinear con regularizaciónl2 C = 1.9 y 100 iteraciones
-# clf = LR( penalty='l2', random_state=0, solver='liblinear', C=)
+# print('\n-- Modelo lineal --\n')
+
+
+
+# #mejor modelo: liblinear con regularizaciónl2 C = 1.9 y 100 iteraciones
+# clf = LR( penalty='l2', random_state=0, solver='liblinear', C=1.9)
 
 # clf.fit(X, y)
 # resultados(clf, X, y, X_tst, y_tst)
@@ -198,11 +198,44 @@ print('\n-- Modelo lineal --\n')
 # resultados(clf, X, y, X_tst, y_tst)
 
 # print('\n-- Support vector machine --\n')
-# for kernel in  ['linear', 'poly', 'rbf', 'sigmoid']:
-#     for gamma in ['scale', 'auto']:
-#         for C in range(1,21, 4):
-#             print(' - kernel: ', kernel, ', gamma: ', gamma, ', C:' , 0.1*C )
-#             print(C)
-#             clf = svm.SVC(max_iter=10000, kernel = kernel, gamma=gamma, C=0.1*C)
-#             clf.fit(X, y)
-#             resultados(clf, X, y, X_tst, y_tst)
+# for kernel in  ['linear', 'rbf']:
+#     clf = svm.SVC(max_iter=10000, kernel = kernel)
+#     clf.fit(X, y)
+#     resultados(clf, X, y, X_tst, y_tst)
+
+
+# print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
+
+acuGaus = []
+fscGaus = []
+x_axis = [i for i in range(-5,10)]
+for i in x_axis:
+    clf = svm.SVC(max_iter=10000, C=10**i)
+    clf.fit(X, y)
+
+    cv_results = cross_validate(clf,
+                                X,
+                                y,
+                                cv=5,
+    )
+    
+    acuGaus.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+    cv_results = cross_validate(clf,
+                                X,
+                                y,
+                                cv=5,
+                                scoring='f1_macro',
+    )
+    fscGaus.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+
+plt.figure()
+plt.title('Fuerza de regularización')
+plt.xlabel('Valor en escala logaritmica base 10')
+plot(x_axis, acuGaus, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='accuracy')
+plot(x_axis, fscGaus, 'go',color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='f1-score')
+plt.legend()
+plt.show()
+
+print('Mejor resultado: ', acuGaus.index(max(acu)))
+
+input("\n--- Pulsar tecla para continuar ---\n")
