@@ -340,6 +340,12 @@ for i in x_axis:
 
 # Mejor modelo
 
+# Tres capas
 clf = MLPClassifier(hidden_layer_sizes=[50, 60])
+clf.fit(X, y)
+resultados(clf, X, y, X_tst, y_tst)
+
+# Dos capas
+clf = MLPClassifier(hidden_layer_sizes=60)
 clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
