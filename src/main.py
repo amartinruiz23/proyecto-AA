@@ -186,56 +186,112 @@ def resultados(
 
 #input("\n--- Pulsar tecla para continuar ---\n")
 
-# --- Random forest ---
+#--- Random forest ---
 
-# print('\n-- Random Forest --\n')
+print('\n-- Random Forest --\n')
 
-# clf = RandomForestClassifier(n_estimators=400,
-#                               criterion='entropy',
-#                               max_depth=50,
-#                               oob_score=True)
-# clf.fit(X, y)
-# resultados(clf, X, y, X_tst, y_tst)
+clf = RandomForestClassifier(n_estimators=400, max_depth=50)
+clf.fit(X, y)
+resultados(clf, X, y, X_tst, y_tst)
 
-# print('\n-- Support vector machine --\n')
-# for kernel in  ['linear', 'rbf']:
-#     clf = svm.SVC(max_iter=10000, kernel = kernel)
-#     clf.fit(X, y)
-#     resultados(clf, X, y, X_tst, y_tst)
+"""
+print('\nComparación de criterios\n')
+for crit in  ['gini', 'entropy']:
+    clf = RandomForestClassifier(n_estimators=400, max_depth=50, criterion = crit)
+    clf.fit(X, y)
+    resultados(clf, X, y, X_tst, y_tst)
+
+print('\nComparación de profundidad\n')
+
+e_cv = []
+e_in = []
+x_axis = [80, 60, 40, 30, 20, 10, 5, 3, 1]
+for i in x_axis:
+    clf = RandomForestClassifier(n_estimators=400, max_depth=i)
+    clf.fit(X, y)
+
+    cv_results = cross_validate(clf,X,y,cv=5)    
+    e_cv.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+    #print(e_cv)
+    
+    pred_tra = clf.predict(X)
+    e_in.append(accuracy_score(y, pred_tra))
+    #print(e_in)
+    
+plt.figure()
+plt.title('Profundidad, máxima cross validation')
+plot(x_axis, e_cv, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='e cv')
+plt.show()
+
+plt.figure()
+plt.title('Profundidad, error en training')
+plot(x_axis, e_in,color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='e in')
+plt.show()
+
+
+print('\nComparación de n estimadores\n')
+
+e_cv = []
+e_in = []
+x_axis = [10, 50, 100, 200, 400, 500, 600]
+for i in x_axis:
+    clf = RandomForestClassifier(n_estimators=i, max_depth=50)
+    clf.fit(X, y)
+
+    cv_results = cross_validate(clf,X,y,cv=5)    
+    e_cv.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+    #print(e_cv)
+    
+    pred_tra = clf.predict(X)
+    e_in.append(accuracy_score(y, pred_tra))
+    #print(e_in)
+    
+plt.figure()
+plt.title('Estimadores, cross validation')
+plot(x_axis, e_cv, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='e cv')
+plt.show()
+
+plt.figure()
+plt.title('Estimadores, error en training')
+plot(x_axis, e_in, color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='e in')
+plt.show()
+"""
 
 
 # print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
 
-acuGaus = []
-fscGaus = []
-x_axis = [i for i in range(-5,10)]
-for i in x_axis:
-    clf = svm.SVC(max_iter=10000, C=10**i)
-    clf.fit(X, y)
+# acuGaus = []
+# fscGaus = []
+# x_axis = [i for i in range(-5,6,2)]
+# for i in x_axis:
+#     clf = svm.SVC(max_iter=10000, C=10**(i))
+#     clf.fit(X, y)
 
-    cv_results = cross_validate(clf,
-                                X,
-                                y,
-                                cv=5,
-    )
+#     cv_results = cross_validate(clf,
+#                                 X,
+#                                 y,
+#                                 cv=5,
+#     )
     
-    acuGaus.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
-    cv_results = cross_validate(clf,
-                                X,
-                                y,
-                                cv=5,
-                                scoring='f1_macro',
-    )
-    fscGaus.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+#     acuGaus.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+#     print(acuGaus)
+#     cv_results = cross_validate(clf,
+#                                 X,
+#                                 y,
+#                                 cv=5,
+#                                 scoring='f1_macro',
+#     )
+#     fscGaus.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+#     print(fscGaus)
 
-plt.figure()
-plt.title('Fuerza de regularización')
-plt.xlabel('Valor en escala logaritmica base 10')
-plot(x_axis, acuGaus, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='accuracy')
-plot(x_axis, fscGaus, 'go',color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='f1-score')
-plt.legend()
-plt.show()
 
-print('Mejor resultado: ', acuGaus.index(max(acu)))
+# plt.figure()
+# plt.title('Fuerza de regularización')
+# plt.xlabel('Valor en escala logaritmica base 10')
+# plot(x_axis, acuGaus, color='green', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='accuracy')
+# plot(x_axis, fscGaus, 'go',color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='f1-score')
+# plt.legend()
+# plt.show()
 
-input("\n--- Pulsar tecla para continuar ---\n")
+
+# input("\n--- Pulsar tecla para continuar ---\n")
