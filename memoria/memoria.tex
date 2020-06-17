@@ -441,7 +441,7 @@ Obtenemos los resultados:
 
 \subsection{Perceptrón multi capa}
 
-Según lo sugerido en la práctica consideramos el perceptron multi capa con dos capas intermedias. Cada una de ellas podrá tener valores de entre 50 y 100 neuronas. Haremos una búsqueda a través de estas opciones para comprobar cuál es la mejor. En las tablas de resultados vemos los experimentos realizados.
+Según lo sugerido en la práctica consideramos el perceptron multi capa con dos capas intermedias. Cada una de ellas podrá tener valores de entre 50 y 100 unidades. Haremos una búsqueda a través de estas opciones para comprobar cuál es la mejor. En las tablas de resultados vemos los experimentos realizados.
 
 \begin{table}[h]
 \begin{center}
@@ -471,11 +471,49 @@ Según lo sugerido en la práctica consideramos el perceptron multi capa con dos
   2ª capa 100 & 0,8254 & 0,8213 & 0,8242 & 0,8222\\\hline
 \end{tabular}
 \caption{Resultados en cross validation de perceptrón multi capa.}
+\end{center}
+\end{table}
+
+Podemos comprobar que la mejor opción es una de las más sencillas, 50 en la primera capa y 60 en la segunda. Además esta opción no es la que mejor ajusta el conjunto de training. Esto nos lleva a pensar que puede mejorarse el resultado simplificando el modelo. Probamos un perceptrón de dos capas y obtenemos, con 60 unidades en la capa intermedia una precisión en cross validation de 0,8403, superior a la obtenida con dos capas.
+
+Así, los resultados obtenidos con ambos modelos pueden consultarse en las tablas correspondientes. Los modelos finales tomados son
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+  Error & Accuracy & F1-score \\ \hline
+  $E_{in}$ & 0.9167 & 0.8839 \\
+  $E_{test}$ & 0.8230 & 0.7498  \\
+  $E_{cv}$ & 0.8297 & 0.7603  \\\hline\end{tabular}
+\caption{Resultados ajuste MLP de tres capas.}
 
 \end{center}
 \end{table}
 
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+  Error & Accuracy & F1-score \\ \hline
+  $E_{in}$ & 0.8867 & 0.8394 \\
+  $E_{test}$ & 0.8265 & 0.7541  \\
+  $E_{cv}$ & 0.8402 & 0.7772  \\\hline
+\end{tabular}
+\caption{Resultados ajuste MLP de dos capas.}
 
+\end{center}
+\end{table}
+
+{\begin{center}
+    \texttt{MLPClassifier(hidden\_layer\_sizes=[50, 60])}
+  \end{center}}
+
+
+{\begin{center}
+    \texttt{MLPClassifier(hidden\_layer\_sizes= 60)}
+  \end{center}}  
+ 
 \section{ Error de Generalización}
 \subsection{Modelo Lineal}
 
