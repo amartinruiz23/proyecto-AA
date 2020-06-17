@@ -200,7 +200,7 @@ Para el uso de la regresión logistica haremos uso de la función de sklearn.
 
 \subsection{Random Forest}
 
-El principal objetivo que justifica la aplicación de esta técnica generar un modelo complejo que represente con mucha precisión el conjunto de entrenamiento. Esto nos permitirá su comparación con otros modelos más sencillos que produzcan un ajuste menos exacto de los datos. Mediante esta comparación podremos comprobar la incidencia del problema del overfitting en este caso.
+El principal objetivo que justifica la aplicación de esta técnica generar un modelo complejo que represente con mucha precisión el conjunto de entrenamiento. Esto nos permitirá su comparación con otros modelos más sencillos que produzcan un ajuste menos exacto de los datos. Mediante esta comparación podremos comprobar la incidencia del problema del overfitting en este caso. 
 
 \subsection{SVM}
 
@@ -319,7 +319,24 @@ Obtenemos los resultados:
 A partir del modelo por defecto que proporciona scikit-learn modificaremos tres parámetros para obtener el resultado final
 
 \begin{itemize}
-\item \underline{Número de estimadores}. Viene dado por el parámetro \texttt{n\_estimators}. El número por defecto es 100. Procedemos ampliando este número hasta que dejan de producirse mejoras significativas. Obtenemos que el número óptimo es el de 400 estimadores. A partir de este número empieza a producirse overfitting.
+\item \underline{Número de estimadores}. Viene dado por el parámetro \texttt{n\_estimators}. El número por defecto es 100. Procedemos ampliando este número hasta que dejan de producirse mejoras significativas. En las gráficas vemos cómo evoluciona la puntuación en la predicción dentro de test y en cross validation. Comenzamos con un número pequeño de estimadores y comprobamos que la predicción dentro del test sube hasta llegar a los 100 iteradores, donde ya es prácticamente perfecta. En cross validation observamos que la subida es equivalente hasta los 100 estimadores, pero a partir de aquí la predicción baja. Comprobamos un repunte en 400 estimadores y a partir de este punto podemos considerar que empieza a crecer el overfitting. Obtenemos entonces que el número óptimo es el de 400 estimadores.
+
+    \begin{figure}[h!]
+      \label{figure:rf_estimadores_ein}
+      \centering
+      \includegraphics[width=\textwidth, scale = 0.3]{./figures/rf_estimadores_ein.png}
+      \caption{Evolución d ela predicción en train según número de estimadores.}
+    \end{figure}
+
+
+    \begin{figure}[h!]
+      \label{figure:rf_estimadores_cv}
+      \centering
+      \includegraphics[width=\textwidth, scale=0.3]{./figures/rf_estimadores_cv.png}
+      \caption{Evolución de la predicción en cross validation según número de estimadores.}
+    \end{figure}
+
+
 \item \underline{Criterio de selección}. El criterio que se aplica para obtener la calidad de las divisiones. El criterior por defecto es la impureza de Gini, pero también puede seleccionarse la ganancia de información. Puesto que esta segunda opción es la que se ha estudiado en teoría y la que produce mejores resultados, aunque con peores tiempos de ejecución, elegimos este. 
 \item \underline{Profundidad máxima}. Es clave para limitar la complejidad del modelo y evitar overfitting. Por defecto la profundidad no está limitada y el árbol se amplía todo lo posible. Elegiremos limitar la profundidad de los árboles ya que obtenemos claras mejoras en clasificación. Procedemos disminuyendo este número hasta que deja de producirse una mejora en la puntuación de cross validation y empieza a empeorar el resultado. Finalmente tomamos una profundidad de 50.
 \end{itemize}
@@ -336,8 +353,8 @@ Obtenemos los resultados:
 \begin{tabular}{|l|c|c|}
 \hline
   Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & rellenar & rellenar \\
-  $E_{test}$ & rellenar & rellenar  \\
+  $E_{in}$ & 0,9999 & 0,9999 \\
+  $E_{test}$ & 0,8307 & 0,7269  \\
   $E_{cv}$ & rellenar & rellenar  \\\hline
 \end{tabular}
 \caption{Resultados de Random Forest.}
