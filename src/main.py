@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
 import pandas as pd
 from sklearn import preprocessing, svm
 from sklearn.preprocessing import OneHotEncoder
@@ -254,7 +255,7 @@ plt.title('Estimadores, error en training')
 plot(x_axis, e_in, color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='e in')
 plt.show()
 """
-
+'''
 print('\n-- Support vector machine --\n')
 
 clf = svm.SVC(max_iter=10000, C=2, kernel='rbf')
@@ -308,3 +309,28 @@ plt.show()
 
 
 # input("\n--- Pulsar tecla para continuar ---\n")
+'''
+
+########### Perceptrón multi capa
+
+print('\n-- Perceptrón multi capa --\n')
+
+e_cv = []
+e_in = []
+x_axis = [50, 60, 80, 100]
+
+
+for i in x_axis:
+    for j in x_axis:
+        
+        clf = MLPClassifier(hidden_layer_sizes=[i, j])
+        clf.fit(X, y)
+    
+        cv_results = cross_validate(clf,X,y,cv=5)    
+        e_cv.append(sum(cv_results['test_score']) / len(cv_results['test_score']))
+        print("cv ", i," ", j, " ", e_cv[-1])
+    
+        pred_tra = clf.predict(X)
+        e_in.append(accuracy_score(y, pred_tra))
+        #print(e_in)
+        print("e_in ", i," ", j, " ", e_in[-1])
