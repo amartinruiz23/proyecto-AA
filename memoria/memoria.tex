@@ -346,7 +346,7 @@ Obtenemos los resultados:
 
 \subsection{SVM\cite{svc}}
 
-Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o fuerza de regularización y kernel. Al no tener clasificación multiclase en este problema no tiene sentido aplicar estudio de varias de las variables. También estudiaremos el parámetro max iter, aunque no lo comentaremos, procuraremos que sea lo suficientemente amplio como para obtener siempre convergencia, pero acotado para asegurar un tiempo de ejecución limitado. En general exigiremos que sea siempre inferior a 10000 iteraciones.
+Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o fuerza de regularización y kernel. Al no tener clasificación multiclase en este problema no tiene sentido aplicar estudio de varias de las variables. También estudiaremos el parámetro max iter, aunque no lo comentaremos, procuraremos que sea lo suficientemente amplio como para obtener siempre convergencia, pero acotado para asegurar un tiempo de ejecución limitado. En general exigiremos que sea siempre inferior a 15000 iteraciones.
 
 \begin{itemize}
 \item \underline{Kernel:} Consideraremos kernel Gaussiano como viene recomendado en el guión así como lineal. No elegimos kernel polinómico debido al estudio ya realizado sobre este tema en Regresión logística.\\
@@ -373,12 +373,35 @@ Gaussiano & 0.852 & 0.777  \\\hline
     \begin{figure}[h!]
       \label{figure:regularization}
       \centering
-      \includegraphics[width=\textwidth]{./figures/regularizacion_rl.png}
+      \includegraphics[width=\textwidth]{./figures/regularizacion_SVM.png}
       \caption{Cambiar este gráfico por le otro cuando esté.}
     \end{figure}
   
 
 \end{itemize}
+
+
+Así obtenemos que el mejor ajuste es:
+
+{\begin{center}
+    \texttt{svm.SVC(max\_iter=15000, C=2, kernel=kernel)}
+  \end{center}}
+
+Obtenemos los resultados:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+  Error & Accuracy & F1-score \\ \hline
+  $E_{in}$ & 0.85132 & 0.78230 \\
+  $E_{test}$ & 0.84976 & 0.77027  \\
+  $E_{cv}$ &0.85064 & 0.78150  \\\hline
+\end{tabular}
+\caption{Resultados ajustes con variables polinómicas.}
+
+\end{center}
+\end{table}
 
 
 

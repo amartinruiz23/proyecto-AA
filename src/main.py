@@ -101,21 +101,21 @@ def resultados(
     print(" - F1-score: ", f1_score(y_tst, pred_tst, average='macro'))
     # print("precision tst: ", precision_score(y_tst, pred_tst))
 
-    # cv_results = cross_validate(clf,
-    #                             X,
-    #                             y,
-    #                             cv=5,
-    # )
-    # print("E_cv:\n - Accuracy: ",
-    #      sum(cv_results['test_score']) / len(cv_results['test_score']))
-    # cv_results = cross_validate(clf,
-    #                             X,
-    #                             y,
-    #                             cv=5,
-    #                             scoring='f1_macro',
-    # )
-    # print(" - F1-score ",
-    #      sum(cv_results['test_score']) / len(cv_results['test_score']))
+    cv_results = cross_validate(clf,
+                                X,
+                                y,
+                                cv=5,
+    )
+    print("E_cv:\n - Accuracy: ",
+         sum(cv_results['test_score']) / len(cv_results['test_score']))
+    cv_results = cross_validate(clf,
+                                X,
+                                y,
+                                cv=5,
+                                scoring='f1_macro',
+    )
+    print(" - F1-score ",
+         sum(cv_results['test_score']) / len(cv_results['test_score']))
 
 
 ########### Modelo lineal
@@ -262,13 +262,22 @@ clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
 
 
+print('\n\nEstudio de kernel (tarda un poco).')
+
+for kernel in ['rbf','linear']:
+    clf = svm.SVC(max_iter=15000, C=2, kernel=kernel)
+    clf.fit(X, y)
+    resultados(clf, X, y, X_tst, y_tst)
+
+
+
 print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
 
 acuGaus = []
 fscGaus = []
 x_axis = [i for i in range(-5,6,2)]
 for i in x_axis:
-    clf = svm.SVC(max_iter=10000, C=10**(i))
+    clf = svm.SVC(max_iter=3000, C=10**(i))
     clf.fit(X, y)
 
     cv_results = cross_validate(clf,
