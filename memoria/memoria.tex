@@ -208,6 +208,9 @@ Consideramos que la técnica SVM-soft margin puede ser muy útil para este probl
 
 Otro motivo para decidir ajustar este modelo, aunque de carácter menos importante, es la curiosidad suscitada por este modelo durante el desarrollo teórico de la asignatura. 
 
+\subsection{Modelo extra. Perceptrón multi capa}
+Decidimos desarrollar un modelo extra además de los obligatorios. Elegimos el modelo de perceptrón multi capa. TODO: CONTINUAR POR QUÉ LO ELEGIMOS
+
 \section{ Técnica de Ajuste para el Modelo Lineal}
 Para este conjunto utilizaremos dos técinas de ajuste, ambas definidas como variaciones especializadas sobre el algoritmo SGD.:
 \begin{itemize}
@@ -436,6 +439,41 @@ Obtenemos los resultados:
 \end{center}
 \end{table}
 
+\subsection{Perceptrón multi capa}
+
+Según lo sugerido en la práctica consideramos el perceptron multi capa con dos capas intermedias. Cada una de ellas podrá tener valores de entre 50 y 100 neuronas. Haremos una búsqueda a través de estas opciones para comprobar cuál es la mejor. En las tablas de resultados vemos los experimentos realizados.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+
+  & 1ª capa 50 & 1ª capa 60 & 1ª capa 80 & 1ª capa 100 \\ \hline
+  2ª capa 50 & 0,9106 & 0,9148 & 0,9256 & 0,9362\\
+  2ª capa 60 & 0,9115 & 0,9179 & 0,9329 & 0,9403\\
+  2ª capa 80 & 0,9209 & 0,9283 & 0,9359 & 0,9468\\
+  2ª capa 100 & 0,9277 & 0,9283 & 0,9409 & 0,9455\\\hline
+\end{tabular}
+\caption{Resultados en training de perceptrón multi capa.}
+
+\end{center}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+
+  & 1ª capa 50 & 1ª capa 60 & 1ª capa 80 & 1ª capa 100 \\ \hline
+  2ª capa 50 & 0,8264 & 0,8219 & 0,8211 & 0,8209\\
+  2ª capa 60 & 0,8281 & 0,8261 & 0,8198 & 0,8204\\
+  2ª capa 80 & 0,8242 & 0,8227 & 0,8217 & 0,8217\\
+  2ª capa 100 & 0,8254 & 0,8213 & 0,8242 & 0,8222\\\hline
+\end{tabular}
+\caption{Resultados en training de perceptrón multi capa.}
+
+\end{center}
+\end{table}
 
 
 \section{ Error de Generalización}
