@@ -313,8 +313,9 @@ plt.show()
 
 ########### Perceptrón multi capa
 
-print('\n-- Perceptrón multi capa --\n')
 
+print('\n-- Perceptrón multi capa --\n')
+'''
 e_cv = []
 e_in = []
 x_axis = [50, 60, 80, 100]
@@ -334,3 +335,11 @@ for i in x_axis:
         e_in.append(accuracy_score(y, pred_tra))
         #print(e_in)
         print("e_in ", i," ", j, " ", e_in[-1])
+        
+'''
+
+# Mejor modelo
+
+clf = MLPClassifier(hidden_layer_sizes=[50, 60])
+clf.fit(X, y)
+resultados(clf, X, y, X_tst, y_tst)
