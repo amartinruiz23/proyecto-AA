@@ -254,6 +254,14 @@ plt.title('Estimadores, error en training')
 plot(x_axis, e_in, color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='e in')
 plt.show()
 """
+
+print('\n-- Support vector machine --\n')
+
+clf = svm.SVC(max_iter=10000, C=1, kernel='rbf')
+clf.fit(X, y)
+resultados(clf, X, y, X_tst, y_tst)
+
+
 # print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
 
 # acuGaus = []
