@@ -186,8 +186,6 @@ def resultados(
 
 #input("\n--- Pulsar tecla para continuar ---\n")
 
-#--- Random forest ---
-
 print('\n-- Random Forest --\n')
 
 clf = RandomForestClassifier(n_estimators=400, max_depth=50)
@@ -256,8 +254,6 @@ plt.title('Estimadores, error en training')
 plot(x_axis, e_in, color='blue', marker='o', linestyle='dashed',  linewidth=2, markersize=12, label='e in')
 plt.show()
 """
-
-
 # print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
 
 # acuGaus = []
