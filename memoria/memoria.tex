@@ -77,7 +77,7 @@ A la hora de obtener los datos en el respositorio se encuentran tres archivos: \
 
 Utilizaremos la división train/test que viene establecida por el propio dataset. La proporción de clases es parecida en ambos conjuntos y la cantidad de datos en el training establecido es la suficiente para el aprendizaje. Es por ello que no modificamos esta partición. Además, a la hora de validar la selección de hiperparámetros utilizaremos la técnica cross validation, para la cual dividiremos el conjunto de training en 5 subconjuntos. Se utilizará para esta la función \texttt{cross\_validate}\cite{cv}.\\
 
-Como ultimo detalle de codificación de los datos durante la parte de preprocesado aplicamos la codificación sugerida por scikit-learn mediante \texttt{dummy\_variables}. Mediante este proceso se transforman las variables categóricas en numéricas dale un valor natural diferente a la variable para cada tipo de valor que tomara anteriormente.
+Como último detalle de codificación de los datos durante la parte de preprocesado aplicamos la codificación sugerida por scikit-learn mediante \texttt{dummy\_variables}. Mediante este proceso se transforman las variables categóricas en numéricas dale un valor natural diferente a la variable para cada tipo de valor que tomara anteriormente.
 
 \section{Preprocesado}
 
@@ -89,7 +89,7 @@ Mostraremos a continuación las siguientes técnicas de preprocesado realizadas.
 		\item \underline{Valoración del interés de la variables}. Para esto vamos a realizar dos técnicas:
 	
 	\begin{itemize}
-	\item[-] El conjunto de datos presenta 105 columnas. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0.1. Esto lo realizaremos con el algoritmo \texttt{varianceThreshold}\cite{einstein}.
+	\item[-] El conjunto de datos presenta 105 columnas. Por ello vamos a intentar reducir aquellas que presenten poca o ningúna información haciendo un análisis por varianza, y eliminando aquellas columnas cuya varianza sea inferior a 0,1. Esto lo realizaremos con el algoritmo \texttt{varianceThreshold}\cite{einstein}.
 			
 \begin{table}[h]
 \begin{center}
@@ -151,7 +151,7 @@ Como podemos observar tenemos una diferencia significativa con respecto a las do
 
 \end{itemize}
 \newpage
-\item  \underline{Polynomial Freatures}. Con especial interés en el caso lineal, el uso de variaciónes polinómicas de los datos puede ser util para permitir aproximaciones a clases de funciones nuevas. Probaremos variación cuadrática sobre las variables numéricas cuando realizemos un ajuste lineal. Para Random Forest no lo consideramos necesario por la ya conocida complejidad de los arboles, y para SVM utilizaremos variaciones de kernel. \\
+\item  \underline{Polynomial Freatures}. Con especial interés en el caso lineal, el uso de variaciones polinómicas de los datos puede ser útil para permitir aproximaciones a clases de funciones nuevas. Probaremos variación cuadrática sobre las variables numéricas cuando realizemos un ajuste lineal. Para random forest y perceptrón multi capa no lo consideramos necesario por la ya conocida complejidad de los modelos, y para SVM utilizaremos variaciones de kernel. \\
 	
 	\item \underline{Valoración de las variables de interés}. Para realizar un estudio de las variables de interés. Este ya lo hemos visto mostrado en 
 	\item \underline{Datos incompletos y valores perdidos}. En relación a los valores perdidos encontramos en tres variables de tipo categórico.\\
@@ -185,8 +185,9 @@ Hemos decidido considerar, en este contexto de clasificación, dos funciones con
 	
 	donde precisión es (en términos de clase positiva/negativa) el número de verdaderos positivos entre los positivos escogidos, y recall es el número de positivos escogidos entre los positivos totales. En este caso la medida que mostramos es la media obtenida de las f1-score obtenidas de considerar cada una de las clases como la positiva.
 \end{itemize}
+
 \section{ Modelos Considerados }
-TODO: añadir las funciones y links a estas en la bibliografía.
+
 \subsection{ Modelo lineal }
 	
 	Como modelo lineal, dado que estamos en clasificación, podemos escoger de los modelos explicados en clase entre Regresión Logística y  PLA. Decidimos utilizar regresión logística por una serie de motivos.
@@ -196,11 +197,13 @@ TODO: añadir las funciones y links a estas en la bibliografía.
 	\item Nos resulta interesante el hecho de que podamos obtener la confianza de una predicción y no solo la predicción.
 \end{itemize}
 
-Para el uso de la regresión logistica haremos uso de la función de sklearn. 
+Para la aplicación de la regresión logistica haremos uso de la función de sklearn\cite{LR} . 
 
 \subsection{Random Forest}
 
 El principal objetivo que justifica la aplicación de esta técnica generar un modelo complejo que represente con mucha precisión el conjunto de entrenamiento. Esto nos permitirá su comparación con otros modelos más sencillos que produzcan un ajuste menos exacto de los datos. Mediante esta comparación podremos comprobar la incidencia del problema del overfitting en este caso. 
+
+Para la aplicación de random forest haremos uso de la función de sklearn\cite{RF}.
 
 \subsection{SVM}
 
@@ -208,8 +211,12 @@ Consideramos que la técnica SVM-soft margin puede ser muy útil para este probl
 
 Otro motivo para decidir ajustar este modelo, aunque de carácter menos importante, es la curiosidad suscitada por este modelo durante el desarrollo teórico de la asignatura. 
 
+Para la aplicación de support vector machine haremos uso de la función de sklearn\cite{SVM}.
+
 \subsection{Modelo extra. Perceptrón multi capa}
-Decidimos desarrollar un modelo extra además de los obligatorios. Elegimos el modelo de perceptrón multi capa. TODO: CONTINUAR POR QUÉ LO ELEGIMOS
+Decidimos desarrollar un modelo extra además de los obligatorios. Elegimos el modelo de perceptrón multi capa. Con este añadimos otro modelo a la comparación, en este caso calculando una función no lineal y con una complejidad alta del modelo. Aunque no nos encontramos ante un problema de una dimensionalidad muy alta nos servirá para comprobar como funcionan modelos más complejos en este problema.
+
+Para la aplicación de MLP haremos uso de la función de sklearn\cite{MLP} para clasificación mediante este modelo.
 
 \section{ Técnica de Ajuste para el Modelo Lineal}
 Para este conjunto utilizaremos dos técinas de ajuste, ambas definidas como variaciones especializadas sobre el algoritmo SGD.:
@@ -220,7 +227,7 @@ Para este conjunto utilizaremos dos técinas de ajuste, ambas definidas como var
 	Liblinear utiliza técnicas de descenso coordinado\cite{CD} donde minimizamos la función en torno a cada eje, resolviendo un problema de minimización unidimensional en bucle. 
 \end{itemize}
 
-Estas dos técnicas se pueden entender como variaciones del gradiente descendiente estocastico en esecia, dado que surgen de su filosofía de realizar aproximaciones sucesivas al mínimo. Pese a ello se debe comprender que se parecen en poco más que filosofía. Son técnicas mucho más eficientes que el algoritmo de la pseudoinversa, cosa que nos puede resultar interesante, aunque trabajamos con un dataset que no es particularmente grande. Las compararemos y comentaremos sus resultados  en la sección de hiperparámetros y selección del modelo, pero elegiremos lbfgs dado que para el tamaño de nuestro dataset no es relevante la mejora en eficiencia de \texttt{liblinear} y \texttt{lbfgs} consigue un resultado ligeramente mejor.
+Estas dos técnicas se pueden entender como variaciones del gradiente descendiente estocástico en esecia, dado que surgen de su filosofía de realizar aproximaciones sucesivas al mínimo. Pese a ello se debe comprender que se parecen en poco más que filosofía. Son técnicas mucho más eficientes que el algoritmo de la pseudoinversa, cosa que nos puede resultar interesante, aunque trabajamos con un dataset que no es particularmente grande. Las compararemos y comentaremos sus resultados  en la sección de hiperparámetros y selección del modelo, pero elegiremos \texttt{lbfgs} dado que para el tamaño de nuestro dataset no es relevante la mejora en eficiencia de \texttt{liblinear} y \texttt{lbfgs} consigue un resultado ligeramente mejor.
 
 
 \section{Hiperparámetros y selección del modelo}
@@ -229,13 +236,13 @@ Estas dos técnicas se pueden entender como variaciones del gradiente descendien
  
  El primer modelo que presentamos es el modelo lineal. Este fue el primer modelo ajustado y de su ajuste aprovechamos conocimiento para el ajuste de los otro modelos. 
  
-\subsection{Modelo Lineal}
+\subsection{Modelo lineal}
 Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas de ajuste, las dos técnicas de regularización, así como la fuerza de regularización. También consideraremos una muestra con variables lineales y otra con variables polinómicas. \\
 
 
 
 \begin{itemize}
-\item \underline{Variables polinómicas}: Como primera aproximación al problema estidiamos, con un estimador base, la mejora supuesta al aumentar la dimensionalidad del dataset al incluir variables polinómicas. Con esto pretendemos ver si el modelo lineal es suficiente para explicar la variabilidad de la muestra. Obtenemos como resultados las siguientes estimaciones\footnote{Estimaciones de error con  5Fold-Cross-Validation.}:
+\item \underline{Variables polinómicas}. Como primera aproximación al problema estidiamos, con un estimador base, la mejora supuesta al aumentar la dimensionalidad del dataset al incluir variables polinómicas. Con esto pretendemos ver si el modelo lineal es suficiente para explicar la variabilidad de la muestra. Obtenemos como resultados las siguientes estimaciones\footnote{Estimaciones de error con  5Fold-Cross-Validation.}:
 
 \begin{table}[h]
 \begin{center}
@@ -252,8 +259,8 @@ Como hiperparámetro vamos a considerar la prueba de las dos distintas técnicas
 
 Lo primero que observamos es que, debido a la cantidad y dimensionalidad de los datos sucede que para generar una base de datos con cobinaciones cúbicas creamos un conjunto de 8.30 GB que no somos capaces de alojar en la RAM del procesador. Es por eso que, por las limitaciónes técnicas que poseemos no consideramos más grado\footnote{En el código entregado no adjuntamos esta ejecución para evitar entregar un código que no funcione de principio a fin, lo que provocaría la descalificación de la práctica}. De todos modos esta limitación no nos afecta pues:
 \begin{itemize}
-	\item Estaríamos en un caso claro de Maldición de la Dimensionalidad\cite{maldim} a pesar de haber realizado ya una reducción de dimenisonalidad tanto por \texttt{varianceThreshold} como por \texttt{PCA}.
-	\item Podemos ver que se mantiene invariable la estimación del error invariante. Esto es resultado a que el modelo lineal ya se ajusta perfectamente a la variabilidad de los datos. 
+	\item Estaríamos en un caso claro de ,aldición de la dimensionalidad\cite{maldim} a pesar de haber realizado ya una reducción de dimenisonalidad tanto por \texttt{varianceThreshold} como por \texttt{PCA}.
+	\item Podemos ver que se mantiene invariable la estimación del error. Esto es debido a que el modelo lineal ya se ajusta perfectamente a la variabilidad de los datos. 
 \end{itemize}
 
 Es por esto que decidimos \underline{no aplicar esta técnica}.
@@ -265,10 +272,10 @@ Es por esto que decidimos \underline{no aplicar esta técnica}.
 
   Utilizando conocimiento del mundo en el que vivimos es fácil imaginar que en un censo económico hay muchos outliers, que consistirán en la gente más privilegiada. Sin embargo no utilizaremos esta información y usaremos datos puramente analíticos. Podemos considerar dos casos:
   \begin{itemize}
-  \item \emph{Outliers de variables categóricas}: Estos han sido gestionados ya, debido al one-hot-encoding realizado durante la codificación del dataset, así como el filtro de varianza, ha hecho que todas las categorías sin un número significativo de personas incluido sean desestimadas.
-  \item \emph{Outliers de variables ordinales}: Para el estudio de este examinamos una a una las variables, imprimiendo el gráfico[\ref{fig:outliers}].Podemos ver que tenemos una gran cantidad de outliers. En particular tenemos distribuciones de cola larga o \emph{Heavy Tail} como son conocidas en el mundo de la estadística. Estas distribuciones son aquellas en las cuales, pese a estar la mayoría de los valores agregados en un espacio pequeño del dominio.\\
+  \item \emph{Outliers de variables categóricas}. Estos han sido gestionados ya, debido al one-hot-encoding realizado durante la codificación del dataset, así como el filtro de varianza, ha hecho que todas las categorías sin un número significativo de personas incluido sean desestimadas.
+  \item \emph{Outliers de variables ordinales}. Para el estudio de este examinamos una a una las variables, imprimiendo el gráfico[\ref{fig:outliers}].Podemos ver que tenemos una gran cantidad de outliers. En particular tenemos distribuciones de cola larga o \emph{Heavy Tail} como son conocidas en el mundo de la estadística. Estas distribuciones son aquellas en las cuales, pese a estar la mayoría de los valores agregados en un espacio pequeño del dominio.\\
 
-    Por otro lado podemos ver que después del preprocesado, hemos descartado una gran cantidad de variables (casi la mitad) y hemos estudiado con \texttt{PCA} que el resto de variables consideradas aportan información para explicar la variabilidad de la muestra. Es por esto que no consideramos que la regularización \texttt{l1} pueda aportar mucho al modelo.\newpage
+    Por otro lado podemos ver que después del preprocesado, hemos descartado una gran cantidad de variables (casi la mitad) y hemos estudiado con \texttt{PCA} que el resto de variables consideradas aportan información para explicar la variabilidad de la muestra. Es por esto que no consideramos que la regularización \texttt{l1} pueda aportar mucho al modelo.
 
     \begin{figure}[h!]    
       \centering
@@ -281,9 +288,9 @@ Es por esto que decidimos \underline{no aplicar esta técnica}.
 
 Debido a esto decidimos usar regularización \texttt{l2}. 
 
-\item \underline{Técnica de ajuste}: No tenemos ningún argumento en contra o a favor de la técnica de ajuste elegida. Probaremos ambas y eligiremos la que mejor error bondad de ajuste aproxime. Tras las pruebas obtenemos que la mejor técnica el \texttt{liblinear}, aunque las diferencias con mínimas.
+\item \underline{Técnica de ajuste}. No tenemos ningún argumento en contra o a favor de la técnica de ajuste elegida. Probaremos ambas y eligiremos la que mejor error bondad de ajuste aproxime. Tras las pruebas obtenemos que la mejor técnica el \texttt{liblinear}, aunque las diferencias con mínimas.
 
-\item \underline{Fuerza Regularización}:   Para seleccionar la fuerza de ajuste realizaremos una representación de esta, con el objetivo de estimar una cantidad óptima. Obtenemos como resultado:
+\item \underline{Fuerza Regularización}. Para seleccionar la fuerza de ajuste realizaremos una representación de esta, con el objetivo de estimar una cantidad óptima. Obtenemos como resultado:
     \begin{figure}[h!]
       \label{figure:regularization}
       \centering
@@ -385,7 +392,7 @@ Obtenemos los resultados:
 Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o fuerza de regularización y kernel. Al no tener clasificación multiclase en este problema no tiene sentido aplicar estudio de varias de las variables. También estudiaremos el parámetro max iter, aunque no lo comentaremos, procuraremos que sea lo suficientemente amplio como para obtener siempre convergencia, pero acotado para asegurar un tiempo de ejecución limitado. En general exigiremos que sea siempre inferior a 15000 iteraciones.
 
 \begin{itemize}
-\item \underline{Kernel:} Consideraremos kernel Gaussiano como viene recomendado en el guión así como lineal. No elegimos kernel polinómico debido al estudio ya realizado sobre este tema en Regresión logística.\\
+\item \underline{Kernel}. Consideraremos kernel Gaussiano como viene recomendado en el guión así como lineal. No elegimos kernel polinómico debido al estudio ya realizado sobre este tema en Regresión logística.\\
 
 Debido al éxito del modelo lineal estamos interesados en saber como se comportará un plano óptimo. Sin embargo, consideramos que la probable no existencia de un plano
   óptimo, así como la falta de variabilidad en el modelo y los habituales buenos resultados del nucleo gaussiano, hace que este se presente como una mejor alternativa. En efecto:
@@ -404,7 +411,7 @@ Gaussiano & 0.852 & 0.777  \\\hline
 \end{center}
 \end{table}
 
-\item \underline{Fuerza de regularización}: Para hacer un ajuste de esta, al igual que en modelo lineal, realizaremos un barrido de valores en escala logarítmica para detectar alguna variación grande, para posteriormente hacer una ingeniería de parámetros más fina. Obtenemos como resultado:
+\item \underline{Fuerza de regularización}. Para hacer un ajuste de esta, al igual que en modelo lineal, realizaremos un barrido de valores en escala logarítmica para detectar alguna variación grande, para posteriormente hacer una ingeniería de parámetros más fina. Obtenemos como resultado:
 
     \begin{figure}[h!]
       \label{figure:regularization}
@@ -476,7 +483,7 @@ Según lo sugerido en la práctica consideramos el perceptron multi capa con dos
 
 Podemos comprobar que la mejor opción es una de las más sencillas, 50 en la primera capa y 60 en la segunda. Además esta opción no es la que mejor ajusta el conjunto de training. Esto nos lleva a pensar que puede mejorarse el resultado simplificando el modelo. Probamos un perceptrón de dos capas y obtenemos, con 60 unidades en la capa intermedia una precisión en cross validation de 0,8403, superior a la obtenida con dos capas.
 
-Así, los resultados obtenidos con ambos modelos pueden consultarse en las tablas correspondientes. Los modelos finales tomados son
+Así, los resultados obtenidos con ambos modelos pueden consultarse en las tablas correspondientes. Los modelos finales tomados son:
 
 \begin{table}[h]
 \begin{center}
@@ -571,6 +578,21 @@ Técnica de PCA:
 \bibitem{maldim}
 Artículo donde explica el concepto de maldición de la dimensión: \url{https://en.wikipedia.org/wiki/Curse_of_dimensionality}
 
+\bibitem{LR}
+Función de regresión logística:
+\url{https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html}
+
+\bibitem{RF}
+Función de ramdon forest:
+\url{https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html}
+
+\bibitem{SVM}
+Función de support vector machine:
+\url{https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html}
+
+\bibitem{MLP}
+Función de perceptrón multi capa para clasificación:
+\url{https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html}
 
 \end{thebibliography}
 
