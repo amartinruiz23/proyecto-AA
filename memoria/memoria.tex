@@ -361,6 +361,8 @@ Obtenemos los resultados:
 \end{center}
 \end{table}
 
+\newpage\hfill
+\newpage
 \subsection{SVM\cite{svc}}
 
 Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o fuerza de regularización y kernel. Al no tener clasificación multiclase en este problema no tiene sentido aplicar estudio de varias de las variables. También estudiaremos el parámetro max iter, aunque no lo comentaremos, procuraremos que sea lo suficientemente amplio como para obtener siempre convergencia, pero acotado para asegurar un tiempo de ejecución limitado. En general exigiremos que sea siempre inferior a 15000 iteraciones.
@@ -371,19 +373,19 @@ Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o 
 Debido al éxito del modelo lineal estamos interesados en saber como se comportará un plano óptimo. Sin embargo, consideramos que la probable no existencia de un plano
   óptimo, así como la falta de variabilidad en el modelo y los habituales buenos resultados del nucleo gaussiano, hace que este se presente como una mejor alternativa. En efecto:
 
-  
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|l|c|c|}
 \hline
   Nucleo & Accuracy & F1 \\ \hline
-Lineal & 0.775 & 0.625 \\
-Gaussiano & 0.852 & 0.777  \\\hline
+Lineal & 0.689 & 0.634 \\
+Gaussiano & 0.851 & 0.781  \\\hline
 \end{tabular}
 \caption{Resultados ajustes con variables polinómicas.}
 
 \end{center}
 \end{table}
+Por lo que escogemos nucleo Gaussiano.
 
 \item \underline{Fuerza de regularización}: Para hacer un ajuste de esta, al igual que en modelo lineal, realizaremos un barrido de valores en escala logarítmica para detectar alguna variación grande, para posteriormente hacer una ingeniería de parámetros más fina. Obtenemos como resultado:
 
@@ -391,9 +393,10 @@ Gaussiano & 0.852 & 0.777  \\\hline
       \label{figure:regularization}
       \centering
       \includegraphics[width=\textwidth]{./figures/regularizacion_SVM.png}
-      \caption{Cambiar este gráfico por le otro cuando esté.}
+      \caption{Progresión del error en función de la regularización.}
     \end{figure}
   
+  Tras realizar un analisis exploratorio encontramos que el mejor valor es \texttt{C=2}.
 
 \end{itemize}
 
@@ -411,9 +414,9 @@ Obtenemos los resultados:
 \begin{tabular}{|l|c|c|}
 \hline
   Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & 0.85132 & 0.78230 \\
-  $E_{test}$ & 0.84976 & 0.77027  \\
-  $E_{cv}$ &0.85064 & 0.78150  \\\hline
+  $E_{in}$ & 0.87101 & 0.81114 \\
+  $E_{test}$ & 0.85123 & 0.77772  \\
+  $E_{cv}$ &0.85154 & 0.78153  \\\hline
 \end{tabular}
 \caption{Resultados ajustes con variables polinómicas.}
 
