@@ -324,7 +324,7 @@ A partir del modelo por defecto que proporciona scikit-learn modificaremos tres 
     \begin{figure}[h!]
       \label{figure:rf_estimadores_ein}
       \centering
-      \includegraphics[width=\textwidth, scale = 0.3]{./figures/rf_estimadores_ein.png}
+      \includegraphics[scale = 0.6]{./figures/rf_estimadores_ein.png}
       \caption{Evolución d ela predicción en train según número de estimadores.}
     \end{figure}
 
@@ -332,13 +332,29 @@ A partir del modelo por defecto que proporciona scikit-learn modificaremos tres 
     \begin{figure}[h!]
       \label{figure:rf_estimadores_cv}
       \centering
-      \includegraphics[width=\textwidth, scale=0.3]{./figures/rf_estimadores_cv.png}
+      \includegraphics[scale=0.6]{./figures/rf_estimadores_cv.png}
       \caption{Evolución de la predicción en cross validation según número de estimadores.}
     \end{figure}
 
 
-\item \underline{Criterio de selección}. El criterio que se aplica para obtener la calidad de las divisiones. El criterior por defecto es la impureza de Gini, pero también puede seleccionarse la ganancia de información. Puesto que esta segunda opción es la que se ha estudiado en teoría y la que produce mejores resultados, aunque con peores tiempos de ejecución, elegimos este. 
-\item \underline{Profundidad máxima}. Es clave para limitar la complejidad del modelo y evitar overfitting. Por defecto la profundidad no está limitada y el árbol se amplía todo lo posible. Elegiremos limitar la profundidad de los árboles ya que obtenemos claras mejoras en clasificación. Procedemos disminuyendo este número hasta que deja de producirse una mejora en la puntuación de cross validation y empieza a empeorar el resultado. Finalmente tomamos una profundidad de 50.
+\item \underline{Criterio de selección}. El criterio que se aplica para obtener la calidad de las divisiones. El criterio por defecto es la impureza de Gini, pero también puede seleccionarse la ganancia de información. Puesto que esta segunda opción es la que se ha estudiado en teoría y la que produce mejores resultados, aunque con peores tiempos de ejecución, elegimos este. Realizamos un experimento para esta comparación. Los resultados del mismo se encuentran en la correspondiente tabla.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+  Criterio & Error & Accuracy & F1-score \\ \hline
+  Gini & $E_{in}$ & 0,9999 & 0,9999 \\
+  Gini & $E_{cv}$ & 0.8390 & 0,7207  \\
+  Entropy & $E_{in}$ & 0.9999 & 0.9999 \\
+  Entropy & $E_{cv}$ & 0.8303 & 0.7241 \\\hline
+\end{tabular}
+\caption{Tabla comparativa sobre criterios de selección.}
+\end{center}
+\end{table}
+
+ 
+\item \underline{Profundidad máxima}. Es clave para limitar la complejidad del modelo y evitar overfitting. Por defecto la profundidad no está limitada y el árbol se amplía todo lo posible. Elegiremos limitar la profundidad de los árboles ya que obtenemos claras mejoras en clasificación. Procedemos disminuyendo este número hasta que deja de producirse una mejora en la puntuación de cross validation y empieza a empeorar el resultado. En las gráficas correspondientes podemos comprobar cómo la clasificación en training aumenta hasta la profundidad de 40, donde se estanca. En cross validation vemos que la clasificación mejora hasta la profundidad de 10, a partir de la cual empeora. El comportamiento es claro, aumentando la calidad de la predicción conforme aumenta la complejidad del modelo hasta llegar al umbral de la profundidad 40, a partir de la cuál comienza a aumentarse el error por sesgo y por tanto el overfitting. Decidimos por tanto tomar la profundidad 40 como la mejor.
 \end{itemize}
 
 Así obtenemos que el mejor ajuste es:
@@ -361,8 +377,6 @@ Obtenemos los resultados:
 \end{center}
 \end{table}
 
-\newpage\hfill
-\newpage
 \subsection{SVM\cite{svc}}
 
 Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o fuerza de regularización y kernel. Al no tener clasificación multiclase en este problema no tiene sentido aplicar estudio de varias de las variables. También estudiaremos el parámetro max iter, aunque no lo comentaremos, procuraremos que sea lo suficientemente amplio como para obtener siempre convergencia, pero acotado para asegurar un tiempo de ejecución limitado. En general exigiremos que sea siempre inferior a 15000 iteraciones.
@@ -373,19 +387,19 @@ Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o 
 Debido al éxito del modelo lineal estamos interesados en saber como se comportará un plano óptimo. Sin embargo, consideramos que la probable no existencia de un plano
   óptimo, así como la falta de variabilidad en el modelo y los habituales buenos resultados del nucleo gaussiano, hace que este se presente como una mejor alternativa. En efecto:
 
+  
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|l|c|c|}
 \hline
   Nucleo & Accuracy & F1 \\ \hline
-Lineal & 0.689 & 0.634 \\
-Gaussiano & 0.851 & 0.781  \\\hline
+Lineal & 0.775 & 0.625 \\
+Gaussiano & 0.852 & 0.777  \\\hline
 \end{tabular}
 \caption{Resultados ajustes con variables polinómicas.}
 
 \end{center}
 \end{table}
-Por lo que escogemos nucleo Gaussiano.
 
 \item \underline{Fuerza de regularización}: Para hacer un ajuste de esta, al igual que en modelo lineal, realizaremos un barrido de valores en escala logarítmica para detectar alguna variación grande, para posteriormente hacer una ingeniería de parámetros más fina. Obtenemos como resultado:
 
@@ -393,10 +407,9 @@ Por lo que escogemos nucleo Gaussiano.
       \label{figure:regularization}
       \centering
       \includegraphics[width=\textwidth]{./figures/regularizacion_SVM.png}
-      \caption{Progresión del error en función de la regularización.}
+      \caption{Cambiar este gráfico por le otro cuando esté.}
     \end{figure}
   
-  Tras realizar un analisis exploratorio encontramos que el mejor valor es \texttt{C=2}.
 
 \end{itemize}
 
@@ -414,9 +427,9 @@ Obtenemos los resultados:
 \begin{tabular}{|l|c|c|}
 \hline
   Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & 0.87101 & 0.81114 \\
-  $E_{test}$ & 0.85123 & 0.77772  \\
-  $E_{cv}$ &0.85154 & 0.78153  \\\hline
+  $E_{in}$ & 0.85132 & 0.78230 \\
+  $E_{test}$ & 0.84976 & 0.77027  \\
+  $E_{cv}$ &0.85064 & 0.78150  \\\hline
 \end{tabular}
 \caption{Resultados ajustes con variables polinómicas.}
 
