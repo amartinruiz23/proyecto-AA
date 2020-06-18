@@ -11,9 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.decomposition import PCA
-import warnings
+
 from sklearn.model_selection import train_test_split
-import collections as c
+
 
 #warnings.filterwarnings('ignore')
 

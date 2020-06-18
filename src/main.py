@@ -19,6 +19,12 @@ from sklearn.feature_selection import SelectKBest, chi2
 np.random.seed(0)
 from sklearn.preprocessing import PolynomialFeatures
 from matplotlib.pyplot import plot
+import warnings
+import collections as c
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.decomposition import PCA
+
 warnings.filterwarnings('ignore')
 
 ejecutar_cross_validation = 'N' # Variable global para decidir la ejecución de cv en los modelos
@@ -99,7 +105,7 @@ def info_size(df, msg):
     print(msg) # Imprime mensaje
     print(' - Numero de datos recopilados:', elem) # Imprime filas
     print(' - Dimension:', cols) # Imprime columnas
-    #input("\n--- Pulsar tecla para continuar ---\n")
+    #input("\n--- Pulsar intro para continuar ---\n")
 
 def info(df):
     # Imprime información sobre valores perdidos del df
@@ -110,7 +116,7 @@ def info(df):
     clases = ['workclass','occupation','native-country']
     for x in clases:
         print(x, ':', len(set(df[x])), ':', len(df[df[x] == '?']))
-    #input("\n--- Pulsar tecla para continuar ---\n")
+    #input("\n--- Pulsar intro para continuar ---\n")
     
 def graficas(df):
     # Imprime gráficas sobre el df
@@ -215,7 +221,7 @@ def print_class_balance(y,y_tst):
     print('\nBalanceo de clases:\nClase | n veces Train | n veces Test')
     for x in set(y):
         print(x,'|', d[x], '|' ,d_tst[x])
-    #input("\n--- Pulsar tecla para continuar ---\n")
+    #input("\n--- Pulsar intro para continuar ---\n")
 
 def encode_categorical_variables(X, X_tst):  
     # Codifica variables categóricas mediante dummy variables para su correcta utilziación en los modelos
@@ -268,19 +274,6 @@ print_class_balance(y, y_tst)
 print("Outliers")
 print_outliers(X)
 
-# --- Analisis exploratorio de los datos ---
-
-print("Análisis exploratorio de los datos")
-
-plt.rcParams['figure.figsize'] = [12, 8]
-sns.set(style = 'whitegrid')
-
-sns.distplot(X['age'], bins = 90, color = 'mediumslateblue')
-plt.ylabel("Distribution", fontsize = 15)
-plt.xlabel("Age", fontsize = 15)
-plt.margins(x = 0)
-plt.show()
-
 # --- Preprocesado --- 
 
 print("Preprocesado de datos...")
@@ -294,7 +287,7 @@ X_tst = preprocesado.transform(X_tst)
 print()
 info_size(X, 'Tamaño de los datos después del preprocesado varianceThreshold:')
 
-input("\n--- Pulsar tecla para continuar ---\n")
+input("\n--- Pulsar intro para continuar ---\n")
 
 # --- PCA ---
 
@@ -308,7 +301,7 @@ X_tst = pca.transform(X_tst)
 X = pca.transform(X)
 info_size(X, 'Tamaño de los datos después del preprocesado PCA:')
 
-input("\n--- Pulsar tecla para continuar ---\n")
+input("\n--- Pulsar intro para continuar ---\n")
 
 ejecutar_cross_validation = input("¿Desea ejecutar cross validation para los modelos? Puede suponer tiempos de ejecución largos para los más complejos (S/N)" )
 # --- Modelo lineal ---
@@ -330,7 +323,7 @@ if resp == 'S':
         clf.fit(X, y)
         resultados(clf, X, y, X_tst, y_tst)
         X = X_copy.copy()
-    input("\n--- Pulsar tecla para continuar ---\n")
+    input("\n--- Pulsar intro para continuar ---\n")
 
 
     print('\n\nEstudio de la Fuerza de Regularización Lineal (tarda un poco).')
@@ -361,7 +354,7 @@ clf = LR( penalty='l2', random_state=0, solver='liblinear', C=1.9)
 clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
 
-input("\n--- Pulsar tecla para continuar ---\n")
+input("\n--- Pulsar intro para continuar ---\n")
 
 # --- Random forest ---
 
@@ -432,7 +425,7 @@ print("Mejor modelo: ")
 clf = RandomForestClassifier(n_estimators=400, max_depth=50)
 clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
-input("\n--- Pulsar tecla para continuar ---\n")
+input("\n--- Pulsar intro para continuar ---\n")
 
 
 # --- Support vector machine
@@ -480,7 +473,7 @@ print("Mejor modelo: ")
 clf = svm.SVC(max_iter=10000, C=2, kernel='rbf')
 clf.fit(X, y)
 resultados(clf, X, y, X_tst, y_tst)
-input("\n--- Pulsar tecla para continuar ---\n")
+input("\n--- Pulsar intro para continuar ---\n")
 
 
 # --- Perceptrón multi capa ---
