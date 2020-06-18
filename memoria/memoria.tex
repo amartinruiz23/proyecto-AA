@@ -442,8 +442,8 @@ Obtenemos los resultados:
 \hline
   & Accuracy & F1-score \\ \hline
 Train  & 0.85132 & 0.78230 \\
-  Test & 0.84976 & 0.77027  \\
-  Validación &0.85064 & 0.78150  \\\hline
+  Test & 0.85074 & 0.7778  \\
+  Validación &0.85154 & 0.78118  \\\hline
 \end{tabular}
 \caption{Resultados ajuste final regresión logística.}
 
@@ -540,7 +540,7 @@ Realizaremos dos trabajos para ganar comprensión del error real $E_{out}$, tant
   \item Realizamos una estimación  basa en los resultados de cross validation del conjunto de training.  Aprovecharemos para este propósito que el error Cross validation es un estimador insesgado de $E_{out}$. 
 
 \end{itemize}
-Procedamos a ver los resultados
+Procedamos a ver los resultados en \ref{tab:table-name-error}. Podemos observar como el estimador SVM es el que mejor resultado consigue en \texttt{accuracy}, tanto en validación como en test. También podemos ver que, en términos de \texttt{f1-score} es el que mejor resultado nos provee en test, y es un resultado prácticamente igual en validación. Con esto podemos concluir que es el mejor resultado que obtenemos. Por otro lado vemos que Regresión logística obtiene unos resultado muy parecido, aunque ligeramente peores, que SVM. Los ajustes que tienen menos bondad son MPL, RF.
 
 \begin{table}[h]
   \begin{center}
@@ -553,13 +553,15 @@ Procedamos a ver los resultados
 
   Regresión logística & 0.1494 & 0.1502 & 0.1514 & 0.2185 & 0.2297 & 0.2309 \\
   Random Forest & 0.1629 & 0.1693 & 0.1705 & 0.2394 & 0.2704 &0.2716 \\
-  Support Vector Machine & - & - &  & - & - & \\
+  Support Vector Machine & 0.1485 & 0.1493 & 0.1505 & 0.2187 & 0.2222 & 0.2234 \\
   Perceptron Multi Capa & 0.1598 & 0 .1735 &0.1747 & 0.2228 & 0.2459 &0.2471  \\\hline
 
 \end{tabular}
 \end{center}
-\caption{\label{tab:table-name} Resultados de error.}
+\caption{Resultados de error.}
+\label{tab:table-name-error} 
 \end{table}
+
 
 
 \newpage
