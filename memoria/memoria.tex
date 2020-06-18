@@ -290,14 +290,14 @@ Debido a esto decidimos usar regularización \texttt{l2}.
 
 \item \underline{Técnica de ajuste}. No tenemos ningún argumento en contra o a favor de la técnica de ajuste elegida. Probaremos ambas y eligiremos la que mejor error bondad de ajuste aproxime. Tras las pruebas obtenemos que la mejor técnica el \texttt{liblinear}, aunque las diferencias con mínimas.
 
-\item \underline{Fuerza Regularización}. Para seleccionar la fuerza de ajuste realizaremos una representación de esta, con el objetivo de estimar una cantidad óptima. Obtenemos como resultado:
+\item \underline{Fuerza Regularización}. Para seleccionar la fuerza de ajuste realizaremos una representación de esta, con el objetivo de estimar una cantidad óptima. Obtenemos como resultado \ref{fig:regularization}.
     \begin{figure}[h!]
-      \label{figure:regularization}
       \centering
       \includegraphics[width=\textwidth]{./figures/regularizacion_rl.png}
       \caption{Relación de las métricas de error con la regularización.}
-    \end{figure}
 
+    \end{figure}
+      \label{fig:regularization}
 Podemos ver que en valores muy pequeños de va fuerza de regularización, obtenemos un peor resultado, y que se estabiliza a partir de valores mayores. Elegimos como mejor resultado tras realizar una ingeniería de parámetros un poco más exhaustiva, elegimos como valor de la fuerza de regularización 2.\\
 \end{itemize}
 
@@ -319,11 +319,13 @@ Obtenemos los resultados:
   $E_{test}$ & 0.84976 & 0.77027  \\
   $E_{cv}$ &0.85064 & 0.78150  \\\hline
 \end{tabular}
+\label{tab:resultlin}
 \caption{Resultados ajustes con variables polinómicas.}
 
 \end{center}
 \end{table}
 
+\newpage
 \subsection{Random forest}
 
 A partir del modelo por defecto que proporciona scikit-learn modificaremos tres parámetros para obtener el resultado final
@@ -387,7 +389,8 @@ Obtenemos los resultados:
 \end{center}
 \end{table}
 
-\subsection{SVM\cite{svc}}
+\newpage
+\subsection{SVM}
 
 Para el ajuste de Support Vector Machine vamos a considerar los parámetros C o fuerza de regularización y kernel. Al no tener clasificación multiclase en este problema no tiene sentido aplicar estudio de varias de las variables. También estudiaremos el parámetro max iter, aunque no lo comentaremos, procuraremos que sea lo suficientemente amplio como para obtener siempre convergencia, pero acotado para asegurar un tiempo de ejecución limitado. En general exigiremos que sea siempre inferior a 15000 iteraciones.
 
@@ -446,6 +449,7 @@ Obtenemos los resultados:
 \end{center}
 \end{table}
 
+\newpage
 \subsection{Perceptrón multi capa}
 
 Según lo sugerido en la práctica consideramos el perceptron multi capa con dos capas intermedias. Cada una de ellas podrá tener valores de entre 50 y 100 unidades. Haremos una búsqueda a través de estas opciones para comprobar cuál es la mejor. En las tablas de resultados vemos los experimentos realizados.
