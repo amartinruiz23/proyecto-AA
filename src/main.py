@@ -21,6 +21,8 @@ from sklearn.preprocessing import PolynomialFeatures
 from matplotlib.pyplot import plot
 warnings.filterwarnings('ignore')
 
+ejecutar_cross_validation = 'N' # Variable global para decidir la ejecución de cv en los modelos
+
 # --- Funciones auxiliares ---
 
 def resultados(
@@ -44,21 +46,11 @@ def resultados(
     print(" - F1-score: ", f1_score(y_tst, pred_tst, average='macro'))
     # print("precision tst: ", precision_score(y_tst, pred_tst))
 
-    cv_results = cross_validate(clf,
-                                X,
-                                y,
-                                cv=5,
-    )
-    print("E_cv:\n - Accuracy: ",
-         sum(cv_results['test_score']) / len(cv_results['test_score']))
-    cv_results = cross_validate(clf,
-                                X,
-                                y,
-                                cv=5,
-                                scoring='f1_macro',
-    )
-    print(" - F1-score ",
-         sum(cv_results['test_score']) / len(cv_results['test_score']))
+    if (ejecutar_cross_validation == 'S'):
+        cv_results = cross_validate(clf,X,y,cv=5,)
+        print("E_cv:\n - Accuracy: ", sum(cv_results['test_score']) / len(cv_results['test_score']))
+        cv_results = cross_validate(clf,X,y,cv=5,scoring='f1_macro')
+        print(" - F1-score ",sum(cv_results['test_score']) / len(cv_results['test_score']))
 
 def replace_lost_categorical_values(df):
     
@@ -274,6 +266,7 @@ info_size(X, 'Tamaño de los datos después del preprocesado PCA:')
 
 input("\n--- Pulsar tecla para continuar ---\n")
 
+ejecutar_cross_validation = input("¿Desea ejecutar cross validation para los modelos? Puede suponer tiempos de ejecución largos para los más complejos (S/N)" )
 # --- Modelo lineal ---
 
 print("\n--- Modelo lineal ---\n")
