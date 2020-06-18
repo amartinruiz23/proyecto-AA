@@ -14,6 +14,7 @@
 \usepackage{xcolor}
 \usepackage{soul}
 \usepackage{hyperref}
+\usepackage{multirow}
 
 % Meta
 \date{\today}
@@ -314,10 +315,10 @@ Obtenemos los resultados:
 \begin{center}
 \begin{tabular}{|l|c|c|}
 \hline
-  Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & 0.85132 & 0.78230 \\
-  $E_{test}$ & 0.84976 & 0.77027  \\
-  $E_{cv}$ &0.85064 & 0.78150  \\\hline
+ & Accuracy & F1-score \\ \hline
+Train & 0.85132 & 0.78230 \\
+ Test & 0.84976 & 0.77027  \\
+  Validación &0.85064 & 0.78150  \\\hline
 \end{tabular}
 \label{tab:resultlin}
 \caption{Resultados ajustes con variables polinómicas.}
@@ -355,11 +356,11 @@ A partir del modelo por defecto que proporciona scikit-learn modificaremos tres 
 \begin{center}
 \begin{tabular}{|l|c|c|c|}
 \hline
-  Criterio & Error & Accuracy & F1-score \\ \hline
-  Gini & $E_{in}$ & 0,9999 & 0,9999 \\
-  Gini & $E_{cv}$ & 0.8390 & 0,7207  \\
-  Entropy & $E_{in}$ & 0.9999 & 0.9999 \\
-  Entropy & $E_{cv}$ & 0.8303 & 0.7241 \\\hline
+  Criterio & Prueba & Accuracy & F1-score \\ \hline
+  Gini & Train & 0,9999 & 0,9999 \\
+  Gini & Validación & 0.8390 & 0,7207  \\
+  Entropy & Train & 0.9999 & 0.9999 \\
+  Entropy & Validación & 0.8303 & 0.7241 \\\hline
 \end{tabular}
 \caption{Tabla comparativa sobre criterios de selección.}
 \end{center}
@@ -380,10 +381,10 @@ Obtenemos los resultados:
 \begin{center}
 \begin{tabular}{|l|c|c|}
 \hline
-  Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & 0,9999 & 0,9999 \\
-  $E_{test}$ & 0,8307 & 0,7269  \\
-  $E_{cv}$ & rellenar & rellenar  \\\hline
+  & Accuracy & F1-score \\ \hline
+Train  & 0,9999 & 0,9999 \\
+  Test & 0,8307 & 0,7269  \\
+  Validación & rellenar & rellenar  \\\hline
 \end{tabular}
 \caption{Resultados de Random Forest.}
 \end{center}
@@ -439,12 +440,12 @@ Obtenemos los resultados:
 \begin{center}
 \begin{tabular}{|l|c|c|}
 \hline
-  Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & 0.85132 & 0.78230 \\
-  $E_{test}$ & 0.84976 & 0.77027  \\
-  $E_{cv}$ &0.85064 & 0.78150  \\\hline
+  & Accuracy & F1-score \\ \hline
+Train  & 0.85132 & 0.78230 \\
+  Test & 0.84976 & 0.77027  \\
+  Validación &0.85064 & 0.78150  \\\hline
 \end{tabular}
-\caption{Resultados ajustes con variables polinómicas.}
+\caption{Resultados ajuste final regresión logística.}
 
 \end{center}
 \end{table}
@@ -493,10 +494,10 @@ Así, los resultados obtenidos con ambos modelos pueden consultarse en las tabla
 \begin{center}
 \begin{tabular}{|l|c|c|}
 \hline
-  Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & 0.9167 & 0.8839 \\
-  $E_{test}$ & 0.8230 & 0.7498  \\
-  $E_{cv}$ & 0.8297 & 0.7603  \\\hline\end{tabular}
+   & Accuracy & F1-score \\ \hline
+Train & 0.9167 & 0.8839 \\
+  Test & 0.8230 & 0.7498  \\
+  Validación & 0.8297 & 0.7603  \\\hline\end{tabular}
 \caption{Resultados ajuste MLP de tres capas.}
 
 \end{center}
@@ -506,10 +507,10 @@ Así, los resultados obtenidos con ambos modelos pueden consultarse en las tabla
 \begin{center}
 \begin{tabular}{|l|c|c|}
 \hline
-  Error & Accuracy & F1-score \\ \hline
-  $E_{in}$ & 0.8867 & 0.8394 \\
-  $E_{test}$ & 0.8265 & 0.7541  \\
-  $E_{cv}$ & 0.8402 & 0.7772  \\\hline
+   & Accuracy & F1-score \\ \hline
+Train & 0.8867 & 0.8394 \\
+  Test & 0.8265 & 0.7541  \\
+  Validación & 0.8402 & 0.7772  \\\hline
 \end{tabular}
 \caption{Resultados ajuste MLP de dos capas.}
 
@@ -526,11 +527,42 @@ Así, los resultados obtenidos con ambos modelos pueden consultarse en las tabla
   \end{center}}  
  
 \section{ Error de Generalización}
-\subsection{Modelo Lineal}
 
-Tenemos un error de: Meter tabla.
+Realizaremos dos trabajos para ganar comprensión del error real $E_{out}$, tanto según la métrica \texttt{accuracy} como la métrica \texttt{f1}. Se debe considerar que durante todo el texto se ha comentado en función de medidores de la bondad. Para medir el error debemos considerar \texttt{1 - accuracy} y \texttt{1 - f1}.
+
+\begin{itemize}
+  \item  Realizaremos una prueba de error en test y de ahí sacaremos una cota de $E_{out}$. Para ello aplicamos la fórmula expuesta en el desarrollo teórico de la asignatura que relaciona los valores en una muestra con la cota de un error ’real’ $E_{out}$. En particular usaremos la formula:
+	
+	$$E_{out} \le E_{test} + \sqrt{\frac{1}{2N}\log\frac{2}{\delta}}$$
+	Donde $1-\delta$ es el grado de confianza que buscamos. Al utilizar los datos de test, podemos considerar una cota mucho más ajustada, al no tener que tener en cuenta la complejidad de de clase y la dimensión VC de esta. Consideramos una confianza del $99\%$. Realizaremos la estimación del error real según el mejor resultado entrenado de cada modelo, es decir, es que nos ofrece mejor error de validación en el conjunto de Training. Al tener el conjunto de test 16281 muestras podremos conseguir una cota ajustada.
+
+        
+  \item Realizamos una estimación  basa en los resultados de cross validation del conjunto de training.  Aprovecharemos para este propósito que el error Cross validation es un estimador insesgado de $E_{out}$. 
+
+\end{itemize}
+Procedamos a ver los resultados
+
+\begin{table}[h]
+  \begin{center}
+
+\begin{tabular}{|c| lll| lll|}
+\hline
+  \multirow{2}{*}{\texttt{Modelo}} &     \multicolumn{3}{c|}{Accuracy}  &      \multicolumn{3}{c|}{F1-score} \\
+          & $E_{cv}$&$E_{test}$& Cota $E_{out}$ &$E_{cv}$&$E_{test}$& Cota $E_{out}$ \\
+\hline
+
+  Regresión logística & 0.1494 & 0.1502 & 0.1514 & 0.2185 & 0.2297 & 0.2309 \\
+  Random Forest & 0.1629 & 0.1693 & 0.1705 & 0.2394 & 0.2704 &0.2716 \\
+  Support Vector Machine & - & - &  & - & - & \\
+  Perceptron Multi Capa & 0.1598 & 0 .1735 &0.1747 & 0.2228 & 0.2459 &0.2471  \\\hline
+
+\end{tabular}
+\end{center}
+\caption{\label{tab:table-name} Resultados de error.}
+\end{table}
 
 
+\newpage
 \section{ Conclusiones }
 Valoración de los resultados y justificación
 ( gráficas, métricas de error, análisis de residuos, etc )
@@ -564,9 +596,6 @@ Métricas de sklearn \url{https://scikit-learn.org/stable/modules/model_evaluati
 
 Métrica f1-score \url{https://en.wikipedia.org/wiki/F1_score}
 
-
-\bibitem{svc}
-Página sklearn SVC \url{https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html?highlight=svc#sklearn.svm.SVC}
 
 \bibitem{CD}
 Código RL: \url{https://en.wikipedia.org/wiki/Coordinate_descent}
